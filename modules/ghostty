@@ -1,0 +1,8 @@
+theme=ayu
+background-opacity=0.95
+font-size=13.37
+font-feature=-calt
+# make the window be maximized on startup
+window-width=9001
+window-height=9001
+
