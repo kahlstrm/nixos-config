@@ -1,0 +1,23 @@
+{
+  "$schema": "https:\/\/schema.linearmouse.app\/0.10.0",
+  "schemes": [
+    {
+      "if": {
+        "device": {
+          "category": "mouse"
+        }
+      },
+      "pointer": {
+        "acceleration": 1,
+        "disableAcceleration": true,
+        "speed": 1
+      },
+      "scrolling": {
+        "reverse": {
+          "vertical": true
+        }
+      }
+    }
+  ]
+}
+

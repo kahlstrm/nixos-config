@@ -51,39 +51,24 @@ in
     # MANPAGER = "${manpager}/bin/manpager";
   };
 
-  home.file =
-    {
-      # ".inputrc".source = ./inputrc;
-    }
-    // (
-      if isDarwin then
-        {
-        }
-      else
-        { }
-    );
+  home.file = {
+    # ".inputrc".source = ./inputrc;
+  } // (lib.optionalAttrs isDarwin { } // (lib.optionalAttrs isLinux { }));
 
   # TODO: determine if I want to use immutable or mutable symlinks for configs
   # mutable symlinks are good when I'm still configuring stuff in e.g. nvim
   xdg.configFile =
     {
-      "ghostty/config".text = builtins.readFile ../config/ghostty;
+      "ghostty/config".source = ../config/ghostty;
     }
-    // (
-      if isDarwin then
-        {
-        }
-      else
-        { }
-    )
-    // (
-      if isLinux then
-        {
-        }
-      else
-        { }
-    );
-
+    // (lib.optionalAttrs isDarwin {
+      "linearmouse/linearmouse.json".source = ../config/linearmouse.json;
+      # linearmouse will overwrite the file when changed in config.
+      # Changes should be made via Nix config.
+      # https://github.com/nix-community/home-manager/issues/3090
+      "linearmouse/linearmouse.json".force = true;
+    })
+    // (lib.optionalAttrs isLinux { });
   #---------------------------------------------------------------------
   # Programs
   #---------------------------------------------------------------------
