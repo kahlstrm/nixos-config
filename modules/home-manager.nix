@@ -13,7 +13,6 @@
 let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
-
   # For our MANPAGER env var
   # https://github.com/sharkdp/bat/issues/1145
   # disabled for now, seems broken on darwin
@@ -68,7 +67,7 @@ in
   # mutable symlinks are good when I'm still configuring stuff in e.g. nvim
   xdg.configFile =
     {
-      "ghostty/config".text = builtins.readFile ./ghostty;
+      "ghostty/config".text = builtins.readFile ../config/ghostty;
     }
     // (
       if isDarwin then
@@ -107,7 +106,9 @@ in
           "terraform"
           "docker"
         ];
-        theme = "af-magic";
+        theme = "af-magic-customized";
+        # https://github.com/ohmyzsh/ohmyzsh/wiki/Customization
+        custom = "${../config/oh-my-zsh-custom}";
       };
       # TODO: move more stuff from .zshrc/.zprofile here
       initExtraFirst = ''
