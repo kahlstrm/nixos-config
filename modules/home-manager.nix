@@ -118,8 +118,33 @@ in
         fi
 
         # Define variables for directories
-        export PATH=$HOME/.local/share/bin:$PATH
         eval "$(mise activate --shims zsh)"
+      '';
+      initExtra = ''
+        # TODO: not sure if works on Linux as-is
+        function listport(){
+          if [ ! -z "$1" ]; then
+            lsof -nP -iTCP:$1 -sTCP:LISTEN
+            return
+          fi
+          lsof -nP -iTCP -sTCP:LISTEN
+        }
+
+        ghco(){
+          gh pr list | fzf | awk '{print $1}' | xargs gh pr checkout
+        }
+
+        ghrl(){
+          if [ -z "$1" ]; then
+            echo 'Please provide github username'
+            return
+          fi
+          if [ -z "$2" ] ; then
+            gh repo list $1 -L 9999 --json name -q '.[].name'
+            return
+          fi
+          gh repo list $1 -L 9999 --json name -q '.[].name' | grep $2
+        }
       '';
     };
 
