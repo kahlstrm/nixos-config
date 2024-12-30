@@ -11,6 +11,10 @@ let
   isLinux = pkgs.stdenv.isLinux;
 in
 {
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  # If you have nh installed:
+  # $ nh search wget
   environment.systemPackages =
     with pkgs;
     [
@@ -80,10 +84,12 @@ in
       # For Keychain support we use Apple's patched version on MacOS
       # https://github.com/NixOS/nixpkgs/issues/62353
       openssh
+      gnumake
     ]
     ++ (lib.optionals (isLinux && !isWSL) [
       firefox
       valgrind
+      xclip
       # Ghostty is installed via Cask on Mac
       inputs.ghostty.packages.${currentSystem}.default
     ]);

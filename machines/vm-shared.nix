@@ -1,9 +1,7 @@
 {
-  config,
   pkgs,
   lib,
   currentSystem,
-  currentSystemName,
   ...
 }:
 
@@ -14,6 +12,7 @@ let
   linuxGnome = true;
 in
 {
+  system.stateVersion = "24.11"; # Did you read the comment?
   # Be careful updating this.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -25,9 +24,6 @@ in
   # "error switching console mode" on boot.
   boot.loader.systemd-boot.consoleMode = "0";
 
-  # Define your hostname.
-  networking.hostName = currentSystemName;
-
   # Set your time zone.
   time.timeZone = "Europe/Helsinki";
 
@@ -36,24 +32,9 @@ in
   # replicates the default behaviour.
   networking.useDHCP = false;
 
-  # Don't require password for sudo
-  security.sudo.wheelNeedsPassword = false;
-
-  # Virtualization settings
-  virtualisation.docker.enable = true;
-
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    inputMethod = {
-      enable = true;
-      type = "fcitx5";
-      fcitx5.addons = with pkgs; [
-        fcitx5-mozc
-        fcitx5-gtk
-        fcitx5-chinese-addons
-      ];
-    };
   };
 
   # setup windowing environment
@@ -110,16 +91,9 @@ in
     ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages =
     with pkgs;
     [
-      cachix
-      gnumake
-      killall
-      xclip
-
       # For hypervisors that support auto-resizing, this script forces it.
       # I've noticed not everyone listens to the udev events so this is a hack.
       (writeShellScriptBin "xrandr-auto" ''
@@ -142,9 +116,9 @@ in
   # };
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-  services.openssh.settings.PasswordAuthentication = true;
-  services.openssh.settings.PermitRootLogin = "no";
+  # services.openssh.enable = true;
+  # services.openssh.settings.PasswordAuthentication = true;
+  # services.openssh.settings.PermitRootLogin = "no";
 
   # Enable flatpak. I don't use any flatpak apps but I do sometimes
   # test them so I keep this enabled.
@@ -153,12 +127,4 @@ in
   # Disable the firewall since we're in a VM and we want to make it
   # easy to visit stuff in here. We only use NAT networking anyways.
   networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
 }

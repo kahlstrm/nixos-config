@@ -8,6 +8,7 @@
 {
   # Add ~/.local/bin to PATH
   environment.localBinInPath = true;
+  nixpkgs.overlays = import ../lib/overlays.nix;
 
   networking.hostName = currentSystemName;
 
@@ -21,5 +22,11 @@
     shell = pkgs.zsh;
   };
 
-  nixpkgs.overlays = import ../lib/overlays.nix;
+  # Virtualization settings
+  virtualisation.docker.enable = true;
+
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+  };
+
 }
