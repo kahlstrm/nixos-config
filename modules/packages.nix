@@ -38,6 +38,7 @@ in
       rustup
       go
       terraform
+      dive
       deno
       bun
       nixd

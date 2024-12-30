@@ -1,6 +1,5 @@
 {
   nixpkgs,
-  nixpkgs-stable,
   overlays,
   inputs,
 }:
@@ -11,6 +10,7 @@ name:
   user,
   email,
   wsl ? false,
+  nixpkgs ? nixpkgs,
 }:
 
 let
@@ -34,10 +34,12 @@ let
     nix-homebrew = {
       enable = true;
       inherit user;
+      autoMigrate = true;
       # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
       #mutableTaps = false;
     };
   };
+  nixpkgs-stable = if isDarwin then inputs.nixpkgs-stable-darwin else inputs.nixpkgs-stable-nixos;
   specialArgs = {
     pkgs-stable = import nixpkgs-stable {
       inherit system;

@@ -15,29 +15,26 @@
   homebrew = {
     # TODO: migrate all these apps to casks
     casks = [
-      "vlc"
+      "visual-studio-code"
+      "postman"
+      "session-manager-plugin"
       #"discord"
       #"zoom"
       #"google-chrome"
-      "firefox"
+      #"firefox"
       #"brave"
     ];
+    brews = [
+      "swagger-codegen"
+      "awscli"
+    ];
     masApps = {
-      "tailscale" = 1475387142;
       "telegram" = 747648890;
-      "slack" = 803453959;
     };
-    taps = [ "mongodb/brew" ];
-    # doesn't seem to exist in nixpkgs
-    brews = [ "mongodb-database-tools" ];
   };
 
   environment.shells = with pkgs; [
     bashInteractive
     zsh
-  ];
-  home-manager.users.${currentSystemUser}.home.packages = with pkgs; [
-    atlas
-    turso-cli
   ];
 }

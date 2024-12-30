@@ -25,11 +25,11 @@
       "shottr"
       "linearmouse"
     ];
-    taps = [
-      "homebrew/cask"
-      "homebrew/core"
-      "homebrew/bundle"
-    ];
+    onActivation = {
+      autoUpdate = true;
+      upgrade = true;
+    };
+    taps = [ ];
     # These app IDs are from using the mas CLI app
     # mas = mac app store
     # https://github.com/mas-cli/mas
@@ -39,7 +39,6 @@
     #
     masApps = {
       "bitwarden" = 1352778147;
-      "slack" = 803453959;
     };
   };
   nix.gc = {
@@ -105,6 +104,7 @@
     { path = "/Applications/Brave Browser.app/"; }
     { path = "/Applications/Slack.app/"; }
     { path = "/System/Applications/System Settings.app"; }
+    { path = "/Applications/Bitwarden.app"; }
     {
       path = "/Users/${currentSystemUser}/Downloads/";
       section = "others";

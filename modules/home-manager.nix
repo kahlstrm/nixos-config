@@ -116,6 +116,9 @@ in
           fi
           gh repo list $1 -L 9999 --json name -q '.[].name' | grep $2
         }
+        if [ -f ~/.zshrc_external ]; then
+          source ~/.zshrc_external
+        fi
       '';
     };
 

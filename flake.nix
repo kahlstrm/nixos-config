@@ -2,8 +2,9 @@
   description = "Nix/NixOS system configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
 
     # Build a custom WSL installer
     nixos-wsl = {
@@ -28,7 +29,8 @@
   outputs =
     {
       nixpkgs,
-      nixpkgs-stable,
+      nixpkgs-stable-nixos,
+      nixpkgs-stable-darwin,
       ...
     }@inputs:
     let
@@ -43,7 +45,6 @@
           overlays
           nixpkgs
           inputs
-          nixpkgs-stable
           ;
       };
     in
@@ -53,6 +54,14 @@
         user = "kalski";
         email = personalEmail;
       };
+
+      darwinConfigurations.mac-work = mkSystem "mac-work" {
+        system = "aarch64-darwin";
+        user = "kahlstrm";
+        email = workEmail;
+        nixpkgs = nixpkgs-stable-darwin;
+      };
+
       # nixosConfigurations.nixos-personal = mkSystem "nixos-personal" rec {
       #   system = "x86_64-linux";
       #   user = "kahlstrm";
