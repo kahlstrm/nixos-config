@@ -29,8 +29,6 @@ in
     LC_CTYPE = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
     EDITOR = "nvim";
-    # Remove history data we don't want to see
-    HISTORY_IGNORE = "(l|ll|ls|cd|pwd|..)";
     NIXNAME = currentSystemName;
     PAGER = "less -FirSwX";
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
@@ -168,11 +166,11 @@ in
       extraOptionOverrides = {
         # fallback to xterm-256color so ssh prompts don't go crazy
         SetEnv = "TERM=xterm-256color";
-      } // (lib.optionals isDarwin { UseKeychain = "yes"; });
+      } // (lib.optionalAttrs isDarwin { UseKeychain = "yes"; });
 
     };
 
-    # TODO: find out how to tmux :D
+    # TODO: find out how to tmux
     # tmux = {
     #   enable = true;
     #   terminal = "xterm-256color";

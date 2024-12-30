@@ -24,7 +24,6 @@
       # Utility Tools
       "shottr"
       "linearmouse"
-      "vlc"
     ];
     taps = [
       "homebrew/cask"

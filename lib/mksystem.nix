@@ -16,9 +16,10 @@ name:
 let
   # True if this is a WSL system.
   isWSL = wsl;
-  isDarwin = (import nixpkgs { inherit system; }).stdenv.isDarwin;
+  inherit ((import nixpkgs { inherit system; })) stdenv lib;
+  isDarwin = stdenv.isDarwin;
   # The config files for this system.
-  nixConfig = ../modules/nix-config-base.nix;
+  nixConfig = ../modules/nix-config.nix;
   machineConfig = ../machines/${name}.nix;
   OSConfig = ../modules/${if isDarwin then "darwin" else "nixos"}.nix;
   HMConfig = ../modules/home-manager.nix;
@@ -28,19 +29,15 @@ let
   home-manager =
     if isDarwin then inputs.home-manager.darwinModules else inputs.home-manager.nixosModules;
   # TODO: make this cleaner
-  nix-homebrew = if isDarwin then inputs.nix-homebrew.darwinModules.nix-homebrew else { };
-  nix-homebrew-config =
-    if isDarwin then
-      {
-        nix-homebrew = {
-          enable = true;
-          inherit user;
-          # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
-          #mutableTaps = false;
-        };
-      }
-    else
-      { };
+  nix-homebrew = lib.optionalAttrs isDarwin inputs.nix-homebrew.darwinModules.nix-homebrew;
+  nix-homebrew-config = lib.optionalAttrs isDarwin {
+    nix-homebrew = {
+      enable = true;
+      inherit user;
+      # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+      #mutableTaps = false;
+    };
+  };
   specialArgs = {
     pkgs-stable = import nixpkgs-stable {
       inherit system;
@@ -75,8 +72,8 @@ systemFunc {
     nix-homebrew-config
     systemPackages
     machineConfig
-    # TODO: make user OS Config & home-manager optional
     OSConfig
+    # TODO: make user config & home-manager optional
     home-manager.home-manager
     {
       home-manager.useGlobalPkgs = true;

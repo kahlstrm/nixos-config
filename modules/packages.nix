@@ -73,11 +73,14 @@ in
     ++ (lib.optionals isDarwin [
       cocoapods
     ])
+    ++ (lib.optionals isLinux) [
+      # For Keychain support we use Apple's patched version on MacOS
+      # https://github.com/NixOS/nixpkgs/issues/62353
+      openssh
+    ]
     ++ (lib.optionals (isLinux && !isWSL) [
       firefox
       valgrind
-      # use Apple's patched SSH for useKeychain support https://github.com/NixOS/nixpkgs/issues/62353
-      openssh
       # Ghostty is installed via Cask on Mac
       inputs.ghostty.packages.${currentSystem}.default
     ]);
