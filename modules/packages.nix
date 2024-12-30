@@ -73,6 +73,7 @@ in
       tlrc
     ]
     ++ (lib.optionals isDarwin [
+      dockutil
       cocoapods
     ])
     ++ (lib.optionals isLinux) [

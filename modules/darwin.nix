@@ -44,11 +44,14 @@
       "bitwarden" = 1352778147;
     };
   };
-  # MacOS specific packages that are to be installed systemwide
-  environment.systemPackages = with pkgs; [ dockutil ];
 
   # Allow Sudo with Touch ID.
   security.pam.enableSudoTouchIdAuth = true;
+
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToEscape = true;
+  };
 
   # some of these are documented at https://macos-defaults.com/
   # https://daiderd.com/nix-darwin/manual/index.html#opt-system.defaults.CustomSystemPreferences
@@ -86,6 +89,51 @@
     trackpad = {
       Clicking = true;
       TrackpadThreeFingerDrag = true;
+    };
+    # NOTE: if the key has dots it needs to be quoted.
+    CustomUserPreferences = {
+      "com.apple.ActivityMonitor".UpdatePeriod = 2;
+      # Custom App Shortcuts
+      # https://support.apple.com/en-us/guide/mac-help/mchlp2271/mac
+      NSGlobalDomain.NSUserKeyEquivalents = {
+        Zoom = "~^z";
+      };
+      # https://apple.stackexchange.com/questions/91679/is-there-a-way-to-set-an-application-shortcut-in-the-keyboard-preference-pane-vi
+      "com.apple.symbolichotkeys".AppleSymbolicHotKeys = {
+        "27" = {
+          enabled = false;
+          value = {
+            parameters = [
+              65535
+              53
+              1048576
+            ];
+            type = "standard";
+          };
+        };
+        "60" = {
+          enabled = false;
+          value = {
+            parameters = [
+              32
+              49
+              262144
+            ];
+            type = "standard";
+          };
+        };
+        "80" = {
+          enabled = 0;
+          value = {
+            parameters = [
+              65535
+              123
+              8781824
+            ];
+            type = "standard";
+          };
+        };
+      };
     };
   };
 
