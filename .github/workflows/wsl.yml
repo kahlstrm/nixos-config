@@ -4,8 +4,11 @@ on:
     branches:
       - main
 jobs:
-  build:
+  build-wsl-artifact:
     runs-on: ubuntu-latest
+    concurrency:
+      group: upload-artifact-${{ github.ref_name }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
