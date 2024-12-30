@@ -70,7 +70,7 @@ in
         copilot = "gh copilot";
         vim = "nvim";
         ls = "ls --color=auto";
-        cat = "bat --paging=never";
+        cat = "bat --style plain --paging=never";
       };
       oh-my-zsh = {
         enable = true;
