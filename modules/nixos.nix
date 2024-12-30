@@ -22,6 +22,8 @@
     shell = pkgs.zsh;
   };
 
+  programs.zsh.enable = true;
+
   # Virtualization settings
   virtualisation.docker.enable = true;
 

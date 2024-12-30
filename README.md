@@ -238,7 +238,7 @@ At this point, I never use Mac terminals ever again. I clone this repository
 in my VM and I use the other Make tasks such as `make test`, `make switch`, etc.
 to make changes my VM.
 
-## Setup (WSL) WIP
+## Setup (WSL)
 
 I use Nix to build a WSL root tarball for Windows. I then have my entire
 Nix environment on Windows in WSL too, which I use to for example run
