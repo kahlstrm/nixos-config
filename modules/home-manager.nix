@@ -7,28 +7,13 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }:
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
-  # For our MANPAGER env var
-  # https://github.com/sharkdp/bat/issues/1145
-  # disabled for now, seems broken on darwin
-  # manpager = (
-  #   pkgs.writeShellScriptBin "manpager" (
-  #     if isDarwin then
-  #       ''
-  #         sh -c 'col -bx | bat -l man -p'
-  #       ''
-  #     else
-  #       ''
-  #         cat "$1" | col -bx | bat --language man --style plain
-  #       ''
-  #   )
-  # );
-
 in
 {
   home.stateVersion = "24.11";
@@ -45,21 +30,23 @@ in
     LC_ALL = "en_US.UTF-8";
     EDITOR = "nvim";
     # Remove history data we don't want to see
-    HISTIGNORE = "pwd:ls:cd";
+    HISTORY_IGNORE = "(l|ll|ls|cd|pwd|..)";
     NIXNAME = currentSystemName;
     PAGER = "less -FirSwX";
-    # MANPAGER = "${manpager}/bin/manpager";
+    MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+    MANROFFOPT = "-c";
   };
 
   home.file = {
     # ".inputrc".source = ./inputrc;
   } // (lib.optionalAttrs isDarwin { } // (lib.optionalAttrs isLinux { }));
 
-  # TODO: determine if I want to use immutable or mutable symlinks for configs
-  # mutable symlinks are good when I'm still configuring stuff in e.g. nvim
   xdg.configFile =
     {
       "ghostty/config".source = ../config/ghostty;
+      # create a directory symlink to .config/nvim, allowing mutable editing of config
+      "nvim".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/config/nvim";
     }
     // (lib.optionalAttrs isDarwin {
       "linearmouse/linearmouse.json".source = ../config/linearmouse.json;
@@ -83,6 +70,7 @@ in
         copilot = "gh copilot";
         vim = "nvim";
         ls = "ls --color=auto";
+        cat = "bat --paging=never";
       };
       oh-my-zsh = {
         enable = true;
@@ -135,6 +123,7 @@ in
 
     neovim = {
       enable = true;
+      vimdiffAlias = true;
     };
 
     fzf = {

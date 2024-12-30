@@ -5,13 +5,24 @@ my main package manager for my development.
 
 This repository is originally based on from Mitchell Hashimoto's
 [nixos-config](https://github.com/mitchellh/nixos-config).
-After messing around on my own and trying out differen configurations,
+After messing around on my own and trying out different configurations,
 I deemed it an excellent starting point for my setup, as it both had clear
 structure and was quite intuitive to me at least.
 
+> [!CAUTION]
+> Don't run the setups without reading the source. If you blindly run this,
+> your system may be changed in ways that you don't want. Read the source!
+
+> [!IMPORTANT]
+> To make the Neovim configuration work, the repository must be
+> cloned to `~/nixos-config`. The configuration relies on a symlink
+> to allow direct mutability of the files.
+
 ## Setup (macOS/Darwin)
 
-To utilize the Mac setup, first install Nix using the [nix-installer](https://github.com/DeterminateSystems/nix-installer) by Determinate Systems.
+To utilize the Mac setup, first install Nix using the
+[nix-installer](https://github.com/DeterminateSystems/nix-installer)
+by Determinate Systems.
 
 ```shell
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
@@ -28,16 +39,14 @@ Makefile:13: *** Error, undefined NIXNAME, check README.md for instructions.  St
 
 This is expected and means everything is going great :).
 
-Depending on the machine you are installing this on, you can either use an existing configuration,
-or you can create a new configuration for this new machine. By using existing configurations you
-can replicate entire setups across machines, while with separate configurations you can add
-device/use-case specific configurations such as different username, git email, and/or packages.
+Depending on the machine you are installing this on, you can either use
+an existing configuration or you can create a new configuration for this new machine.
+By using existing configurations you can replicate entire setups across machines,
+while with separate configurations you can add device/use-case specific configurations
+such as different username, git email, and/or packages.
 
-If you are installing this to a device that previously was using other package management solutions such as `homebrew`, creating a new configuration is recommended.
-
-**WARNING: Don't do this without reading the source.** This repository
-is and always has been _my_ configurations. If you blindly run this,
-your system may be changed in ways that you don't want. Read my source!
+If you are installing this to a device that previously was using other package management
+solutions such as `homebrew`, creating a new configuration is recommended.
 
 ### Finding an existing configuration
 
@@ -70,7 +79,8 @@ in
 ```
 
 In the snippet the configuration is named `mac-personal`, it expects the
-username for the OS user to be `kalski` and it targets Apple Silicon Macs, denoted by the `system`-attribute being `aarch64-darwin`.
+username for the OS user to be `kalski` and it targets Apple Silicon Macs,
+denoted by the `system`-attribute being `aarch64-darwin`.
 In this instance, the configuration name needed in the next section would be `mac-personal`.
 
 ### Creating a new configuration
@@ -79,11 +89,15 @@ Creating a new configuration involves two steps:
 
 1. Adding a new system entry to `flake.nix`
    - This can be done with copy-paste from existing configuration,
-     just involves changing the configuration name, and username, email, or architecture depending on your system.
+     just involves changing the configuration name, and username, email,
+     or architecture depending on your system.
    - **Note:** make sure to change the configuration name in both places,
-     as there are 2 (one for the actual configuration name and and one as function argument for `mkSystem`)
-2. Creating a machine-specific configuration under `machines`-directory with the name `<configuration-name>.nix`
-   - Easiest is to copy-paste an existing configuration (e.g. `machines/mac-personal.nix`) and editing that to your needs.
+     as there are 2, one for the actual configuration name,
+     and one as function argument for `mkSystem`.
+2. Creating a machine-specific configuration under `machines`-directory
+   with the name `<configuration-name>.nix`
+   - Easiest is to copy-paste an existing configuration
+     (e.g. `machines/mac-personal.nix`) and editing that to your needs.
 
 After these two steps, you have a new configuration ready to be switched to.
 
@@ -97,9 +111,9 @@ NIXNAME=<configuration-name> make
 ```
 
 This should setup the system for this configuration and switch to it.
-For new systems that are not yet logged in to App Store, some errors might pop up that you
-need to manually configure/setup. After configuring these, run the previous command again
-until it succeeds.
+For new systems that aren't logged in to App Store, some errors might come up that
+need manual configuration/setup. After configuring these, repeat the previous command
+again until it succeeds.
 
 The configuration export the correct `NIXNAME`
 environment variable in your shell environment, so running `make` again works without
@@ -146,7 +160,7 @@ on other virtualization solutions without minor changes.
 
 Boot the VM, and using the graphical console, change the root password to "root":
 
-```
+```shell
 $ sudo su
 $ passwd
 # change to root
@@ -167,16 +181,16 @@ Run `ifconfig` and get the IP address of the first device. It is probably
 `192.168.58.XXX`, but it can be anything. In a terminal with this repository
 set this to the `NIXADDR` env var:
 
-```
-$ export NIXADDR=<VM ip address>
+```shell
+export NIXADDR=<VM ip address>
 ```
 
 The Makefile assumes an Intel processor by default. If you are using an
 ARM-based processor (M1, etc.), you must change `NIXNAME` so that the ARM-based
 configuration is used:
 
-```
-$ export NIXNAME=vm-aarch64
+```shell
+ export NIXNAME=vm-aarch64
 ```
 
 **Other Hypervisors:** If you are using Parallels, use `vm-aarch64-prl`.
@@ -188,15 +202,15 @@ Perform the initial bootstrap. This will install NixOS on the VM disk image
 but will not setup any other configurations yet. This prepares the VM for
 any NixOS customization:
 
-```
-$ make vm/bootstrap0
+```shell
+make vm/bootstrap0
 ```
 
 After the VM reboots, run the full bootstrap, this will finalize the
 NixOS customization using this configuration:
 
-```
-$ make vm/bootstrap
+```shell
+make vm/bootstrap
 ```
 
 You should have a graphical functioning dev VM.
@@ -223,15 +237,13 @@ Run `make wsl`. This will take some time but will ultimately output
 a tarball in `./result/tarball`. Copy that to your Windows machine.
 Once it is copied over, run the following steps on Windows:
 
-```
-$ wsl --import nixos .\nixos .\path\to\tarball.tar.gz
-...
+```shell
+wsl --import nixos .\nixos .\path\to\tarball.tar.gz
 
-$ wsl -d nixos
-...
+wsl -d nixos
 
 # Optionally, make it the default
-$ wsl -s nixos
+wsl -s nixos
 ```
 
 After the `wsl -d` command, you should be dropped into the Nix environment.
