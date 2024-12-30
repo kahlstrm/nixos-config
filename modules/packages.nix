@@ -22,6 +22,7 @@ in
       btop
       htop
       neofetch
+      mariadb
       sqlite
       postgresql
       wget
