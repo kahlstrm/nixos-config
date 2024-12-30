@@ -38,7 +38,7 @@ repl:
 ifneq ($(HAS_NH),)
 	nh $(NH_SUBCMD) repl -H "${NIXNAME}" .
 else
-	$(error repl command only requires nh.)
+	$(error repl command only requires nh)
 endif
 
 test:
