@@ -1,6 +1,7 @@
 {
   pkgs,
   currentSystemUser,
+  currentSystemName,
   ...
 }:
 
@@ -8,6 +9,8 @@
 {
   imports = [ ./darwin-dock.nix ];
   nixpkgs.overlays = import ../lib/overlays.nix;
+
+  networking.hostName = currentSystemName;
 
   homebrew = {
     enable = true;
@@ -40,16 +43,6 @@
     masApps = {
       "bitwarden" = 1352778147;
     };
-  };
-  nix.gc = {
-    user = "root";
-    automatic = true;
-    interval = {
-      Weekday = 0;
-      Hour = 2;
-      Minute = 0;
-    };
-    options = "--delete-older-than 30d";
   };
   # MacOS specific packages that are to be installed systemwide
   environment.systemPackages = with pkgs; [ dockutil ];

@@ -1,5 +1,4 @@
 {
-  nixpkgs,
   overlays,
   inputs,
 }:
@@ -10,36 +9,45 @@ name:
   user,
   email,
   wsl ? false,
-  nixpkgs ? nixpkgs,
+  stable ? false,
 }:
 
 let
   # True if this is a WSL system.
   isWSL = wsl;
-  inherit ((import nixpkgs { inherit system; })) stdenv lib;
-  isDarwin = stdenv.isDarwin;
+  # resolves NixOS vs nix-darwin and stable vs unstable functions
+  inherit
+    (import ./resolve-inputs.nix {
+      inherit
+        system
+        stable
+        inputs
+        ;
+    })
+    isDarwin
+    lib
+    systemFunc
+    nixpkgs-stable
+    home-manager
+    ;
   # The config files for this system.
   nixConfig = ../modules/nix-config.nix;
   machineConfig = ../machines/${name}.nix;
   OSConfig = ../modules/${if isDarwin then "darwin" else "nixos"}.nix;
   HMConfig = ../modules/home-manager.nix;
   systemPackages = ../modules/packages.nix;
-  # NixOS vs nix-darwin functions
-  systemFunc = if isDarwin then inputs.darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
-  home-manager =
-    if isDarwin then inputs.home-manager.darwinModules else inputs.home-manager.nixosModules;
   # TODO: make this cleaner
   nix-homebrew = lib.optionalAttrs isDarwin inputs.nix-homebrew.darwinModules.nix-homebrew;
   nix-homebrew-config = lib.optionalAttrs isDarwin {
     nix-homebrew = {
       enable = true;
       inherit user;
+      # Detect and automatically migrate existing Homebrew installations
       autoMigrate = true;
       # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
       #mutableTaps = false;
     };
   };
-  nixpkgs-stable = if isDarwin then inputs.nixpkgs-stable-darwin else inputs.nixpkgs-stable-nixos;
   specialArgs = {
     pkgs-stable = import nixpkgs-stable {
       inherit system;

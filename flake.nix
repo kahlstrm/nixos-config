@@ -2,24 +2,38 @@
   description = "Nix/NixOS system configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
 
     # Build a custom WSL installer
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    home-manager = {
+    home-manager-unstable = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    home-manager-stable-nixos = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-stable-nixos";
     };
 
-    darwin = {
+    home-manager-stable-darwin = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-stable-darwin";
+    };
+
+    darwin-unstable = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    darwin-stable = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-stable-darwin";
     };
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
@@ -28,9 +42,6 @@
 
   outputs =
     {
-      nixpkgs,
-      nixpkgs-stable-nixos,
-      nixpkgs-stable-darwin,
       ...
     }@inputs:
     let
@@ -43,7 +54,6 @@
       mkSystem = import ./lib/mksystem.nix {
         inherit
           overlays
-          nixpkgs
           inputs
           ;
       };
@@ -59,7 +69,7 @@
         system = "aarch64-darwin";
         user = "kahlstrm";
         email = workEmail;
-        nixpkgs = nixpkgs-stable-darwin;
+        stable = true;
       };
 
       # nixosConfigurations.nixos-personal = mkSystem "nixos-personal" rec {

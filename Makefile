@@ -1,17 +1,24 @@
-# Function to check if a variable is set, Make is love, Make is life
-# https://gist.github.com/bbl/bf4bf5875d0c705c4cd78d264f98a8b1
-check_defined = \
-    $(strip $(foreach 1,$1, \
-        $(call __check_defined,$1,$(strip $(value 2)))))
-__check_defined = \
-    $(if $(value $1),, \
-    $(error Error, undefined $1$(if $2, ($2)), check README.md for instructions))
 # We need to do some OS switching below.
 UNAME := $(shell uname)
 
+NIXNAME ?= $(shell hostname)
+
+HAS_NH := $(shell command -v nh 2>/dev/null)
+# Determine the 'nh' subcommand based on OS
+ifeq ($(HAS_NH),)
+    NH_SUBCMD :=
+else
+    ifeq ($(UNAME), Darwin)
+        NH_SUBCMD := darwin
+    else
+        NH_SUBCMD := os
+    endif
+endif
+
 switch:
-	$(call check_defined,NIXNAME)
-ifeq ($(UNAME), Darwin)
+ifneq ($(HAS_NH),)
+	nh $(NH_SUBCMD) switch -a -H "${NIXNAME}" .
+else ifeq ($(UNAME), Darwin)
 	nix build --extra-experimental-features nix-command --extra-experimental-features flakes ".#darwinConfigurations.${NIXNAME}.system"
 	./result/sw/bin/darwin-rebuild switch --flake "$$(pwd)#${NIXNAME}"
 else
@@ -19,22 +26,29 @@ else
 endif
 
 build:
-	$(call check_defined,NIXNAME)
-ifeq ($(UNAME), Darwin)
+ifneq ($(HAS_NH),)
+	nh $(NH_SUBCMD) build -a -H "${NIXNAME}" .
+else ifeq ($(UNAME), Darwin)
 	nix build --extra-experimental-features nix-command --extra-experimental-features flakes ".#darwinConfigurations.${NIXNAME}.system"
 else
 	sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild build --flake ".#${NIXNAME}"
 endif
 
+repl:
+ifneq ($(HAS_NH),)
+	nh $(NH_SUBCMD) repl -H "${NIXNAME}" .
+else
+	$(error repl command only requires nh.)
+endif
 
 test:
-	$(call check_defined,NIXNAME)
 ifeq ($(UNAME), Darwin)
 	nix build ".#darwinConfigurations.${NIXNAME}.system"
 	./result/sw/bin/darwin-rebuild test --flake "$$(pwd)#${NIXNAME}"
 else
 	sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild test --flake ".#$(NIXNAME)"
 endif
+
 
 fmt:
 	fd '\.nix$$'| xargs nixfmt
@@ -50,6 +64,6 @@ fmt:
 
 
 # Build a WSL installer
-.PHONY: wsl
+.PHONY: wsl switch build test
 wsl:
 	 nix build ".#nixosConfigurations.wsl.config.system.build.installer"

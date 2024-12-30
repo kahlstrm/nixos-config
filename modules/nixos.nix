@@ -1,8 +1,15 @@
-{ pkgs, currentSystemUser, ... }:
+{
+  pkgs,
+  currentSystemUser,
+  currentSystemName,
+  ...
+}:
 
 {
   # Add ~/.local/bin to PATH
   environment.localBinInPath = true;
+
+  networking.hostName = currentSystemName;
 
   users.users.${currentSystemUser} = {
     isNormalUser = true;

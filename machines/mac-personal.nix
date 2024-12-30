@@ -4,7 +4,6 @@
   ...
 }:
 {
-  # Set in Sept 2024 as part of the macOS Sequoia release.
   system.stateVersion = 5;
 
   # We install Nix using a separate installer so we don't want nix-darwin

@@ -41,9 +41,12 @@ This is expected and means everything is going great :).
 
 Depending on the machine you are installing this on, you can either use
 an existing configuration or you can create a new configuration for this new machine.
+
 By using existing configurations you can replicate entire setups across machines,
 while with separate configurations you can add device/use-case specific configurations
-such as different username, git email, and/or packages.
+such as different username, git email, and/or packages. As the system hostname is
+set to the configuration name, it is usually recommended to create new configurations
+for each system simultaneously in use to avoid overlap.
 
 If you are installing this to a device that previously was using other package management
 solutions such as `homebrew`, creating a new configuration is recommended.
@@ -115,19 +118,35 @@ For new systems that aren't logged in to App Store, some errors might come up th
 need manual configuration/setup. After configuring these, repeat the previous command
 again until it succeeds.
 
-The configuration export the correct `NIXNAME`
-environment variable in your shell environment, so running `make` again works without
-specifying `NIXNAME` afterwards.
+The configuration sets the system hostname to match the configuration name,
+so running `make` again works without specifying `NIXNAME` explicitly.
 
 You can verify this by spawning a new shell and running:
 
 ```shell
-~/nixos-config (main*) » echo $NIXNAME
+~/nixos-config (main*) » hostname
 <configuration-name>
 ```
 
 If the name of the configuration you specified is returned,
 it means that everything worked.
+
+## `nh`
+
+The configuration sets up [`nh`](https://github.com/viperML/nh), a helper
+that comes with some niceties over using plain Nix commands.
+The main commands that are useful are:
+
+- `nh <darwin|os> switch`: switches to a new with tree of builds, diff and confirmation.
+  Can be invoked from anywhere on the system.
+- `nh <darwin|os> repl`: Loads the configuration in a Nix REPL, useful for debugging.
+- `nh search`: a nixpkgs search tool.
+
+For MacOS systems use the `darwin` subcommand and `os` for NixOS.
+
+> [!IMPORTANT]
+> similar to the Neovim configuration, the repository must be
+> cloned to `~/nixos-config` for `nh` to work from everywhere on the system.
 
 ## Setup (NixOS/VM) WIP
 

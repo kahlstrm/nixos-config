@@ -1,7 +1,6 @@
 {
   currentSystemEmail,
   currentSystemName,
-  currentSystemUser,
   ...
 }:
 {
@@ -14,6 +13,7 @@
 let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
+  homeDirectory = config.home.homeDirectory;
 in
 {
   home.stateVersion = "24.11";
@@ -29,7 +29,6 @@ in
     LC_CTYPE = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
     EDITOR = "nvim";
-    NIXNAME = currentSystemName;
     PAGER = "less -FirSwX";
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
     MANROFFOPT = "-c";
@@ -43,8 +42,7 @@ in
     {
       "ghostty/config".source = ../config/ghostty;
       # create a directory symlink to .config/nvim, allowing mutable editing of config
-      "nvim".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/config/nvim";
+      "nvim".source = config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/nixos-config/config/nvim";
     }
     // (lib.optionalAttrs isDarwin {
       "linearmouse/linearmouse.json".source = ../config/linearmouse.json;
@@ -162,8 +160,7 @@ in
     ssh = {
       enable = true;
       includes = [
-        (lib.mkIf pkgs.stdenv.hostPlatform.isLinux "/home/${currentSystemUser}/.ssh/config_external")
-        (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "/Users/${currentSystemUser}/.ssh/config_external")
+        "${homeDirectory}/.ssh/config_external"
       ];
       addKeysToAgent = "yes";
       extraOptionOverrides = {
@@ -171,6 +168,14 @@ in
         SetEnv = "TERM=xterm-256color";
       } // (lib.optionalAttrs isDarwin { UseKeychain = "yes"; });
 
+    };
+    # nix cli helper https://github.com/viperML/nh
+    nh = {
+      enable = true;
+      clean.enable = true;
+      clean.extraArgs = "--keep-since 14d --keep 10";
+      # automatically sets up FLAKE environment variable
+      flake = "${homeDirectory}/nixos-config";
     };
 
     # TODO: find out how to tmux
