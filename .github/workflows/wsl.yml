@@ -48,9 +48,8 @@ jobs:
         with:
           name: wsl-tarball
           path: wsl-tarball
-      - name: Extract ZIP File
-        run: |
-          Expand-Archive -Path wsl-tarball/tarball -DestinationPath wsl-tarball
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: Import nixos to WSL
         run: |
           wsl --import nixos C:/WSL wsl-tarball/nixos-wsl-installer.tar.gz --version 2
