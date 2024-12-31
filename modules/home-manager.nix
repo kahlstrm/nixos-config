@@ -123,6 +123,9 @@ in
     neovim = {
       enable = true;
       vimdiffAlias = true;
+      # as we manage Neovim plugins outside of Nix,
+      # some plugins (mainly Treesitter) require gcc
+      extraPackages = [ pkgs.gcc ];
     };
 
     fzf = {
