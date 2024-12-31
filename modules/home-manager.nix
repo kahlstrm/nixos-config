@@ -67,6 +67,9 @@ in
         vim = "nvim";
         ls = "ls --color=auto";
         cat = "bat --style plain --paging=never";
+        grsp = "git restore --patch";
+        grssp = "git restore --source --patch";
+        grstp = "git restore --staged --patch";
       };
       oh-my-zsh = {
         enable = true;
