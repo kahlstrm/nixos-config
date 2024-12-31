@@ -30,11 +30,11 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```
 
 Once that is installed, clone this repo and run `make`.
-You should be met with the following error message:
+You should be met with an error message that looks something like:
 
 ```shell
 ~/nixos-config (main*) » make
-Makefile:13: *** Error, undefined NIXNAME, check README.md for instructions.  Stop.
+error: flake 'git+file:///Users/kahlstrm/nixos-config' does not provide attribute 'packages.aarch64-darwin.darwinConfigurations.foo.system', 'legacyPackages.aarch64-darwin.darwinConfigurations.foo.system' or 'darwinConfigurations.foo.system'
 ```
 
 This is expected and means everything is going great :).
