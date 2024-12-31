@@ -79,6 +79,7 @@ vim.opt.scrolloff = 10
 --  see `:help vim.keymap.set()`
 
 vim.keymap.set('n', '<leader>e', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+vim.keymap.set('n', '<leader>E', '<CMD>Oil .<CR>', { desc = 'Open root directory' })
 
 -- tab and Shift+tab moves between buffers
 vim.keymap.set('n', '<tab>', '<cmd>bnext<cr>', { noremap = true, desc = 'Next Buffer' })
