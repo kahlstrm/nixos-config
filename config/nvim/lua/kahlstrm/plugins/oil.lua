@@ -6,6 +6,9 @@ return {
     keymaps = {
       ['cd'] = { 'actions.cd', mode = 'n' },
       ['<leader>e'] = { 'actions.close', mode = 'n' },
+      ['<C-h>'] = false,
+      ['<C-l>'] = false,
+      ['<C-r>'] = 'actions.refresh',
     },
   },
   -- Optional dependencies
