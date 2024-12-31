@@ -1,6 +1,5 @@
 {
   currentSystemEmail,
-  currentSystemName,
   ...
 }:
 {
@@ -14,6 +13,7 @@ let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
   homeDirectory = config.home.homeDirectory;
+  nixosConfigLocation = "${homeDirectory}/nixos-config";
 in
 {
   home.stateVersion = "24.11";
@@ -70,6 +70,11 @@ in
         grsp = "git restore --patch";
         grssp = "git restore --source --patch";
         grstp = "git restore --staged --patch";
+        gwips = "git commit --no-verify --no-gpg-sign --message \"--wip-- [skip ci]\"'";
+        grbi5 = "git rebase --interactive HEAD~5";
+        # TODO: make custom derivation that creates "dotfiles"
+        # aliases for all git aliased commands
+        dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
       };
       oh-my-zsh = {
         enable = true;
@@ -181,7 +186,7 @@ in
       clean.enable = true;
       clean.extraArgs = "--keep-since 14d --keep 10";
       # automatically sets up FLAKE environment variable
-      flake = "${homeDirectory}/nixos-config";
+      flake = nixosConfigLocation;
     };
 
     # TODO: find out how to tmux
