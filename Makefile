@@ -66,4 +66,4 @@ fmt:
 # Build a WSL installer
 .PHONY: wsl switch build test
 wsl:
-	 nix build ".#nixosConfigurations.wsl.config.system.build.installer"
+	 nix build ".#nixosConfigurations.wsl.config.system.build.tarballBuilder"
