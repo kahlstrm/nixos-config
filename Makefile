@@ -66,5 +66,5 @@ fmt:
 # Build a WSL installer
 .PHONY: wsl switch build test
 wsl:
-	 nix build --extra-experimental-features nix-command --extra-experimental-features ".#nixosConfigurations.wsl.config.system.build.tarballBuilder"
+	 nix build --extra-experimental-features nix-command --extra-experimental-features flakes ".#nixosConfigurations.wsl.config.system.build.tarballBuilder"
 	 sudo result/bin/nixos-wsl-tarball-builder
