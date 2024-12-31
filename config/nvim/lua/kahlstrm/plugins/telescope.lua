@@ -49,9 +49,11 @@ return { -- Fuzzy Finder (files, lsp, etc)
       --  All the info you're looking for is in `:help telescope.setup()`
       --
       defaults = {
-        -- mappings = {
-        --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        -- },
+        mappings = {
+          n = {
+            ['<c-d>'] = require('telescope.actions').delete_buffer,
+          },
+        },
         file_ignore_patterns = { '^.git/', '^node_modules/' },
       },
       -- pickers = {}
