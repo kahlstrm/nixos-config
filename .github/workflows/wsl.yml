@@ -52,6 +52,7 @@ jobs:
         run: ls -R
       - name: Import nixos to WSL
         run: |
+          wsl --set-default-version 2; wsl --update; wsl --status;
           wsl --import nixos C:/WSL wsl-tarball/nixos-wsl-installer.tar.gz --version 2
       - name: Test nixos WSL
         run: |
