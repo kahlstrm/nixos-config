@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: wsl-tarball
-          path: result/tarball
+          path: nixos-wsl.tar.gz
   test-wsl-artifact:
     runs-on: windows-latest
     needs: build-wsl-artifact
@@ -53,7 +53,7 @@ jobs:
       - name: Import nixos to WSL
         run: |
           wsl --set-default-version 2; wsl --update; wsl --status;
-          wsl --import nixos C:/WSL wsl-tarball/nixos-wsl-installer.tar.gz --version 2
+          wsl --import nixos C:/WSL wsl-tarball/nixos-wsl.tar.gz --version 2
       - name: Test nixos WSL
         run: |
           wsl -d nixos -- cat /etc/os-release
