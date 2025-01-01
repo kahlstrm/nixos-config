@@ -140,6 +140,13 @@ in
       enable = true;
     };
 
+    btop = {
+      enable = true;
+      settings = {
+        vim_keys = true;
+      };
+    };
+
     git = {
       enable = true;
       ignores = [
