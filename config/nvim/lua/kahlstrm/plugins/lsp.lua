@@ -127,7 +127,7 @@ return {
                   if client.name == 'rust_analyzer' then
                     should_underline = token.modifiers.mutable
                   else
-                    should_underline = token.type == 'variable' and not token.modifiers.readonly
+                    should_underline = token.type == 'variable' and not token.modifiers.readonly and not token.modifiers.defaultLibrary
                   end
                   if should_underline then
                     vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, '@underline')
