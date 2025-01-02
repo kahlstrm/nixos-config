@@ -23,7 +23,7 @@
   };
 
   programs.zsh.enable = true;
-
+  programs.nix-ld.enable = true;
   # Virtualization settings
   virtualisation.docker.enable = true;
 
