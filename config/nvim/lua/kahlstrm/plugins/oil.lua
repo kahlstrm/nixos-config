@@ -1,3 +1,4 @@
+-- https://github.com/stevearc/oil.nvim
 return {
   'stevearc/oil.nvim',
   ---@module 'oil'
@@ -9,6 +10,12 @@ return {
       ['<C-h>'] = false,
       ['<C-l>'] = false,
       ['<C-r>'] = 'actions.refresh',
+    },
+    lsp_file_methods = {
+      autosave_changes = 'unmodified',
+    },
+    view_options = {
+      show_hidden = true,
     },
   },
   -- Optional dependencies
