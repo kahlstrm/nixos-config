@@ -11,4 +11,7 @@ return {
     use_git_branch = true,
     show_auto_restore_notif = true,
   },
+  keys = {
+    { '<leader>ss', '<cmd>SessionSearch<CR>', desc = '[S]earch [S]essions' },
+  },
 }
