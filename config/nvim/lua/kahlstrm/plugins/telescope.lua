@@ -51,7 +51,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
       defaults = {
         mappings = {
           n = {
-            ['<c-d>'] = require('telescope.actions').delete_buffer,
+            ['<S-d>'] = require('telescope.actions').delete_buffer,
           },
         },
         file_ignore_patterns = { '^.git/', '^node_modules/' },
