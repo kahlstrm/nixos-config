@@ -57,6 +57,7 @@ in
       ffmpeg
 
       # Source code management, Git, GitHub tools
+      git
       gh
       git-filter-repo
 

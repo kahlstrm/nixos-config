@@ -135,10 +135,13 @@ in
       # some plugins (mainly Treesitter) require gcc
       extraPackages = with pkgs; [
         clang
+        gnumake
         python3
         nodejs
         nixd
         nixfmt-rfc-style
+        ripgrep
+        fd
       ];
     };
 
