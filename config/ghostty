@@ -6,3 +6,6 @@ font-feature=-calt
 window-width=9001
 window-height=9001
 
+#keybinds
+keybind= alt+up=ignore
+keybind= alt+down=ignore
