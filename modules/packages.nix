@@ -44,13 +44,14 @@ in
       go
       terraform
       dive
+      nodejs
+      python3
+      uv
       deno
       bun
-      nixd
       nixfmt-rfc-style
       # manage python/node/jvm stuff outside of nix for the moment
       mise
-      uv
 
       # Media-related packages
       ffmpeg
@@ -75,6 +76,8 @@ in
       hyperfine
       wrk
       tlrc
+      cmake
+      openssl
     ]
     ++ (lib.optionals isDarwin [
       dockutil
@@ -85,6 +88,8 @@ in
       # https://github.com/NixOS/nixpkgs/issues/62353
       openssh
       gnumake
+      gcc
+      clang
     ]
     ++ (lib.optionals (isLinux && !isWSL) [
       firefox
