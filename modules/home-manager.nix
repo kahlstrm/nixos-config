@@ -14,6 +14,7 @@ let
   isLinux = pkgs.stdenv.isLinux;
   homeDirectory = config.home.homeDirectory;
   nixosConfigLocation = "${homeDirectory}/nixos-config";
+  zsh-custom = import ../pkgs/zsh-custom { inherit pkgs; };
 in
 {
   home.stateVersion = "24.11";
@@ -67,13 +68,7 @@ in
         vim = "nvim";
         ls = "ls --color=auto";
         cat = "bat --style plain --paging=never";
-        grsp = "git restore --patch";
-        grssp = "git restore --source --patch";
-        grstp = "git restore --staged --patch";
-        gwips = "git commit --no-verify --no-gpg-sign --message \"--wip-- [skip ci]\"'";
-        grbi5 = "git rebase --interactive HEAD~5";
-        # TODO: make custom derivation that creates "dotfiles"
-        # aliases for all git aliased commands
+        # used by git-extended oh-my-zsh plugin
         dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
       };
       oh-my-zsh = {
@@ -82,10 +77,10 @@ in
           "git"
           "terraform"
           "docker"
-        ];
-        theme = "af-magic-customized";
+        ] ++ zsh-custom.plugins;
+        theme = zsh-custom.theme;
         # https://github.com/ohmyzsh/ohmyzsh/wiki/Customization
-        custom = "${../config/oh-my-zsh-custom}";
+        custom = "${zsh-custom.out}";
       };
       # TODO: move more stuff from .zshrc/.zprofile here
       initExtraFirst = ''
