@@ -133,7 +133,13 @@ in
       vimdiffAlias = true;
       # as we manage Neovim plugins outside of Nix,
       # some plugins (mainly Treesitter) require gcc
-      extraPackages = [ pkgs.gcc ];
+      extraPackages = with pkgs; [
+        clang
+        python3
+        nodejs
+        nixd
+        nixfmt-rfc-style
+      ];
     };
 
     fzf = {
