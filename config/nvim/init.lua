@@ -142,6 +142,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Write Without "Formatting"
+-- i.e. no autocmds write
+vim.cmd 'command WWF noa w'
+
 -- Change terminal title to include stuff
 vim.opt.title = true
 vim.opt.titlestring = 'nvim %{fnamemodify(getcwd(),":t")}'
