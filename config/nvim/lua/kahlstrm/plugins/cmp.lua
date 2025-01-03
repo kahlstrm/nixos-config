@@ -47,6 +47,7 @@ return { -- Autocompletion
         end,
       },
       completion = { completeopt = 'menu,menuone,noinsert' },
+      preselect = 'None',
 
       -- For an understanding of why these mappings were
       -- chosen, you will need to read `:help ins-completion`
