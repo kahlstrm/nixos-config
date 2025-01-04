@@ -68,6 +68,8 @@ in
         vim = "nvim";
         ls = "ls --color=auto";
         cat = "bat --style plain --paging=never";
+        dcup = "docker compose up";
+        dcdown = "docker compose down";
         # used by git-extended oh-my-zsh plugin
         dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
       };
