@@ -1,3 +1,11 @@
+-- temporary fixes/workarounds --
+
+-- :Inspect is currently broken without this
+-- https://github.com/neovim/neovim/issues/31675#issuecomment-2558405042
+vim.hl = vim.highlight
+
+-- init.lua START --
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
