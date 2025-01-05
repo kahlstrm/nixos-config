@@ -37,6 +37,7 @@ return {
       yml = { 'prettierd' },
       yaml = { 'prettierd' },
       json = { 'prettierd' },
+      jsonc = { 'prettierd' },
       javascript = { 'prettierd' },
       typescript = { 'prettierd' },
       javascriptreact = { 'prettierd' },
