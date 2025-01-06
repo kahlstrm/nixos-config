@@ -210,6 +210,7 @@ return {
             },
           },
         },
+        terraformls = {},
         eslint = {
           ---@diagnostic disable-next-line: unused-local
           on_attach = function(client, bufnr)
