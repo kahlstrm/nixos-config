@@ -26,9 +26,6 @@
       "telegram" = 747648890;
       "slack" = 803453959;
     };
-    taps = [ "mongodb/brew" ];
-    # doesn't seem to exist in nixpkgs
-    brews = [ "mongodb-database-tools" ];
   };
 
   environment.shells = with pkgs; [
@@ -38,5 +35,7 @@
   home-manager.users.${currentSystemUser}.home.packages = with pkgs; [
     atlas
     turso-cli
+    mongodb-tools
+    mongosh
   ];
 }
