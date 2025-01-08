@@ -9,3 +9,4 @@ window-height=9001
 #keybinds
 keybind= alt+up=ignore
 keybind= alt+down=ignore
+keybind= super+down=scroll_page_down
