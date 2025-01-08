@@ -105,8 +105,6 @@ vim.keymap.set('n', '<c-n>', vim.diagnostic.goto_next, { noremap = true })
 
 -- unbind 's' for mini.surround and which-key
 vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
--- unbind 'J' as it's not useful
-vim.keymap.set({ 'n', 'x' }, 'J', '<Nop>')
 
 -- rebind to ctrl-b for previous diagnostic
 vim.keymap.set('n', '<c-b>', vim.diagnostic.goto_prev, { noremap = true })
