@@ -102,7 +102,7 @@
       # https://apple.stackexchange.com/questions/91679/is-there-a-way-to-set-an-application-shortcut-in-the-keyboard-preference-pane-vi
       "com.apple.symbolichotkeys".AppleSymbolicHotKeys = {
         "27" = {
-          enabled = false;
+          enabled = true;
           value = {
             parameters = [
               65535
@@ -123,8 +123,30 @@
             type = "standard";
           };
         };
-        "80" = {
+        "61" = {
+          enabled = 1;
+          value = {
+            parameters = [
+              32
+              49
+              786432
+            ];
+            type = "standard";
+          };
+        };
+        "65" = {
           enabled = 0;
+          value = {
+            parameters = [
+              65535
+              49
+              1572864
+            ];
+            type = "standard";
+          };
+        };
+        "80" = {
+          enabled = false;
           value = {
             parameters = [
               65535
