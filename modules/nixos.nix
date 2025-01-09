@@ -21,6 +21,10 @@
     ];
     shell = pkgs.zsh;
   };
+  environment.shells = with pkgs; [
+    bashInteractive
+    zsh
+  ];
 
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;

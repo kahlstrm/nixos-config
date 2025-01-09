@@ -181,4 +181,9 @@
     home = "/Users/${currentSystemUser}";
     shell = pkgs.zsh;
   };
+
+  environment.shells = with pkgs; [
+    bashInteractive
+    zsh
+  ];
 }

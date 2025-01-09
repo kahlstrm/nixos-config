@@ -1,6 +1,4 @@
 {
-  pkgs,
-  currentSystemUser,
   ...
 }:
 {
@@ -33,8 +31,4 @@
     };
   };
 
-  environment.shells = with pkgs; [
-    bashInteractive
-    zsh
-  ];
 }

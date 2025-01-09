@@ -28,10 +28,6 @@
     };
   };
 
-  environment.shells = with pkgs; [
-    bashInteractive
-    zsh
-  ];
   home-manager.users.${currentSystemUser}.home.packages = with pkgs; [
     atlas
     turso-cli
