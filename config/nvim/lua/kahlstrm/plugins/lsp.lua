@@ -92,9 +92,10 @@ return {
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Show function signature in insert mode with CTRL-s
-          vim.keymap.set('i', '<C-s>', function()
-            vim.lsp.buf.signature_help()
-          end, { noremap = true, silent = true })
+          map('<C-s>', vim.lsp.buf.signature_help, 'Show function signature', { 'n', 'x', 'i' })
+          -- vim.keymap.set({ 'i', 'n' }, '<C-s>', function()
+          --   vim.lsp.buf.signature_help()
+          -- end, { noremap = true, silent = true })
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
