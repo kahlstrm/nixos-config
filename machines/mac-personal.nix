@@ -33,5 +33,7 @@
     turso-cli
     mongodb-tools
     mongosh
+    erlang
+    gleam
   ];
 }

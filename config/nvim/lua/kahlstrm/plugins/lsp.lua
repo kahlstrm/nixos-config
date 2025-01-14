@@ -284,6 +284,7 @@ return {
           },
         },
       }
+      lspconfig.gleam.setup {}
     end,
   },
 }
