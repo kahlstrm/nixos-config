@@ -210,6 +210,7 @@ return {
             },
           },
         },
+        taplo = {},
         terraformls = {},
         eslint = {
           ---@diagnostic disable-next-line: unused-local
