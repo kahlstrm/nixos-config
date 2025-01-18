@@ -1,5 +1,6 @@
 {
   currentSystemEmail,
+  isWSL,
   ...
 }:
 {
@@ -42,8 +43,12 @@ in
   xdg.configFile =
     {
       "ghostty/config".source = ../config/ghostty;
-      # create a directory symlink to .config/nvim, allowing mutable editing of config
-      "nvim".source = config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/nixos-config/config/nvim";
+      "nvim".source =
+        if isWSL then
+          ../config/nvim
+        else
+          # Create a directory symlink to .config/nvim, allowing mutable editing of config
+          config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/nixos-config/config/nvim";
     }
     // (lib.optionalAttrs isDarwin {
       "linearmouse/linearmouse.json".source = ../config/linearmouse.json;
