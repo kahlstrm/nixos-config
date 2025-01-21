@@ -78,6 +78,8 @@ in
       wrk
       tlrc
       cmake
+      gnumake
+      file
       openssl
     ]
     ++ (lib.optionals isDarwin [
@@ -88,7 +90,6 @@ in
       # For Keychain support we use Apple's patched version on MacOS
       # https://github.com/NixOS/nixpkgs/issues/62353
       openssh
-      gnumake
       gcc
       clang
     ]
