@@ -67,17 +67,22 @@ in
       enableCompletion = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
-      shellAliases = {
-        ghb = "gh browse";
-        copilot = "gh copilot";
-        vim = "nvim";
-        ls = "ls --color=auto";
-        cat = "bat --style plain --paging=never";
-        dcup = "docker compose up";
-        dcdown = "docker compose down";
-        # used by git-extended oh-my-zsh plugin
-        dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
-      };
+      shellAliases =
+        {
+          ghb = "gh browse";
+          copilot = "gh copilot";
+          vim = "nvim";
+          ls = "ls --color=auto";
+          cat = "bat --style plain --paging=never";
+          dcup = "docker compose up";
+          dcdown = "docker compose down";
+          # used by git-extended oh-my-zsh plugin
+          dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
+        }
+        // lib.optionalAttrs (isLinux && !isWSL) {
+          pbcopy = "wl-copy";
+          pbpaste = "wl-paste";
+        };
       oh-my-zsh = {
         enable = true;
         plugins = [

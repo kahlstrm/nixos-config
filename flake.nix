@@ -6,6 +6,8 @@
     nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     # Build a custom WSL installer
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
@@ -73,11 +75,12 @@
         stable = true;
       };
 
-      # nixosConfigurations.nixos-personal = mkSystem "nixos-personal" rec {
-      #   system = "x86_64-linux";
-      #   user = "kahlstrm";
-      #   email = personalEmail;
-      # };
+      nixosConfigurations.frame-work = mkSystem "frame-work" {
+        system = "x86_64-linux";
+        user = "kahlstrm";
+        email = workEmail;
+        stable = false;
+      };
 
       nixosConfigurations.wsl = mkSystem "wsl" {
         system = "x86_64-linux";

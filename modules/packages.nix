@@ -3,12 +3,26 @@
   pkgs,
   isWSL,
   inputs,
+  currentSystem,
   ...
 }:
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
+  bun =
+    if isLinux then
+      pkgs.bun.overrideAttrs (oldAttrs: {
+        buildInputs = oldAttrs.buildInputs or [ ] ++ [ pkgs.makeWrapper ];
+        postInstall =
+          oldAttrs.postInstall or ""
+          + ''
+            wrapProgram $out/bin/bun \
+              --set LD_LIBRARY_PATH "${pkgs.stdenv.cc.cc.lib}/lib/:$LD_LIBRARY_PATH"
+          '';
+      })
+    else
+      pkgs.bun;
 in
 {
   # List packages installed in system profile. To search, run:
@@ -97,6 +111,7 @@ in
       firefox
       valgrind
       xclip
+      wl-clipboard
       # Ghostty is installed via Cask on Mac
       inputs.ghostty.packages.${currentSystem}.default
     ]);

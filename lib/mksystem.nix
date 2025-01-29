@@ -53,6 +53,10 @@ let
       inherit system;
       config.allowUnfree = true;
     };
+    pkgs-unstable = import inputs.nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
     currentSystem = system;
     currentSystemName = name;
     currentSystemUser = user;
