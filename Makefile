@@ -49,6 +49,12 @@ else
 	sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild test --flake ".#$(NIXNAME)"
 endif
 
+bootloader:
+ifeq ($(UNAME), Darwin)
+	$(error boot only work on Linux)
+else
+	sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --install-bootloader --flake ".#${NIXNAME}"
+endif
 
 fmt:
 	fd '\.nix$$'| xargs nixfmt
