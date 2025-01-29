@@ -16,6 +16,7 @@
     # Include the results of the hardware scan.
     ./hardware/frame-work.nix
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+    ../modules/keyd.nix
   ];
 
   # Bootloader.
