@@ -1,4 +1,4 @@
-# yoinked from https://github.com/NixOS/nixpkgs/blob/nixos-24.11/pkgs/by-name/mi/microsoft-identity-broker/package.nix#L103
+# yoinked from https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/mi/microsoft-identity-broker/package.nix
 {
   stdenv,
   lib,
@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
   version = "2.0.1";
 
   src = fetchurl {
-    url = "https://packages.microsoft.com/ubuntu/24.04/prod/pool/main/m/microsoft-identity-broker/microsoft-identity-broker_${version}_amd64.deb";
+    url = "https://packages.microsoft.com/ubuntu/22.04/prod/pool/main/m/microsoft-identity-broker/microsoft-identity-broker_${version}_amd64.deb";
     hash = "sha256-v/FxtdvRaUHYqvFSkJIZyicIdcyxQ8lPpY5rb9smnqA=";
   };
 
@@ -100,11 +100,11 @@ stdenv.mkDerivation rec {
     tests = { inherit (nixosTests) intune; };
   };
 
-  meta = with lib; {
+  meta = {
     description = "Microsoft Authentication Broker for Linux";
     homepage = "https://www.microsoft.com/";
-    license = licenses.unfree;
-    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
+    license = lib.licenses.unfree;
+    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
     platforms = [ "x86_64-linux" ];
     maintainers = with lib.maintainers; [ rhysmdnz ];
   };

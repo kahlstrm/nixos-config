@@ -4,6 +4,7 @@
 */
 final: prev: {
   # use version 4.0.0 for darwin support
+  # intune-portal = final.callPackage ../pkgs/intune-portal.nix { };
   # microsoft-identity-broker = final.callPackage ../pkgs/microsoft-identity-broker.nix { };
   nh = final.callPackage ../pkgs/nh.nix { };
 }
