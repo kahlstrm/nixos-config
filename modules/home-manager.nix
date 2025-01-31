@@ -185,6 +185,7 @@ in
         delta = {
           navigate = true;
         };
+        branch.sort = "-committerdate";
         merge.conflictstyle = "zdiff3";
         pull.ff = "only";
         rebase.autoStash = true;
