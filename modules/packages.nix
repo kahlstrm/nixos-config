@@ -106,6 +106,7 @@ in
       openssh
       gcc
       clang
+      awscli2
     ]
     ++ (lib.optionals (isLinux && !isWSL) [
       firefox
