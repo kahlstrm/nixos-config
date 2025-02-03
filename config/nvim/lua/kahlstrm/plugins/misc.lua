@@ -52,6 +52,9 @@ return {
   {
     'tpope/vim-surround',
   },
+  {
+    'tpope/vim-repeat',
+  },
   -- adding empty opts required for it to load
   { 'windwp/nvim-ts-autotag', opts = {} },
 }
