@@ -92,6 +92,8 @@ vim.keymap.set('n', '<leader>E', '<CMD>Oil .<CR>', { desc = 'Open root directory
 -- tab and Shift+tab moves between buffers
 vim.keymap.set('n', '<tab>', '<cmd>bnext<cr>', { noremap = true, desc = 'Next Buffer' })
 vim.keymap.set('n', '<S-tab>', '<cmd>bprev<cr>', { noremap = true, desc = 'Previous Buffer' })
+-- remap CTRL-I to itself to separate behavior with tab
+vim.keymap.set('n', '<C-i>', '<C-i>', { noremap = true, silent = true, desc = 'Jump list forward' })
 
 -- clear highlights on search when pressing <esc> in normal mode
 --  see `:help hlsearch`
