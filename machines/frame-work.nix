@@ -119,6 +119,8 @@
 
   # Install firefox.
   programs.firefox.enable = true;
+  # Enables native Wayland on Chromium/Electron based applications
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
