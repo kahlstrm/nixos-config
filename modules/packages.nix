@@ -93,6 +93,7 @@ in
       tlrc
       cmake
       gnumake
+      parallel
       file
       openssl
     ]
