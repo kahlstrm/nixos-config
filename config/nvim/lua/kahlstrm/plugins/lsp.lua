@@ -286,6 +286,7 @@ return {
         },
       }
       lspconfig.gleam.setup {}
+      lspconfig.dartls.setup {}
     end,
   },
 }

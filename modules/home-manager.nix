@@ -148,6 +148,7 @@ in
         nixd
         nixfmt-rfc-style
         gleam
+        dart
         ripgrep
         fd
       ];
