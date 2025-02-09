@@ -116,7 +116,7 @@ return {
               group = highlight_augroup,
               callback = vim.lsp.buf.clear_references,
             })
-            local underline_disabled_langservers = { lua_ls = true }
+            local underline_disabled_langservers = { lua_ls = true, dartls = true }
             if not underline_disabled_langservers[client.name] then
               -- Underline all variables/operations that considered mutable
               vim.api.nvim_set_hl(0, '@underline', { underline = true })
