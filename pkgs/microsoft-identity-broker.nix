@@ -45,6 +45,7 @@ stdenv.mkDerivation rec {
     jar -uf opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar -C ${openjfx17}/modules_libs/javafx.media/ libfxplugins.so
     jar -uf opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar -C ${openjfx17}/modules_libs/javafx.media/ libgstreamer-lite.so
     jar -uf opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar -C ${openjfx17}/modules_libs/javafx.media/ libjfxmedia.so
+    zip -d opt/microsoft/identity-broker/lib/javafx-web-15-linux.jar libjfxwebkit.so
 
     runHook postBuild
   '';

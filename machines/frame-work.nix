@@ -108,14 +108,12 @@
       google-chrome
       spotify
       slack
-      # microsoft-edge
       mongodb-tools
       mongosh
       #  thunderbird
     ];
   };
   # services.intune.enable = true;
-  # services.gnome.gnome-keyring.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
