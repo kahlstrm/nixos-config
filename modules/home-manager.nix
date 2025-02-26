@@ -1,6 +1,8 @@
 {
   currentSystemEmail,
+  currentSystem,
   isWSL,
+  inputs,
   ...
 }:
 {
@@ -219,6 +221,7 @@ in
       clean.extraArgs = "--keep-since 14d --keep 10";
       # automatically sets up FLAKE environment variable
       flake = nixosConfigLocation;
+      package = inputs.nh.packages.${currentSystem}.default;
     };
 
     # TODO: find out how to tmux

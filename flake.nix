@@ -41,6 +41,7 @@
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     ghostty.url = "github:ghostty-org/ghostty";
+    nh.url = "github:viperml/nh";
   };
 
   outputs =
