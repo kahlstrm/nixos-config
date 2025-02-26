@@ -1,4 +1,4 @@
 .DS_Store
 result
 iso/nixos.iso
-nixos-wsl.tar.gz
+nixos.wsl
