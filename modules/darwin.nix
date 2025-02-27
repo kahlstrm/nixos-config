@@ -97,7 +97,7 @@
       # Custom App Shortcuts
       # https://support.apple.com/en-us/guide/mac-help/mchlp2271/mac
       NSGlobalDomain.NSUserKeyEquivalents = {
-        Zoom = "~^z";
+        Zoom = "@~z";
       };
       # https://apple.stackexchange.com/questions/91679/is-there-a-way-to-set-an-application-shortcut-in-the-keyboard-preference-pane-vi
       "com.apple.symbolichotkeys".AppleSymbolicHotKeys = {
