@@ -32,7 +32,6 @@
       autoUpdate = true;
       upgrade = true;
     };
-    global.autoUpdate = false;
     taps = [ ];
     # These app IDs are from using the mas CLI app
     # mas = mac app store
