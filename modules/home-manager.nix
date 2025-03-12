@@ -178,6 +178,7 @@ in
       ignores = [
         "*.swp"
         ".DS_STORE"
+        "CLAUDE.md"
       ];
       userName = "Kalle Ahlström";
       userEmail = currentSystemEmail;
