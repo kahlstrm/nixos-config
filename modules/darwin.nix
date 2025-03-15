@@ -45,9 +45,6 @@
     };
   };
 
-  # Allow Sudo with Touch ID.
-  security.pam.enableSudoTouchIdAuth = true;
-
   system.keyboard = {
     enableKeyMapping = true;
     remapCapsLockToEscape = true;

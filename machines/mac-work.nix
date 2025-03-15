@@ -9,6 +9,9 @@
   # to manage it for us. This tells nix-darwin to just use whatever is running.
   nix.useDaemon = true;
 
+  # Allow Sudo with Touch ID. TODO: move back to darwin.nix when stable encounters same issue
+  security.pam.enableSudoTouchIdAuth = true;
+
   # extra homebrew config for this machine specifically
   homebrew = {
     # TODO: migrate all these apps to casks
