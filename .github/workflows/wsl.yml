@@ -24,9 +24,9 @@ jobs:
           large-packages: true
           docker-images: true
           swap-storage: true
-      - uses: nixbuild/nix-quick-install-action@v29
+      - uses: nixbuild/nix-quick-install-action@v30
       - name: Restore and cache Nix store
-        uses: nix-community/cache-nix-action@v5
+        uses: nix-community/cache-nix-action@v6
         with:
           # restore and save a cache using this key
           primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix') }}
