@@ -21,9 +21,9 @@ jobs:
           android: true
           dotnet: true
           haskell: true
-          large-packages: false
-          docker-images: false
-          swap-storage: false
+          large-packages: true
+          docker-images: true
+          swap-storage: true
       - uses: nixbuild/nix-quick-install-action@v29
       - name: Restore and cache Nix store
         uses: nix-community/cache-nix-action@v5
