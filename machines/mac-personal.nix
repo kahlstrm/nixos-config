@@ -35,5 +35,6 @@
     erlang
     gleam
     dart
+    awscli2
   ];
 }
