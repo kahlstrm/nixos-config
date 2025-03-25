@@ -111,9 +111,9 @@ in
         fi
 
         # Define variables for directories
-        eval "$(mise activate --shims zsh)"
       '';
       initExtra = ''
+        eval "$(mise activate --shims zsh)"
         # TODO: not sure if works on Linux as-is
         function listport(){
           if [ ! -z "$1" ]; then
