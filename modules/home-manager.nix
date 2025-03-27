@@ -78,6 +78,7 @@ in
       shellAliases =
         {
           ghb = "gh browse";
+          ghprc = "gh pr checkout";
           ghprv = "gh pr view --web";
           copilot = "gh copilot";
           vim = "nvim";
