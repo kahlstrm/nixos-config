@@ -78,7 +78,7 @@ in
       shellAliases =
         {
           ghb = "gh browse";
-          ghprc = "gh pr checkout";
+          ghco = "gh pr checkout";
           ghprv = "gh pr view --web";
           copilot = "gh copilot";
           vim = "nvim";
@@ -122,10 +122,6 @@ in
             return
           fi
           lsof -nP -iTCP -sTCP:LISTEN
-        }
-
-        ghco(){
-          gh pr list | fzf | awk '{print $1}' | xargs gh pr checkout
         }
 
         ghrl(){
