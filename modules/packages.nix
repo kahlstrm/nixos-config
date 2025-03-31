@@ -4,6 +4,7 @@
   isWSL,
   inputs,
   currentSystem,
+  pkgs-unstable,
   ...
 }:
 
@@ -72,11 +73,11 @@ in
 
       # Source code management, Git, GitHub tools
       git
-      gh
+      pkgs-unstable.gh
       git-filter-repo
 
       # Text and terminal utilities
-      neovim
+      pkgs-unstable.neovim
       delta
       bat
       jq

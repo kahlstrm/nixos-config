@@ -3,6 +3,7 @@
   currentSystem,
   isWSL,
   inputs,
+  pkgs-unstable,
   ...
 }:
 {
@@ -144,6 +145,7 @@ in
     neovim = {
       enable = true;
       vimdiffAlias = true;
+      package = pkgs-unstable.neovim-unwrapped;
       # as we manage Neovim plugins outside of Nix,
       # some plugins (mainly Treesitter) require gcc
       extraPackages = with pkgs; [
