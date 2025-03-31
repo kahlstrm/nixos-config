@@ -66,7 +66,7 @@ in
       bun
       nixfmt-rfc-style
       # manage python/node/jvm stuff outside of nix for the moment
-      mise
+      pkgs-unstable.mise
 
       # Media-related packages
       ffmpeg

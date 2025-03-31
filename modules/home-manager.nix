@@ -148,7 +148,7 @@ in
       package = pkgs-unstable.neovim-unwrapped;
       # as we manage Neovim plugins outside of Nix,
       # some plugins (mainly Treesitter) require gcc
-      extraPackages = with pkgs; [
+      extraPackages = with pkgs-unstable; [
         clang
         gnumake
         python3
