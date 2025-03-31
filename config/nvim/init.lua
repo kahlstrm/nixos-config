@@ -1,9 +1,5 @@
 -- temporary fixes/workarounds --
 
--- :Inspect is currently broken without this
--- https://github.com/neovim/neovim/issues/31675#issuecomment-2558405042
-vim.hl = vim.highlight
-
 -- init.lua START --
 
 -- Set <space> as the leader key
@@ -82,6 +78,9 @@ vim.opt.cursorline = true
 
 -- minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- show diagnostics
+vim.diagnostic.config { virtual_text = true }
 
 -- [[ basic keymaps ]]
 --  see `:help vim.keymap.set()`
