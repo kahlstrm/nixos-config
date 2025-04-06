@@ -92,7 +92,8 @@ systemFunc {
     {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
-      home-manager.users.${user} = import HMConfig specialArgs;
+      home-manager.users.${user} = import HMConfig;
+      home-manager.extraSpecialArgs = specialArgs;
     }
   ];
 }

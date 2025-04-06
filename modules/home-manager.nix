@@ -4,9 +4,6 @@
   isWSL,
   inputs,
   pkgs-unstable,
-  ...
-}:
-{
   lib,
   pkgs,
   config,
