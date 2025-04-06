@@ -65,6 +65,7 @@ in
       deno
       bun
       nixfmt-rfc-style
+      protobuf
       # manage python/node/jvm stuff outside of nix for the moment
       pkgs-unstable.mise
 
