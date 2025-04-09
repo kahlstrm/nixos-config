@@ -6,18 +6,21 @@
   dpkg,
   jnr-posix,
   makeWrapper,
-  openjfx17,
   zip,
   nixosTests,
   bash,
 }:
 let
-  openjfx17withWebKit = openjfx17.override { withWebKit = true; };
   pkgs-old = import (fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/nixos-24.05.tar.gz";
     sha256 = "0zydsqiaz8qi4zd63zsb2gij2p614cgkcaisnk11wjy3nmiq0x1s";
   }) { system = "x86_64-linux"; };
-  openjdk11 = pkgs-old.openjdk11.override { enableJavaFX = true; };
+  openjdk11 = pkgs-old.openjdk11.override {
+    enableJavaFX = true;
+    openjfx = pkgs-old.openjfx11.override {
+      withWebKit = true;
+    };
+  };
 in
 stdenv.mkDerivation rec {
   pname = "microsoft-identity-broker";
@@ -39,21 +42,6 @@ stdenv.mkDerivation rec {
     runHook preBuild
 
     rm opt/microsoft/identity-broker/lib/jnr-posix-3.1.4.jar
-    # jar -uf opt/microsoft/identity-broker/lib/javafx-graphics-15-linux.jar -C ${openjfx17withWebKit}/modules_libs/javafx.graphics/ libglass.so
-    # jar -uf opt/microsoft/identity-broker/lib/javafx-graphics-15-linux.jar -C ${openjfx17withWebKit}/modules_libs/javafx.graphics/ libglassgtk3.so
-    # jar -uf opt/microsoft/identity-broker/lib/javafx-graphics-15-linux.jar -C ${openjfx17withWebKit}/modules_libs/javafx.graphics/ libprism_es2.so
-    # zip -d opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar libavplugin-54.so
-    # zip -d opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar libavplugin-56.so
-    # zip -d opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar libavplugin-57.so
-    # zip -d opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar libavplugin-ffmpeg-56.so
-    # zip -d opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar libavplugin-ffmpeg-57.so
-    # zip -d opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar libavplugin-ffmpeg-58.so
-    # jar -uf opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar -C ${openjfx17withWebKit}/modules_libs/javafx.media/ libavplugin.so
-    # jar -uf opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar -C ${openjfx17withWebKit}/modules_libs/javafx.media/ libfxplugins.so
-    # jar -uf opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar -C ${openjfx17withWebKit}/modules_libs/javafx.media/ libgstreamer-lite.so
-    # jar -uf opt/microsoft/identity-broker/lib/javafx-media-15-linux.jar -C ${openjfx17withWebKit}/modules_libs/javafx.media/ libjfxmedia.so
-    # jar -uf opt/microsoft/identity-broker/lib/javafx-web-15-linux.jar -C ${openjfx17withWebKit}/modules_libs/javafx.web/ libjfxwebkit.so
-
     runHook postBuild
   '';
 

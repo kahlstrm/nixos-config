@@ -110,7 +110,8 @@
       #  thunderbird
     ];
   };
-  services.intune.enable = true;
+  # services.intune.enable = true;
+  # environment.systemPackages = with pkgs; [ microsoft-edge ];
 
   # Install firefox.
   programs.firefox.enable = true;
