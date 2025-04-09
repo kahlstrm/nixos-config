@@ -20,7 +20,12 @@ in
 {
   imports = [
     inputs.nix-index-database.hmModules.nix-index
-    { programs.nix-index-database.comma.enable = true; }
+    {
+      programs.nix-index-database.comma.enable = true;
+      programs.nix-index.enableZshIntegration = false;
+      programs.nix-index.enableBashIntegration = false;
+      programs.nix-index.enableFishIntegration = false;
+    }
   ];
   home.stateVersion = "24.11";
 
