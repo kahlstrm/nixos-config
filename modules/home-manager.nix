@@ -58,11 +58,6 @@ in
       "linearmouse/linearmouse.json".force = true;
     })
     // (lib.optionalAttrs isLinux {
-      "systemd/user/microsoft-identity-broker.service.d/overrides.conf".text = ''
-        [Service]
-        ExecStart=
-        ExecStart=${pkgs.strace}/bin/strace -fo /tmp/msoft-strace ${pkgs.microsoft-identity-broker}/bin/microsoft-identity-broker
-      '';
     });
   #---------------------------------------------------------------------
   # Programs
