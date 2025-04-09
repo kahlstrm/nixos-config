@@ -4,5 +4,9 @@
 */
 final: prev: {
   # intune-portal = final.callPackage ../pkgs/intune-portal.nix { };
+  # required for microsoft-identity-broker
+  openjfx11 = final.callPackage ../pkgs/openjfx11/default.nix {
+    withWebKit = true;
+  };
   microsoft-identity-broker = final.callPackage ../pkgs/microsoft-identity-broker.nix { };
 }

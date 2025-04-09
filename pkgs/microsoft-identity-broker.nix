@@ -9,17 +9,13 @@
   zip,
   nixosTests,
   bash,
+  openjdk11,
+  openjfx11,
 }:
 let
-  pkgs-old = import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/nixos-24.05.tar.gz";
-    sha256 = "0zydsqiaz8qi4zd63zsb2gij2p614cgkcaisnk11wjy3nmiq0x1s";
-  }) { system = "x86_64-linux"; };
-  openjdk11 = pkgs-old.openjdk11.override {
+  openjdk11withJavaFxWebKit = openjdk11.override {
     enableJavaFX = true;
-    openjfx = pkgs-old.openjfx11.override {
-      withWebKit = true;
-    };
+    openjfx_jdk = openjfx11;
   };
 in
 stdenv.mkDerivation rec {
@@ -34,7 +30,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     dpkg
     makeWrapper
-    openjdk11
+    openjdk11withJavaFxWebKit
     zip
   ];
 
@@ -56,14 +52,13 @@ stdenv.mkDerivation rec {
     done
     classpath="$classpath:${jnr-posix}/share/java/jnr-posix-${jnr-posix.version}.jar"
     mkdir -p $out/bin
-    makeWrapper ${openjdk11}/bin/java $out/bin/microsoft-identity-broker \
+    makeWrapper ${openjdk11withJavaFxWebKit}/bin/java $out/bin/microsoft-identity-broker \
       --add-flags "-classpath $classpath com.microsoft.identity.broker.service.IdentityBrokerService" \
       --add-flags "-verbose"
-    makeWrapper ${openjdk11}/bin/java $out/bin/microsoft-identity-device-broker \
-      --add-flags "-verbose" \
+    makeWrapper ${openjdk11withJavaFxWebKit}/bin/java $out/bin/microsoft-identity-device-broker \
       --add-flags "-classpath $classpath" \
       --add-flags "com.microsoft.identity.broker.service.DeviceBrokerService" \
-      --add-flags "save"
+      --add-flags "-verbose"
 
     runHook postInstall
   '';
@@ -88,7 +83,7 @@ stdenv.mkDerivation rec {
         $out/bin/microsoft-identity-device-broker \
       --replace \
         /usr/lib/jvm/java-11-openjdk-amd64 \
-        ${openjdk11}/bin/java
+        ${openjdk11withJavaFxWebKit}/bin/java
   '';
 
   passthru = {
