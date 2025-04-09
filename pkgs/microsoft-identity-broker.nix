@@ -23,8 +23,8 @@ stdenv.mkDerivation rec {
   version = "2.0.1";
 
   src = fetchurl {
-    url = "https://packages.microsoft.com/ubuntu/22.04/prod/pool/main/m/microsoft-identity-broker/microsoft-identity-broker_${version}_amd64.deb";
-    hash = "sha256-v/FxtdvRaUHYqvFSkJIZyicIdcyxQ8lPpY5rb9smnqA=";
+    url = "https://packages.microsoft.com/ubuntu/24.04/prod/pool/main/m/microsoft-identity-broker/microsoft-identity-broker_${version}_amd64.deb";
+    hash = "sha256-JheJnsu1ZxJbcpt0367FqfHVdwWWvPem2fm0i8s7MGE=";
   };
 
   nativeBuildInputs = [
