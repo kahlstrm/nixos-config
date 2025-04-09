@@ -1,4 +1,4 @@
-# yoinked from  https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/in/intune-portal/package.nix
+# yoinked from https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/in/intune-portal/package.nix
 {
   stdenv,
   lib,
@@ -8,10 +8,9 @@
   xorg,
   curlMinimal,
   openssl,
-  openjfx17,
   libsecret,
-  webkitgtk_4_0,
-  libsoup_2_4,
+  webkitgtk_4_1,
+  libsoup_3,
   gtk3,
   atk,
   pango,
@@ -21,22 +20,20 @@
   systemd,
   msalsdk-dbusclient,
   pam,
+  p11-kit,
   dbus,
   nixosTests,
 }:
 stdenv.mkDerivation rec {
   pname = "intune-portal";
-  version = "1.2405.17-jammy";
+  version = "1.2411.14-noble";
 
   src = fetchurl {
-    url = "https://packages.microsoft.com/ubuntu/22.04/prod/pool/main/i/intune-portal/intune-portal_${version}_amd64.deb";
-    hash = "sha256-WpVPWzh8jN092MaY2rMXhLfpVXsflMl9hOY9nNGJlLk=";
+    url = "https://packages.microsoft.com/ubuntu/24.04/prod/pool/main/i/intune-portal/intune-portal_${version}_amd64.deb";
+    hash = "sha256-N6afTzzKFjyhiXIwsgmYpoShCFcfYgNJnC/NHEIO7GY=";
   };
 
-  nativeBuildInputs = [
-    dpkg
-    openjfx17
-  ];
+  nativeBuildInputs = [ dpkg ];
 
   buildPhase =
     let
@@ -48,13 +45,13 @@ stdenv.mkDerivation rec {
           curlMinimal
           openssl
           libsecret
-          webkitgtk_4_0
-          libsoup_2_4
+          webkitgtk_4_1
+          libsoup_3
           gtk3
-          openjfx17
           atk
           glib
           pango
+          p11-kit
           sqlite
           zlib
           systemd
