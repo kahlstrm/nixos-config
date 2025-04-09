@@ -36,6 +36,7 @@ in
       # General packages for development and system management
       coreutils
       inetutils
+      dig
       iftop
       killall
       btop
