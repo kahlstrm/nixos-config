@@ -18,6 +18,10 @@ let
   zsh-custom = import ../pkgs/zsh-custom { inherit pkgs; };
 in
 {
+  imports = [
+    inputs.nix-index-database.hmModules.nix-index
+    { programs.nix-index-database.comma.enable = true; }
+  ];
   home.stateVersion = "24.11";
 
   xdg.enable = true;
