@@ -110,7 +110,7 @@
       #  thunderbird
     ];
   };
-  # services.intune.enable = true;
+  services.intune.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
