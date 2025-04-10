@@ -67,6 +67,8 @@ in
       bun
       nixfmt-rfc-style
       protobuf
+      swagger-codegen3
+      awscli2
       # manage python/node/jvm stuff outside of nix for the moment
       pkgs-unstable.mise
 
@@ -110,7 +112,6 @@ in
       openssh
       gcc
       clang
-      awscli2
     ]
     ++ (lib.optionals (isLinux && !isWSL) [
       firefox
