@@ -40,6 +40,10 @@
     # $ nix shell nixpkgs#mas
     # $ mas search <app name>
     #
+    # completions from nixpkgs not work for some reason
+    brews = [
+      "awscli"
+    ];
     masApps = {
       "bitwarden" = 1352778147;
     };

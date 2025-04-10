@@ -27,7 +27,6 @@
     ];
     brews = [
       "swagger-codegen"
-      "awscli"
     ];
     masApps = {
       "telegram" = 747648890;
