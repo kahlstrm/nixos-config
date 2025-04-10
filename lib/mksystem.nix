@@ -25,6 +25,7 @@ let
         ;
     })
     isDarwin
+    lib
     systemFunc
     nixpkgs-stable
     home-manager
@@ -36,6 +37,17 @@ let
   HMConfig = ../modules/home-manager.nix;
   systemPackages = ../modules/packages.nix;
   # TODO: make this cleaner
+  nix-homebrew = lib.optionalAttrs isDarwin inputs.nix-homebrew.darwinModules.nix-homebrew;
+  nix-homebrew-config = lib.optionalAttrs isDarwin {
+    nix-homebrew = {
+      enable = true;
+      inherit user;
+      # Detect and automatically migrate existing Homebrew installations
+      autoMigrate = true;
+      # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+      #mutableTaps = false;
+    };
+  };
   specialArgs = {
     pkgs-stable = import nixpkgs-stable {
       inherit system;
@@ -70,6 +82,8 @@ systemFunc {
     # Bring in WSL if this is a WSL build
     (if isWSL then inputs.nixos-wsl.nixosModules.wsl else { })
     nixConfig
+    nix-homebrew
+    nix-homebrew-config
     systemPackages
     machineConfig
     OSConfig
