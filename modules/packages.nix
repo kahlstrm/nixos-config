@@ -83,6 +83,7 @@ in
       delta
       bat
       jq
+      yq-go
       fd
       fzf
       ripgrep
