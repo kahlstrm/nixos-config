@@ -57,7 +57,7 @@ in
       # Cloud-related tools and SDKs
       # awscli2
       rustup
-      go
+      pkgs-unstable.go
       terraform
       dive
       nodejs
