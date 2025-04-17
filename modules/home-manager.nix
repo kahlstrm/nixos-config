@@ -101,6 +101,7 @@ in
           "git"
           "terraform"
           "docker"
+          "kubectl"
         ] ++ zsh-custom.plugins;
         theme = zsh-custom.theme;
         # https://github.com/ohmyzsh/ohmyzsh/wiki/Customization

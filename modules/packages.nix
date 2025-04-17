@@ -67,6 +67,8 @@ in
       bun
       nixfmt-rfc-style
       protobuf
+      kubectl
+      kubernetes-helm
       # manage python/node/jvm stuff outside of nix for the moment
       pkgs-unstable.mise
 
