@@ -26,6 +26,15 @@
     zsh
   ];
 
+  xdg.terminal-exec = {
+    enable = true;
+    settings = {
+      default = [
+        "com.mitchellh.ghostty.desktop"
+      ];
+    };
+  };
+
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
   # Virtualization settings
