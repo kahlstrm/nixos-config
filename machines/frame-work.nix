@@ -20,6 +20,7 @@
   boot.initrd.luks.devices."luks-67130c52-43c6-40c3-a4af-c5d9b803aebd".device =
     "/dev/disk/by-uuid/67130c52-43c6-40c3-a4af-c5d9b803aebd";
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
