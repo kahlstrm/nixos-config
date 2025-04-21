@@ -4,7 +4,6 @@
   inputs,
   ...
 }:
-
 {
   imports = [
     # Include the results of the hardware scan.
@@ -104,11 +103,16 @@
       google-chrome
       mongodb-tools
       mongosh
+      btop-rocm
       #  thunderbird
     ];
   };
   # services.intune.enable = true;
-  # environment.systemPackages = with pkgs; [ microsoft-edge ];
+
+  environment.systemPackages = with pkgs; [
+    # microsoft-edge
+    rocmPackages.rocm-smi
+  ];
 
   # Install firefox.
   programs.firefox.enable = true;

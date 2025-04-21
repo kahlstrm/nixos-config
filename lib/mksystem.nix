@@ -85,7 +85,6 @@ systemFunc {
     nix-homebrew
     nix-homebrew-config
     systemPackages
-    machineConfig
     OSConfig
     # TODO: make user config & home-manager optional
     home-manager.home-manager
@@ -95,5 +94,6 @@ systemFunc {
       home-manager.users.${user} = import HMConfig;
       home-manager.extraSpecialArgs = specialArgs;
     }
+    machineConfig
   ];
 }
