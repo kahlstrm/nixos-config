@@ -29,7 +29,8 @@
             "org/gnome/shell/extensions/dash-to-dock" = {
               apply-custom-theme = true;
               custom-theme-shrink = true;
-              disable-overview-on-startup = false;
+              disable-overview-on-startup = true;
+              show-trash = false;
               dock-position = "BOTTOM";
               intellihide-mode = "ALL_WINDOWS";
             };
