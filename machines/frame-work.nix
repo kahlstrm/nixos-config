@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   currentSystemUser,
   inputs,
@@ -12,6 +11,7 @@
     ./hardware/frame-work.nix
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     ../modules/keyd.nix
+    ../modules/gnome.nix
   ];
 
   # Bootloader.
@@ -101,10 +101,7 @@
     packages = with pkgs; [
       telegram-desktop
       discord
-      brave
       google-chrome
-      spotify
-      slack
       mongodb-tools
       mongosh
       #  thunderbird

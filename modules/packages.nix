@@ -115,8 +115,13 @@ in
       clang
       awscli2
     ]
+    # TODO: move to desktop-packages.nix
     ++ (lib.optionals (isLinux && !isWSL) [
       firefox
+      brave
+      spotify
+      slack
+      bitwarden-desktop
       valgrind
       xclip
       wl-clipboard
