@@ -187,6 +187,7 @@ return {
       local servers = {
         clangd = {},
         gopls = {},
+        golangci_lint_ls = {},
         pyright = {},
         ruff = {},
         rust_analyzer = {},
