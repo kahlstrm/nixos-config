@@ -62,6 +62,7 @@ let
     currentSystemUser = user;
     currentSystemEmail = email;
     isWSL = isWSL;
+    isDarwin = isDarwin;
     inputs = inputs;
   };
 in

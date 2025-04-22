@@ -225,8 +225,6 @@ in
     # nix cli helper https://github.com/viperML/nh
     nh = {
       enable = true;
-      clean.enable = true;
-      clean.extraArgs = "--keep-since 14d --keep 10";
       # automatically sets up FLAKE environment variable
       flake = nixosConfigLocation;
       package = inputs.nh.packages.${currentSystem}.default;

@@ -1,11 +1,30 @@
-{ currentSystemUser, pkgs, ... }:
+{
+  currentSystemUser,
+  isDarwin,
+  lib,
+  pkgs,
+  ...
+}:
 {
   nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
+    gc = lib.mkMerge [
+      {
+        automatic = true;
+        options = "--delete-older-than 30d";
+      }
+
+      (lib.mkIf isDarwin {
+        interval = {
+          Weekday = 0; # Sunday
+          Hour = 0;
+          Minute = 0;
+        };
+      })
+
+      (lib.mkIf (!isDarwin) {
+        dates = "weekly";
+      })
+    ];
     settings = {
       allowed-users = [ "${currentSystemUser}" ];
       trusted-users = [
