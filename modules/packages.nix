@@ -35,6 +35,7 @@ in
     [
       # General packages for development and system management
       coreutils
+      gnused
       inetutils
       dig
       iftop
