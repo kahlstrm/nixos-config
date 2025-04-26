@@ -127,6 +127,6 @@ in
       xclip
       wl-clipboard
       # Ghostty is installed via Cask on Mac
-      inputs.ghostty.packages.${currentSystem}.default
+      pkgs-unstable.ghostty
     ]);
 }
