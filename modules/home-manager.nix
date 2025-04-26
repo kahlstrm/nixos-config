@@ -202,11 +202,6 @@ in
         pull.ff = "only";
         rebase.autoStash = true;
         rerere.enabled = true;
-        url = {
-          "git@github.com:" = {
-            insteadOf = "https://github.com/";
-          };
-        };
       };
     };
 
