@@ -108,40 +108,40 @@ in
         custom = "${zsh-custom.out}";
       };
       # TODO: move more stuff from .zshrc/.zprofile here
-      initExtraFirst = ''
-        if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-          . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-          . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-        fi
+      initContent = lib.mkMerge [
+        (lib.mkBefore ''
+          if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+            . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+            . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+          fi
+        '')
+        ''
+          eval "$(mise activate --shims zsh)"
+          # TODO: not sure if works on Linux as-is
+          function listport(){
+            if [ ! -z "$1" ]; then
+              lsof -nP -iTCP:$1 -sTCP:LISTEN
+              return
+            fi
+            lsof -nP -iTCP -sTCP:LISTEN
+          }
 
-        # Define variables for directories
-      '';
-      initExtra = ''
-        eval "$(mise activate --shims zsh)"
-        # TODO: not sure if works on Linux as-is
-        function listport(){
-          if [ ! -z "$1" ]; then
-            lsof -nP -iTCP:$1 -sTCP:LISTEN
-            return
+          ghrl(){
+            if [ -z "$1" ]; then
+              echo 'Please provide github username'
+              return
+            fi
+            if [ -z "$2" ] ; then
+              gh repo list $1 -L 9999 --json name -q '.[].name'
+              return
+            fi
+            gh repo list $1 -L 9999 --json name -q '.[].name' | grep $2
+          }
+          if [ -f ~/.zshrc_external ]; then
+            source ~/.zshrc_external
           fi
-          lsof -nP -iTCP -sTCP:LISTEN
-        }
-
-        ghrl(){
-          if [ -z "$1" ]; then
-            echo 'Please provide github username'
-            return
-          fi
-          if [ -z "$2" ] ; then
-            gh repo list $1 -L 9999 --json name -q '.[].name'
-            return
-          fi
-          gh repo list $1 -L 9999 --json name -q '.[].name' | grep $2
-        }
-        if [ -f ~/.zshrc_external ]; then
-          source ~/.zshrc_external
-        fi
-      '';
+        ''
+      ];
     };
 
     neovim = {
