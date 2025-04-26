@@ -31,7 +31,7 @@ let
     home-manager
     ;
   # The config files for this system.
-  nixConfig = ../modules/nix-config.nix;
+  nixConfig = ../modules/nix-config/default.nix;
   machineConfig = ../machines/${name}.nix;
   OSConfig = ../modules/${if isDarwin then "darwin" else "nixos"}.nix;
   HMConfig = ../modules/home-manager.nix;

@@ -5,26 +5,19 @@
   pkgs,
   ...
 }:
+let
+  os-short=if isDarwin then "darwin" else "nix";
+in
 {
+  imports =
+    [
+      ./gc-${os-short}.nix
+    ];
   nix = {
-    gc = lib.mkMerge [
-      {
+    gc = {
         automatic = true;
         options = "--delete-older-than 30d";
-      }
-
-      (lib.mkIf isDarwin {
-        interval = {
-          Weekday = 0; # Sunday
-          Hour = 0;
-          Minute = 0;
-        };
-      })
-
-      (lib.mkIf (!isDarwin) {
-        dates = "weekly";
-      })
-    ];
+      }; 
     settings = {
       allowed-users = [ "${currentSystemUser}" ];
       trusted-users = [
