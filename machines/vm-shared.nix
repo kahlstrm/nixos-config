@@ -18,6 +18,8 @@
   # "error switching console mode" on boot.
   boot.loader.systemd-boot.consoleMode = "0";
 
+  services.spice-vdagentd.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Helsinki";
 
