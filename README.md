@@ -148,95 +148,61 @@ For MacOS systems use the `darwin` subcommand and `os` for NixOS.
 > similar to the Neovim configuration, the repository must be
 > cloned to `~/nixos-config` for `nh` to work from everywhere on the system.
 
-## Setup (NixOS/VM) WIP
+## Setup (NixOS/VM)
 
-**Note:** This section is still untested for my configuration
-and remains a copy-paste from the original repository.
-
-**Note:** This setup guide will cover VMware Fusion because that is the
-hypervisor I use day to day. The configurations in this repository also
-work with UTM (see `vm-aarch64-utm`) and Parallels (see `vm-aarch64-prl`) but
-I'm not using that full time so they may break from time to time. I've also
-successfully set up this environment on Windows with VMware Workstation and
-Hyper-V.
-
-You can download the NixOS ISO from the
+You can download the Minimal NixOS ISO from the
 [official NixOS download page](https://nixos.org/download.html#nixos-iso).
-There are ISOs for both `x86_64` and `aarch64` at the time of writing this.
 
-Create a VMware Fusion VM with the following settings. My configurations
-are made for VMware Fusion exclusively currently and you will have issues
+### VM configuration
+
+Create a VM with the following settings. My configurations
+are tested with virt-manager so you might face issues
 on other virtualization solutions without minor changes.
 
-- ISO: NixOS 23.05 or later.
-- Disk: SATA 150 GB+
-- CPU/Memory: I give at least half my cores and half my RAM, as much as you can.
-- Graphics: Full acceleration, full resolution, maximum graphics RAM.
-- Network: Shared with my Mac.
-- Remove sound card, remove video camera, remove printer.
-- Profile: Disable almost all keybindings
-- Boot Mode: UEFI
+NOTE: for virt-manager remember to check `Customize configuration before install`,
+as that is needed to have UEFI booting working.
 
-Boot the VM, and using the graphical console, change the root password to "root":
+#### Installation setup (virt-manager)
 
-```shell
-$ sudo su
-$ passwd
-# change to root
+- ISO: NixOS 24.11 or later.
+- CPU/Memory: I give at least half my cores and at least 8GB RAM.
+- Disk: 25 GB+
+
+##### Configuration customization
+
+- Overview: Hypervisor Firmware needs to be set to UEFI (Important! Otherwise the
+  installed system won't boot).
+- Video QXL: Model Virtio with 3D acceleration enabled (needed for OpenGL).
+- Display: Listen type as None, OpenGL checked.
+
+After this, click `Begin installation` and boot into the Nixos Installer.
+
+### Setup
+
+For disk partitioning, follow [NixOS Partitiong and Formatting Guide](https://nixos.org/manual/nixos/stable/#sec-installation-manual-partitioning).
+Note: creating swap for VM is not necessary and not configured in current config.
+Follow the installation steps as well until you have mounted `nixos` to `/mnt` and
+`boot` to `/mnt/boot`.
+
+After this you can install the flake directly by running the command:
+
+NOTE: `vm-amd` is the configuration that is intended for systems with AMD CPUs,
+for Intel systems you'd need to use a different configuration.
+
+```sh
+sudo nixos-install --no-root-passwd --flake github:kahlstrm/nixos-config#vm-amd
 ```
 
-At this point, verify `/dev/sda` exists. This is the expected block device
-where the Makefile will install the OS. If you setup your VM to use SATA,
-this should exist. If `/dev/nvme` or `/dev/vda` exists instead, you didn't
-configure the disk properly. Note, these other block device types work fine,
-but you'll have to modify the `bootstrap0` Makefile task to use the proper
-block device paths.
+This will install the configuration to `/mnt`, but it will not set a password for
+your user. Let's set it with the following command:
 
-Also at this point, I recommend making a snapshot in case anything goes wrong.
-I usually call this snapshot "prebootstrap0". This is entirely optional,
-but it'll make it super easy to go back and retry if things go wrong.
-
-Run `ifconfig` and get the IP address of the first device. It is probably
-`192.168.58.XXX`, but it can be anything. In a terminal with this repository
-set this to the `NIXADDR` env var:
-
-```shell
-export NIXADDR=<VM ip address>
+```sh
+sudo nixos-enter -c 'passwd <username>'
 ```
 
-The Makefile assumes an Intel processor by default. If you are using an
-ARM-based processor (M1, etc.), you must change `NIXNAME` so that the ARM-based
-configuration is used:
+With `username` being the user you have set in your configuration.
 
-```shell
- export NIXNAME=vm-aarch64
-```
-
-**Other Hypervisors:** If you are using Parallels, use `vm-aarch64-prl`.
-If you are using UTM, use `vm-aarch64-utm`. Note that the environments aren't
-_exactly_ equivalent between hypervisors but they're very close and they
-all work.
-
-Perform the initial bootstrap. This will install NixOS on the VM disk image
-but will not setup any other configurations yet. This prepares the VM for
-any NixOS customization:
-
-```shell
-make vm/bootstrap0
-```
-
-After the VM reboots, run the full bootstrap, this will finalize the
-NixOS customization using this configuration:
-
-```shell
-make vm/bootstrap
-```
-
-You should have a graphical functioning dev VM.
-
-At this point, I never use Mac terminals ever again. I clone this repository
-in my VM and I use the other Make tasks such as `make test`, `make switch`, etc.
-to make changes my VM.
+After this, rebooting the system should boot you into the system.
 
 ## Setup (WSL)
 
