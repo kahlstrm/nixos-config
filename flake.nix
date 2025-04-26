@@ -88,6 +88,13 @@
         stable = false;
       };
 
+      nixosConfigurations.vm-amd = mkSystem "vm-amd" {
+        system = "x86_64-linux";
+        user = "kahlstrm";
+        email = workEmail;
+        stable = false;
+      };
+
       nixosConfigurations.wsl = mkSystem "wsl" {
         system = "x86_64-linux";
         user = "kahlstrm";

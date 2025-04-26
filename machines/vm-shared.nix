@@ -2,17 +2,11 @@
   pkgs,
   lib,
   currentSystem,
+  currentSystemUser,
   ...
 }:
 
-let
-  # Turn this to true to use gnome instead of i3. This is a bit
-  # of a hack, I just flip it on as I need to develop gnome stuff
-  # for now.
-  linuxGnome = true;
-in
 {
-  system.stateVersion = "24.11"; # Did you read the comment?
   # Be careful updating this.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -38,74 +32,42 @@ in
   };
 
   # setup windowing environment
-  services.xserver =
-    if linuxGnome then
-      {
-        enable = true;
-        xkb.layout = "us";
-        desktopManager.gnome.enable = true;
-        displayManager.gdm.enable = true;
-      }
-    else
-      {
-        enable = true;
-        xkb.layout = "us";
-        dpi = 220;
-
-        desktopManager = {
-          xterm.enable = false;
-          wallpaper.mode = "fill";
-        };
-
-        displayManager = {
-          defaultSession = "none+i3";
-          lightdm.enable = true;
-
-          # AARCH64: For now, on Apple Silicon, we must manually set the
-          # display resolution. This is a known issue with VMware Fusion.
-          sessionCommands = ''
-            ${pkgs.xorg.xset}/bin/xset r rate 200 40
-          '';
-        };
-
-        windowManager = {
-          i3.enable = true;
-        };
-      };
+  services.xserver = {
+    enable = true;
+    xkb.layout = "us";
+    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = true;
+  };
 
   # Enable tailscale. We manually authenticate when we want with
   # "sudo tailscale up". If you don't use tailscale, you should comment
   # out or delete all of this.
-  services.tailscale.enable = true;
+  # services.tailscale.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.mutableUsers = false;
 
-  # Manage fonts. We pull these from a secret directory since most of these
-  # fonts require a purchase.
-  fonts = {
-    fontDir.enable = true;
-
-    packages = [
-      pkgs.jetbrains-mono
+  users.users.${currentSystemUser} = {
+    isNormalUser = true;
+    description = "Kalle Ahlstrom";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
     ];
   };
+  # Manage fonts. We pull these from a secret directory since most of these
+  # fonts require a purchase.
 
-  environment.systemPackages =
-    with pkgs;
-    [
-      # For hypervisors that support auto-resizing, this script forces it.
-      # I've noticed not everyone listens to the udev events so this is a hack.
-      (writeShellScriptBin "xrandr-auto" ''
-        xrandr --output Virtual-1 --auto
-      '')
-    ]
-    ++ lib.optionals (currentSystem == "aarch64-linux") [
-      # This is needed for the vmware user tools clipboard to work.
-      # You can test if you don't need this by deleting this and seeing
-      # if the clipboard sill works.
-      gtkmm3
-    ];
+  environment.systemPackages = with pkgs; [
+    # microsoft-edge
+    rocmPackages.rocm-smi
+  ];
+  # Install firefox.
+  programs.firefox.enable = true;
+  # Enables native Wayland on Chromium/Electron based applications
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -122,7 +84,7 @@ in
 
   # Enable flatpak. I don't use any flatpak apps but I do sometimes
   # test them so I keep this enabled.
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
 
   # Disable the firewall since we're in a VM and we want to make it
   # easy to visit stuff in here. We only use NAT networking anyways.
