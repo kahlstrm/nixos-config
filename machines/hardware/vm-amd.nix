@@ -23,6 +23,8 @@
     "usbhid"
     "usb_storage"
     "sr_mod"
+    "hv_vmbus"
+    "hv_storvsc"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
