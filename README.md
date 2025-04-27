@@ -156,8 +156,8 @@ You can download the Minimal NixOS ISO from the
 ### VM configuration
 
 Create a VM with the following settings. My configurations
-are tested with virt-manager so you might face issues
-on other virtualization solutions without minor changes.
+are tested with `virt-manager` on Linux and `Hyper-V` on Windows so you might face
+issues on other virtualization solutions without minor changes.
 
 NOTE: for virt-manager remember to check `Customize configuration before install`,
 as that is needed to have UEFI booting working.
@@ -176,6 +176,11 @@ as that is needed to have UEFI booting working.
 - Display: Listen type as None, OpenGL checked.
 
 After this, click `Begin installation` and boot into the Nixos Installer.
+
+#### Installation setup (Hyper-V Manager)
+
+The default options with `Quick Create` should work apart from increasing the memory
+to at least 8GB.
 
 ### Setup
 
