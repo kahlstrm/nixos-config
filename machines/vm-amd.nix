@@ -6,6 +6,7 @@
     ./vm-shared.nix
     ./hardware/vm-amd.nix
     ../modules/gnome.nix
+    ../modules/keyd.nix
   ];
   # Install firefox.
   programs.firefox.enable = true;
