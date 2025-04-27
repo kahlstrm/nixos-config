@@ -22,7 +22,7 @@ else ifeq ($(UNAME), Darwin)
 	nix build --extra-experimental-features nix-command --extra-experimental-features flakes ".#darwinConfigurations.${NIXNAME}.system"
 	./result/sw/bin/darwin-rebuild switch --flake "$$(pwd)#${NIXNAME}"
 else
-	sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --flake ".#${NIXNAME}"
+	sudo nixos-rebuild switch --flake ".#${NIXNAME}"
 endif
 
 build:
@@ -31,7 +31,7 @@ ifneq ($(HAS_NH),)
 else ifeq ($(UNAME), Darwin)
 	nix build --extra-experimental-features nix-command --extra-experimental-features flakes ".#darwinConfigurations.${NIXNAME}.system"
 else
-	sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild build --flake ".#${NIXNAME}"
+	sudo nixos-rebuild build --flake ".#${NIXNAME}"
 endif
 
 repl:
@@ -46,14 +46,14 @@ ifeq ($(UNAME), Darwin)
 	nix build ".#darwinConfigurations.${NIXNAME}.system"
 	./result/sw/bin/darwin-rebuild test --flake "$$(pwd)#${NIXNAME}"
 else
-	sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild test --flake ".#$(NIXNAME)"
+	sudo nixos-rebuild test --flake ".#$(NIXNAME)"
 endif
 
 bootloader:
 ifeq ($(UNAME), Darwin)
 	$(error boot only work on Linux)
 else
-	sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --install-bootloader --flake ".#${NIXNAME}"
+	sudo nixos-rebuild switch --install-bootloader --flake ".#${NIXNAME}"
 endif
 
 fmt:
