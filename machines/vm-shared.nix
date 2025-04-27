@@ -51,11 +51,6 @@
   # Manage fonts. We pull these from a secret directory since most of these
   # fonts require a purchase.
 
-  environment.systemPackages = with pkgs; [
-    # microsoft-edge
-    rocmPackages.rocm-smi
-  ];
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
