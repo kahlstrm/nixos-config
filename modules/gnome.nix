@@ -7,6 +7,13 @@
   environment.systemPackages = with pkgs; [
     gnomeExtensions.dash-to-dock
   ];
+  # setup windowing environment
+  services.xserver = {
+    enable = true;
+    xkb.layout = "us";
+    desktopManager.gnome.enable = true;
+    displayManager.gdm.enable = true;
+  };
   programs.dconf = {
     enable = true;
     profiles = {

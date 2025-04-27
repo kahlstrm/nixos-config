@@ -33,14 +33,6 @@
     defaultLocale = "en_US.UTF-8";
   };
 
-  # setup windowing environment
-  services.xserver = {
-    enable = true;
-    xkb.layout = "us";
-    desktopManager.gnome.enable = true;
-    displayManager.gdm.enable = true;
-  };
-
   # Enable tailscale. We manually authenticate when we want with
   # "sudo tailscale up". If you don't use tailscale, you should comment
   # out or delete all of this.
@@ -63,10 +55,6 @@
     # microsoft-edge
     rocmPackages.rocm-smi
   ];
-  # Install firefox.
-  programs.firefox.enable = true;
-  # Enables native Wayland on Chromium/Electron based applications
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
