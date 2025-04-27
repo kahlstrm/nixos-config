@@ -19,13 +19,12 @@
       #"google-chrome"
       "firefox"
       #"brave"
-      "utm"
     ];
     masApps = {
-      "tailscale" = 1475387142;
       "telegram" = 747648890;
       "slack" = 803453959;
       "wireguard" = 1451685025;
+      "utm" = 1538878817;
     };
   };
 
