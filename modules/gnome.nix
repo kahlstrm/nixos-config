@@ -41,6 +41,9 @@
               dock-position = "BOTTOM";
               intellihide-mode = "ALL_WINDOWS";
             };
+            "org/gnome/desktop/interface" = {
+              color-scheme = "prefer-dark";
+            };
             "org/gnome/desktop/wm/keybindings" = {
               cycle-group = [
                 "<Alt>Escape"
