@@ -43,6 +43,7 @@
     # completions from nixpkgs not work for some reason
     brews = [
       "awscli"
+      "mas"
     ];
     masApps = {
       "bitwarden" = 1352778147;
