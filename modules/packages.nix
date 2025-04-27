@@ -117,16 +117,20 @@ in
       awscli2
     ]
     # TODO: move to desktop-packages.nix
-    ++ (lib.optionals (isLinux && !isWSL) [
-      firefox
-      brave
-      spotify
-      slack
-      bitwarden-desktop
-      valgrind
-      xclip
-      wl-clipboard
-      # Ghostty is installed via Cask on Mac
-      pkgs-unstable.ghostty
-    ]);
+    ++ (lib.optionals (isLinux && !isWSL) (
+      [
+        firefox
+        brave
+        bitwarden-desktop
+        valgrind
+        xclip
+        wl-clipboard
+        # Ghostty is installed via Cask on Mac
+        pkgs-unstable.ghostty
+      ]
+      ++ lib.optionals (currentSystem == "x86_64-linux") [
+        spotify
+        slack
+      ]
+    ));
 }
