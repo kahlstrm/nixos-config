@@ -19,6 +19,7 @@
       #"google-chrome"
       "firefox"
       #"brave"
+      "utm"
     ];
     masApps = {
       "tailscale" = 1475387142;

@@ -94,6 +94,13 @@
         stable = false;
       };
 
+      nixosConfigurations.vm-aarch64 = mkSystem "vm-aarch64" {
+        system = "aarch64-linux";
+        user = "kahlstrm";
+        email = workEmail;
+        stable = false;
+      };
+
       nixosConfigurations.wsl = mkSystem "wsl" {
         system = "x86_64-linux";
         user = "kahlstrm";
