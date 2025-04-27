@@ -5,12 +5,8 @@
   # Set in Sept 2024 as part of the macOS Sequoia release.
   system.stateVersion = 5;
 
-  # We install Nix using a separate installer so we don't want nix-darwin
-  # to manage it for us. This tells nix-darwin to just use whatever is running.
-  nix.useDaemon = true;
-
   # Allow Sudo with Touch ID. TODO: move back to darwin.nix when stable encounters same issue
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # extra homebrew config for this machine specifically
   homebrew = {

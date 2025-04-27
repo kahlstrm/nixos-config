@@ -77,7 +77,7 @@
         system = "aarch64-darwin";
         user = "kahlstrm";
         email = workEmail;
-        stable = true;
+        stable = false;
       };
 
       nixosConfigurations.frame-work = mkSystem "frame-work" {
