@@ -42,7 +42,7 @@ in
       killall
       btop
       htop
-      neofetch
+      fastfetch
       mariadb
       sqlite
       postgresql
