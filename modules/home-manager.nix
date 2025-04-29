@@ -221,7 +221,7 @@ in
       enable = true;
       # automatically sets up FLAKE environment variable
       flake = nixosConfigLocation;
-      package = inputs.nh.packages.${currentSystem}.default;
+      package = pkgs-unstable.nh;
     };
 
     # TODO: find out how to tmux

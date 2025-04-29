@@ -45,7 +45,6 @@
     };
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-    nh.url = "github:viperml/nh";
   };
 
   outputs =
