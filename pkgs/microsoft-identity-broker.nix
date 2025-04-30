@@ -83,7 +83,7 @@ stdenv.mkDerivation rec {
         $out/bin/microsoft-identity-device-broker \
       --replace \
         /usr/lib/jvm/java-11-openjdk-amd64 \
-        ${openjdk11withJavaFxWebKit}/bin/java
+        ${openjdk11withJavaFxWebKit}
   '';
 
   passthru = {
