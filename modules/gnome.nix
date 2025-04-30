@@ -6,6 +6,7 @@
 {
   environment.systemPackages = with pkgs; [
     gnomeExtensions.dash-to-dock
+    gnomeExtensions.caffeine
   ];
   # setup windowing environment
   services.xserver = {
@@ -31,7 +32,10 @@
                 "org.gnome.Settings.desktop"
                 "firefox.desktop"
               ];
-              enabled-extensions = [ "dash-to-dock@micxgx.gmail.com" ];
+              enabled-extensions = [
+                "dash-to-dock@micxgx.gmail.com"
+                "caffeine@patapon.info"
+              ];
             };
             "org/gnome/shell/extensions/dash-to-dock" = {
               apply-custom-theme = true;
