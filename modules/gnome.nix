@@ -44,7 +44,6 @@
                 "firefox.desktop"
                 "slack.desktop"
                 "bitwarden.desktop"
-                "org.gnome.Settings.desktop"
               ];
               enabled-extensions = [
                 "dash-to-dock@micxgx.gmail.com"
@@ -53,8 +52,10 @@
             };
             "org/gnome/shell/extensions/dash-to-dock" = {
               apply-custom-theme = true;
+              multi-monitor = true;
               custom-theme-shrink = true;
               disable-overview-on-startup = true;
+              hotkeys-show-dock = false;
               show-trash = false;
               dock-position = "BOTTOM";
               intellihide-mode = "ALL_WINDOWS";
