@@ -8,6 +8,19 @@
     gnomeExtensions.dash-to-dock
     gnomeExtensions.caffeine
   ];
+  # https://discourse.nixos.org/t/howto-disable-most-gnome-default-applications-and-what-they-are/13505
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany # use firefox/brave instead
+    geary
+    yelp
+    gnome-maps
+    gnome-tour
+    gnome-contacts
+    simple-scan
+    file-roller
+    gnome-console
+    orca
+  ];
   # setup windowing environment
   services.xserver = {
     enable = true;
