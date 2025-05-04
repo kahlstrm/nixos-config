@@ -41,10 +41,10 @@
               favorite-apps = [
                 "com.mitchellh.ghostty.desktop"
                 "brave-browser.desktop"
+                "firefox.desktop"
                 "slack.desktop"
                 "bitwarden.desktop"
                 "org.gnome.Settings.desktop"
-                "firefox.desktop"
               ];
               enabled-extensions = [
                 "dash-to-dock@micxgx.gmail.com"
