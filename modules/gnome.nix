@@ -28,6 +28,7 @@
     desktopManager.gnome.enable = true;
     displayManager.gdm.enable = true;
   };
+  services.xserver.excludePackages = [ pkgs.xterm ];
   programs.dconf = {
     enable = true;
     profiles = {
