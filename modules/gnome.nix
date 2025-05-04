@@ -72,10 +72,10 @@
               cycle-windows = lib.gvariant.mkEmptyArray (lib.gvariant.type.string);
               cycle-windows-backward = lib.gvariant.mkEmptyArray (lib.gvariant.type.string);
               switch-input-source = [
-                "<Control><Super>space"
+                "<Super>space"
               ];
               switch-input-source-backward = [
-                "<Shift><Control><Super>space"
+                "<Shift><Super>space"
               ];
 
             };
