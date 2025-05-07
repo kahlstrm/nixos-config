@@ -85,6 +85,7 @@ in
           copilot = "gh copilot";
           vim = "nvim";
           ls = "ls --color=auto";
+          rg = "rg --hidden --glob '!.git'";
           cat = "bat --style plain --paging=never";
           dcup = "docker compose up";
           dcdown = "docker compose down";
