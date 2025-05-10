@@ -51,7 +51,8 @@ in
 
   xdg.configFile =
     {
-      "ghostty/config".source = ../config/ghostty;
+      "ghostty".source = ../config/ghostty;
+      "mise".source = ../config/mise;
       "nvim".source =
         if isWSL then
           ../config/nvim
@@ -60,11 +61,11 @@ in
           config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/nixos-config/config/nvim";
     }
     // (lib.optionalAttrs isDarwin {
-      "linearmouse/linearmouse.json".source = ../config/linearmouse.json;
+      "linearmouse".source = ../config/linearmouse;
       # linearmouse will overwrite the file when changed in config.
       # Changes should be made via Nix config.
       # https://github.com/nix-community/home-manager/issues/3090
-      "linearmouse/linearmouse.json".force = true;
+      "linearmouse".force = true;
     })
     // (lib.optionalAttrs isLinux {
     });
