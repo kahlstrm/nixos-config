@@ -52,7 +52,6 @@ in
   xdg.configFile =
     {
       "ghostty".source = ../config/ghostty;
-      "mise".source = ../config/mise;
       "nvim".source =
         if isWSL then
           ../config/nvim
@@ -62,6 +61,7 @@ in
     }
     // (lib.optionalAttrs isDarwin {
       "linearmouse".source = ../config/linearmouse;
+      "mise".source = ../config/mise;
       # linearmouse will overwrite the file when changed in config.
       # Changes should be made via Nix config.
       # https://github.com/nix-community/home-manager/issues/3090
@@ -116,8 +116,10 @@ in
             . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
           fi
         '')
-        ''
+        (lib.optionalString isDarwin ''
           eval "$(mise activate --shims zsh)"
+        '')
+        ''
           # TODO: not sure if works on Linux as-is
           function listport(){
             if [ ! -z "$1" ]; then

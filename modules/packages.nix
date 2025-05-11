@@ -62,6 +62,7 @@ in
       terraform
       dive
       nodejs
+      corepack
       python3
       uv
       deno
@@ -70,8 +71,6 @@ in
       protobuf
       kubectl
       kubernetes-helm
-      # manage python/node/jvm stuff outside of nix for the moment
-      pkgs-unstable.mise
 
       # Media-related packages
       ffmpeg
@@ -107,6 +106,8 @@ in
     ++ (lib.optionals isDarwin [
       dockutil
       cocoapods
+      # manage python/node/jvm stuff outside of nix for the moment on darwin
+      pkgs-unstable.mise
     ])
     ++ (lib.optionals isLinux) [
       # For Keychain support we use Apple's patched version on MacOS
@@ -119,7 +120,6 @@ in
     # TODO: move to desktop-packages.nix
     ++ (lib.optionals (isLinux && !isWSL) (
       [
-        firefox
         brave
         bitwarden-desktop
         valgrind
@@ -133,4 +133,7 @@ in
         slack
       ]
     ));
+  programs.npm.enable = true;
+  environment.variables.PATH = "$PATH:$HOME/.npm/bin";
+  programs.firefox.enable = isLinux && !isWSL;
 }
