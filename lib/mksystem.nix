@@ -25,6 +25,7 @@ let
         ;
     })
     isDarwin
+    isLinux
     lib
     systemFunc
     nixpkgs-stable
@@ -49,6 +50,7 @@ let
     };
   };
   specialArgs = {
+    inherit isWSL isDarwin isLinux inputs;
     pkgs-stable = import nixpkgs-stable {
       inherit system;
       config.allowUnfree = true;
@@ -61,9 +63,6 @@ let
     currentSystemName = name;
     currentSystemUser = user;
     currentSystemEmail = email;
-    isWSL = isWSL;
-    isDarwin = isDarwin;
-    inputs = inputs;
   };
 in
 assert isWSL -> !isDarwin;

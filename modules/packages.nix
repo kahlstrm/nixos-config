@@ -2,6 +2,8 @@
   lib,
   pkgs,
   isWSL,
+  isDarwin,
+  isLinux,
   inputs,
   currentSystem,
   pkgs-unstable,
@@ -9,8 +11,6 @@
 }:
 
 let
-  isDarwin = pkgs.stdenv.isDarwin;
-  isLinux = pkgs.stdenv.isLinux;
   bun =
     if isLinux then
       pkgs.bun.overrideAttrs (oldAttrs: {

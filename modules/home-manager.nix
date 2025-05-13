@@ -2,6 +2,8 @@
   currentSystemEmail,
   currentSystem,
   isWSL,
+  isDarwin,
+  isLinux,
   inputs,
   pkgs-unstable,
   lib,
@@ -11,8 +13,6 @@
 }:
 
 let
-  isDarwin = pkgs.stdenv.isDarwin;
-  isLinux = pkgs.stdenv.isLinux;
   homeDirectory = config.home.homeDirectory;
   nixosConfigLocation = "${homeDirectory}/nixos-config";
   zsh-custom = import ../pkgs/zsh-custom { inherit pkgs; };
