@@ -71,6 +71,7 @@ in
       protobuf
       kubectl
       kubernetes-helm
+      ollama
 
       # Media-related packages
       ffmpeg
