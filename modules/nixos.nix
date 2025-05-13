@@ -2,12 +2,16 @@
   pkgs,
   currentSystemUser,
   currentSystemName,
+  isLinux,
+  isWSL,
   ...
 }:
 
 {
   # Add ~/.local/bin to PATH
   environment.localBinInPath = true;
+  programs.firefox.enable = isLinux && !isWSL;
+  programs.npm.enable = true;
   nixpkgs.overlays = import ../lib/overlays.nix;
 
   networking.hostName = currentSystemName;

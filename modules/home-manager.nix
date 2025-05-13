@@ -119,6 +119,9 @@ in
         (lib.optionalString isDarwin ''
           eval "$(mise activate --shims zsh)"
         '')
+        (lib.optionalString isLinux ''
+          PATH=$PATH:$HOME/.npm/bin
+        '')
         ''
           # TODO: not sure if works on Linux as-is
           function listport(){

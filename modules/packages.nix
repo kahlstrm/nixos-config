@@ -134,7 +134,4 @@ in
         slack
       ]
     ));
-  programs.npm.enable = true;
-  environment.variables.PATH = "$PATH:$HOME/.npm/bin";
-  programs.firefox.enable = isLinux && !isWSL;
 }
