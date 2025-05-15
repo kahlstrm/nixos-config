@@ -100,6 +100,7 @@ in
       tlrc
       cmake
       gnumake
+      just
       parallel
       file
       openssl
