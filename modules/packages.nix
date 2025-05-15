@@ -134,4 +134,11 @@ in
         slack
       ]
     ));
+
+  # workaround to allow global npm package installs
+  environment.etc.npmrc.text = ''
+    prefix = ''${HOME}/.npm
+  '';
+
+  environment.variables.NPM_CONFIG_GLOBALCONFIG = "/etc/npmrc";
 }
