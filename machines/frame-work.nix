@@ -1,14 +1,14 @@
 {
   pkgs,
   currentSystemUser,
-  inputs,
+  nixos-hardware,
   ...
 }:
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware/frame-work.nix
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+    nixos-hardware.nixosModules.framework-13-7040-amd
     ../modules/keyd.nix
     ../modules/gnome.nix
     (import ../modules/virt-manager.nix { spiceUSBRedirectionEnabled = false; })

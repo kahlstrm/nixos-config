@@ -4,7 +4,6 @@
   isWSL,
   isDarwin,
   isLinux,
-  inputs,
   currentSystem,
   pkgs-unstable,
   ...

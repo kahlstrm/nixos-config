@@ -2,21 +2,19 @@
   description = "Nix/NixOS system configurations";
 
   inputs = {
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-unstable-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-unstable-nixos.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    # Build a custom WSL installer
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL/main";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    home-manager-unstable-darwin = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-darwin";
     };
 
-    home-manager-unstable = {
+    home-manager-unstable-nixos = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
     };
 
     home-manager-stable-nixos = {
@@ -29,14 +27,19 @@
       inputs.nixpkgs.follows = "nixpkgs-stable-darwin";
     };
 
-    nix-index-database = {
+    nix-index-database-darwin = {
       url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-darwin";
+    };
+
+    nix-index-database-nixos = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
     };
 
     darwin-unstable = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-darwin";
     };
 
     darwin-stable = {
@@ -45,6 +48,14 @@
     };
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    # Build a custom WSL installer
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
+    };
   };
 
   outputs =

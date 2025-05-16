@@ -30,12 +30,15 @@ let
     lib
     systemFunc
     nixpkgs-stable
+    nixpkgs-unstable
+    nix-index-database
+    os-short
     home-manager
     ;
   # The config files for this system.
   nixConfig = ../modules/nix-config/default.nix;
   machineConfig = ../machines/${name}.nix;
-  OSConfig = ../modules/${if isDarwin then "darwin" else "nixos"}.nix;
+  OSConfig = ../modules/${os-short}.nix;
   HMConfig = ../modules/home-manager.nix;
   systemPackages = ../modules/packages.nix;
   # TODO: make this cleaner
@@ -55,16 +58,18 @@ let
       isWSL
       isDarwin
       isLinux
-      inputs
+      os-short
+      nix-index-database
       ;
     pkgs-stable = import nixpkgs-stable {
       inherit system;
       config.allowUnfree = allowUnfree;
     };
-    pkgs-unstable = import inputs.nixpkgs-unstable {
+    pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = allowUnfree;
     };
+    nixos-hardware = inputs.nixos-hardware;
     currentSystem = system;
     currentSystemName = name;
     currentSystemUser = user;

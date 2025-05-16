@@ -3,7 +3,7 @@
   isWSL,
   isDarwin,
   isLinux,
-  inputs,
+  nix-index-database,
   pkgs-unstable,
   lib,
   pkgs,
@@ -19,7 +19,7 @@ let
 in
 {
   imports = [
-    inputs.nix-index-database.hmModules.nix-index
+    nix-index-database.hmModules.nix-index
     {
       programs.nix-index-database.comma.enable = true;
       programs.nix-index.enableZshIntegration = false;

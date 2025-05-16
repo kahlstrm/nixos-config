@@ -1,11 +1,10 @@
 {
   currentSystemUser,
-  isDarwin,
   pkgs,
+  os-short,
   ...
 }:
 let
-  os-short = if isDarwin then "darwin" else "nixos";
 in
 {
   imports = [
