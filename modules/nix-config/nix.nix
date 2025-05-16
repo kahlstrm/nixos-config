@@ -1,4 +1,0 @@
-{ ... }:
-{
-  nix.gc.dates = "weekly";
-}

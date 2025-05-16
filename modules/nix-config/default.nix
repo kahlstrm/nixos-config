@@ -1,12 +1,11 @@
 {
   currentSystemUser,
   isDarwin,
-  lib,
   pkgs,
   ...
 }:
 let
-  os-short = if isDarwin then "darwin" else "nix";
+  os-short = if isDarwin then "darwin" else "nixos";
 in
 {
   imports = [
@@ -20,9 +19,10 @@ in
     settings = {
       allowed-users = [ "${currentSystemUser}" ];
       trusted-users = [
-        "@admin"
+        "root"
         "${currentSystemUser}"
       ];
+
       substituters = [
         "https://nix-community.cachix.org"
         "https://cache.nixos.org"

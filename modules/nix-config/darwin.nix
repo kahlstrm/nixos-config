@@ -6,4 +6,5 @@
     Minute = 0;
   };
   nix.settings.sandbox = true;
+  nix.settings.trusted-users = [ "@admin" ];
 }
