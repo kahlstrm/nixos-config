@@ -32,6 +32,19 @@
     fsType = "vfat";
   };
 
+  fileSystems."/mnt/utm" = {
+    device = "share";
+    fsType = "9p";
+    options = [
+      "trans=virtio"
+      "version=9p2000.L"
+      "rw"
+      "_netdev"
+      "nofail"
+      "auto"
+    ];
+  };
+
   swapDevices = [ ];
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }
