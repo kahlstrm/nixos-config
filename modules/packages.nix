@@ -83,7 +83,6 @@ in
 
       # Text and terminal utilities
       pkgs-unstable.neovim
-      delta
       bat
       jq
       yq-go

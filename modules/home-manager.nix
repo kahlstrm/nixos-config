@@ -1,6 +1,5 @@
 {
   currentSystemEmail,
-  currentSystem,
   isWSL,
   isDarwin,
   isLinux,
@@ -16,6 +15,7 @@ let
   homeDirectory = config.home.homeDirectory;
   nixosConfigLocation = "${homeDirectory}/nixos-config";
   zsh-custom = import ../pkgs/zsh-custom { inherit pkgs; };
+  delta = "${pkgs.delta}/bin/delta";
 in
 {
   imports = [
@@ -195,9 +195,9 @@ in
         init.defaultBranch = "main";
         core = {
           autocrlf = "input";
-          pager = "delta";
+          pager = delta;
         };
-        interactive.diffFilter = "delta --color-only";
+        interactive.diffFilter = "${delta} --color-only";
         delta = {
           navigate = true;
         };
