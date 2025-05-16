@@ -5,4 +5,5 @@
     Hour = 0;
     Minute = 0;
   };
+  nix.settings.sandbox = true;
 }

@@ -6,18 +6,17 @@
   ...
 }:
 let
-  os-short=if isDarwin then "darwin" else "nix";
+  os-short = if isDarwin then "darwin" else "nix";
 in
 {
-  imports =
-    [
-      ./gc-${os-short}.nix
-    ];
+  imports = [
+    ./${os-short}.nix
+  ];
   nix = {
     gc = {
-        automatic = true;
-        options = "--delete-older-than 30d";
-      }; 
+      automatic = true;
+      options = "--delete-older-than 30d";
+    };
     settings = {
       allowed-users = [ "${currentSystemUser}" ];
       trusted-users = [
