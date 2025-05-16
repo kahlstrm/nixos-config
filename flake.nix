@@ -93,8 +93,15 @@
         stable = false;
       };
 
-      nixosConfigurations.vm-aarch64 = mkSystem "vm-aarch64" {
+      nixosConfigurations.vm-utm-aarch64 = mkSystem "vm-utm-aarch64" {
         system = "aarch64-linux";
+        user = "kahlstrm";
+        email = workEmail;
+        stable = false;
+      };
+
+      nixosConfigurations.vm-utm-x86_64 = mkSystem "vm-utm-x86_64" {
+        system = "x86_64-linux";
         user = "kahlstrm";
         email = workEmail;
         stable = false;

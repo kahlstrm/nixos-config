@@ -4,7 +4,7 @@
 {
   imports = [
     ./vm-shared.nix
-    ./hardware/vm-aarch64.nix
+    ./hardware/vm-utm.nix
     ../modules/gnome.nix
     ../modules/keyd.nix
   ];
