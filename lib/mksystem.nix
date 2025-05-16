@@ -10,6 +10,7 @@ name:
   email,
   wsl ? false,
   stable ? false,
+  allowUnfree ? true,
 }:
 
 let
@@ -50,14 +51,19 @@ let
     };
   };
   specialArgs = {
-    inherit isWSL isDarwin isLinux inputs;
+    inherit
+      isWSL
+      isDarwin
+      isLinux
+      inputs
+      ;
     pkgs-stable = import nixpkgs-stable {
       inherit system;
-      config.allowUnfree = true;
+      config.allowUnfree = allowUnfree;
     };
     pkgs-unstable = import inputs.nixpkgs-unstable {
       inherit system;
-      config.allowUnfree = true;
+      config.allowUnfree = allowUnfree;
     };
     currentSystem = system;
     currentSystemName = name;
@@ -77,7 +83,7 @@ systemFunc {
     { nixpkgs.overlays = overlays; }
 
     # Allow unfree packages.
-    { nixpkgs.config.allowUnfree = true; }
+    { nixpkgs.config.allowUnfree = allowUnfree; }
 
     # Bring in WSL if this is a WSL build
     (if isWSL then inputs.nixos-wsl.nixosModules.wsl else { })

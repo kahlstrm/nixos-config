@@ -51,9 +51,6 @@
   # Manage fonts. We pull these from a secret directory since most of these
   # fonts require a purchase.
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

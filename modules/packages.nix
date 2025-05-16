@@ -92,7 +92,6 @@ in
       ripgrep
       tree
       tmux
-      unrar
       unzip
       zip
       hyperfine
