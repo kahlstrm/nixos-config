@@ -8,10 +8,10 @@
 # https://daiderd.com/nix-darwin/manual/index.html
 {
   imports = [ ./darwin-dock.nix ];
-  nixpkgs.overlays = import ../lib/overlays.nix;
-
   networking.hostName = currentSystemName;
   system.primaryUser = currentSystemUser;
+  # Allow Sudo with Touch ID.
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   homebrew = {
     enable = true;

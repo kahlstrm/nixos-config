@@ -1,5 +1,5 @@
 {
-  overlays,
+  inputOverlays,
   inputs,
 }:
 
@@ -14,6 +14,7 @@ name:
 }:
 
 let
+  overlays = inputOverlays ++ import ./overlays.nix;
   # True if this is a WSL system.
   isWSL = wsl;
   # resolves NixOS vs nix-darwin and stable vs unstable functions
@@ -36,9 +37,9 @@ let
     home-manager
     ;
   # The config files for this system.
-  nixConfig = ../modules/nix-config/default.nix;
+  nixConfig = ../modules/nix-config;
   machineConfig = ../machines/${name}.nix;
-  OSConfig = ../modules/${os-short}.nix;
+  OSConfig = ../modules/${os-short};
   HMConfig = ../modules/home-manager.nix;
   systemPackages = ../modules/packages.nix;
   # TODO: make this cleaner
@@ -62,11 +63,11 @@ let
       nix-index-database
       ;
     pkgs-stable = import nixpkgs-stable {
-      inherit system;
+      inherit system overlays;
       config.allowUnfree = allowUnfree;
     };
     pkgs-unstable = import nixpkgs-unstable {
-      inherit system;
+      inherit system overlays;
       config.allowUnfree = allowUnfree;
     };
     nixos-hardware = inputs.nixos-hardware;

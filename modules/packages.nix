@@ -118,7 +118,7 @@ in
     ]
     # TODO: move to desktop-packages.nix
     ++ lib.optionals (!isWSL) [
-      rquickshare
+      pkgs-unstable.rquickshare
     ]
     ++ (lib.optionals (isLinux && !isWSL) (
       [

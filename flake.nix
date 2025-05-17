@@ -64,14 +64,14 @@
     }@inputs:
     let
       # Overlays is the list of overlays we want to apply from flake inputs.
-      overlays = [
+      inputOverlays = [
       ];
       personalEmail = "kalle.ahlstrom@iki.fi";
       workEmail = "kalle.ahlstrom@nitor.com";
 
       mkSystem = import ./lib/mksystem.nix {
         inherit
-          overlays
+          inputOverlays
           inputs
           ;
       };
@@ -81,6 +81,7 @@
         system = "aarch64-darwin";
         user = "kalski";
         email = personalEmail;
+        # stable = true;
       };
 
       darwinConfigurations.mac-work = mkSystem "mac-work" {

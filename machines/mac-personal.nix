@@ -6,9 +6,6 @@
 {
   system.stateVersion = 5;
 
-  # Allow Sudo with Touch ID. TODO: move back to darwin.nix when stable encounters
-  security.pam.services.sudo_local.touchIdAuth = true;
-
   # extra homebrew config for this machine specifically
   homebrew = {
     # TODO: migrate all these apps to casks
