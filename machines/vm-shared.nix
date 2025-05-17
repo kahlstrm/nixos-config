@@ -1,14 +1,13 @@
 {
   pkgs,
-  lib,
-  currentSystem,
   currentSystemUser,
+  isStable,
   ...
 }:
 
 {
   # Be careful updating this.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = if isStable then pkgs.linuxPackages else pkgs.linuxPackages_latest;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

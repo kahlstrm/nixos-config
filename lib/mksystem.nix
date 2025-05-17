@@ -77,6 +77,7 @@ let
     currentSystemUser = user;
     currentSystemEmail = email;
     flakeRoot = flakeRootPath;
+    isStable = stable;
   };
 in
 assert isWSL -> !isDarwin;
