@@ -117,6 +117,9 @@ in
       awscli2
     ]
     # TODO: move to desktop-packages.nix
+    ++ lib.optionals (!isWSL) [
+      rquickshare
+    ]
     ++ (lib.optionals (isLinux && !isWSL) (
       [
         brave
