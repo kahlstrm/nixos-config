@@ -1,6 +1,7 @@
 {
   inputOverlays,
   inputs,
+  flakeRootPath,
 }:
 
 name:
@@ -40,7 +41,7 @@ let
   nixConfig = ../modules/nix-config;
   machineConfig = ../machines/${name}.nix;
   OSConfig = ../modules/${os-short};
-  HMConfig = ../modules/home-manager.nix;
+  HMConfig = ../modules/home-manager;
   systemPackages = ../modules/packages.nix;
   # TODO: make this cleaner
   nix-homebrew = lib.optionalAttrs isDarwin inputs.nix-homebrew.darwinModules.nix-homebrew;
@@ -75,6 +76,7 @@ let
     currentSystemName = name;
     currentSystemUser = user;
     currentSystemEmail = email;
+    flakeRoot = flakeRootPath;
   };
 in
 assert isWSL -> !isDarwin;
@@ -83,13 +85,18 @@ systemFunc {
   # We expose some extra arguments so that our modules can parameterize
   # better based on these values.
   modules = [
-    # Apply our overlays. Overlays are keyed by system type so we have
-    # to go through and apply our system type. We do this first so
-    # the overlays are available globally.
-    { nixpkgs.overlays = overlays; }
+    {
+      # Apply our overlays. Overlays are keyed by system type so we have
+      # to go through and apply our system type. We do this first so
+      # the overlays are available globally.
+      nixpkgs.overlays = overlays;
 
-    # Allow unfree packages.
-    { nixpkgs.config.allowUnfree = allowUnfree; }
+      nixpkgs.config.permittedInsecurePackages = lib.optionals (lib.versionOlder lib.version "25.05") [
+        "electron-33.4.11"
+      ];
+      # Allow unfree packages.
+      nixpkgs.config.allowUnfree = allowUnfree;
+    }
 
     # Bring in WSL if this is a WSL build
     (if isWSL then inputs.nixos-wsl.nixosModules.wsl else { })

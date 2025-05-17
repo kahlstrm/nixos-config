@@ -2,16 +2,17 @@
   pkgs,
   currentSystemUser,
   currentSystemName,
+  lib,
   ...
 }:
-
 # https://daiderd.com/nix-darwin/manual/index.html
 {
-  imports = [ ./darwin-dock.nix ];
+  imports = [
+    ./darwin-dock.nix
+    # TODO: remove after migrate 25.05 as stable
+    ./${if (lib.versionAtLeast lib.version "25.05") then "post" else "pre"}-25.05.nix
+  ];
   networking.hostName = currentSystemName;
-  system.primaryUser = currentSystemUser;
-  # Allow Sudo with Touch ID.
-  security.pam.services.sudo_local.touchIdAuth = true;
 
   homebrew = {
     enable = true;

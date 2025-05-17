@@ -8,13 +8,15 @@
   lib,
   pkgs,
   config,
+  flakeRoot,
   ...
 }:
 
 let
   homeDirectory = config.home.homeDirectory;
   nixosConfigLocation = "${homeDirectory}/nixos-config";
-  zsh-custom = import ../pkgs/zsh-custom { inherit pkgs; };
+  zsh-custom = import (flakeRoot + /pkgs/zsh-custom) { inherit pkgs; };
+  configPath = flakeRoot + /config;
   delta = "${pkgs.delta}/bin/delta";
 in
 {
@@ -26,6 +28,7 @@ in
       programs.nix-index.enableBashIntegration = false;
       programs.nix-index.enableFishIntegration = false;
     }
+    ./${if (lib.versionAtLeast lib.version "25.05") then "post" else "pre"}-25.05.nix
   ];
   home.stateVersion = "24.11";
 
@@ -51,17 +54,17 @@ in
 
   xdg.configFile =
     {
-      "ghostty".source = ../config/ghostty;
+      "ghostty".source = configPath + /ghostty;
       "nvim".source =
         if isWSL then
-          ../config/nvim
+          configPath + /nvim
         else
           # Create a directory symlink to .config/nvim, allowing mutable editing of config
           config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/nixos-config/config/nvim";
     }
     // (lib.optionalAttrs isDarwin {
-      "linearmouse".source = ../config/linearmouse;
-      "mise".source = ../config/mise;
+      "linearmouse".source = configPath + /linearmouse;
+      "mise".source = configPath + /mise;
       # linearmouse will overwrite the file when changed in config.
       # Changes should be made via Nix config.
       # https://github.com/nix-community/home-manager/issues/3090
@@ -110,42 +113,6 @@ in
         custom = "${zsh-custom.out}";
       };
       # TODO: move more stuff from .zshrc/.zprofile here
-      initContent = lib.mkMerge [
-        (lib.mkBefore ''
-          if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-            . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-          fi
-        '')
-        (lib.optionalString isDarwin ''
-          eval "$(mise activate --shims zsh)"
-        '')
-        ''
-          PATH=$PATH:$HOME/.npm/bin
-          # TODO: not sure if works on Linux as-is
-          function listport(){
-            if [ ! -z "$1" ]; then
-              lsof -nP -iTCP:$1 -sTCP:LISTEN
-              return
-            fi
-            lsof -nP -iTCP -sTCP:LISTEN
-          }
-
-          ghrl(){
-            if [ -z "$1" ]; then
-              echo 'Please provide github username'
-              return
-            fi
-            if [ -z "$2" ] ; then
-              gh repo list $1 -L 9999 --json name -q '.[].name'
-              return
-            fi
-            gh repo list $1 -L 9999 --json name -q '.[].name' | grep $2
-          }
-          if [ -f ~/.zshrc_external ]; then
-            source ~/.zshrc_external
-          fi
-        ''
-      ];
     };
 
     neovim = {

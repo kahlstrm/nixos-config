@@ -74,6 +74,7 @@
           inputOverlays
           inputs
           ;
+        flakeRootPath = ./.;
       };
     in
     {
@@ -81,7 +82,6 @@
         system = "aarch64-darwin";
         user = "kalski";
         email = personalEmail;
-        # stable = true;
       };
 
       darwinConfigurations.mac-work = mkSystem "mac-work" {
