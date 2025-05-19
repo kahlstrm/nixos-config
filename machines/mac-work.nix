@@ -10,7 +10,6 @@
     # TODO: migrate all these apps to casks
     casks = [
       "visual-studio-code"
-      "postman"
       "session-manager-plugin"
       #"discord"
       #"zoom"
