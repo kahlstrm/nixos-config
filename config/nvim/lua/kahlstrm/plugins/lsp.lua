@@ -271,7 +271,7 @@ return {
             require('lspconfig')[server_name].setup(server)
           end,
         },
-        automatic_installation = false,
+        automatic_enable = true,
         -- already handled by mason-tool-installer
         ensure_installed = {},
       }
