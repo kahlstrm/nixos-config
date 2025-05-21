@@ -184,6 +184,7 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      ---@type table<string, vim.lsp.Config>
       local servers = {
         clangd = {},
         gopls = {},
@@ -214,8 +215,7 @@ return {
         taplo = {},
         terraformls = {},
         eslint = {
-          ---@diagnostic disable-next-line: unused-local
-          on_attach = function(client, bufnr)
+          on_attach = function(_, bufnr)
             vim.api.nvim_create_autocmd('BufWritePre', {
               buffer = bufnr,
               command = 'LspEslintFixAll',
@@ -250,44 +250,62 @@ return {
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
+      local tools_to_install = {
         'stylua', -- Used to format Lua code
         'prettierd',
         'ruff',
         'clang-format',
         'markdownlint',
-      })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      }
+      require('mason-tool-installer').setup { ensure_installed = tools_to_install }
 
       require('mason-lspconfig').setup {
+        ensure_installed = vim.tbl_keys(servers or {}),
         handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
+          function(server_name) end,
         },
-        automatic_enable = true,
+        automatic_enable = false,
         -- already handled by mason-tool-installer
-        ensure_installed = {},
       }
-      local lspconfig = require 'lspconfig'
       -- no mason support https://github.com/mason-org/mason-registry/pull/6725#issuecomment-2351015814, installed via Nix
-      lspconfig.nixd.setup {
-        settings = {
+      vim.tbl_extend(
+        'force',
+        servers,
+        ---@type table<string, vim.lsp.Config>
+        {
           nixd = {
-            formatting = {
-              command = { 'nixfmt' },
+            settings = {
+              nixd = {
+                formatting = {
+                  command = { 'nixfmt' },
+                },
+              },
             },
           },
-        },
-      }
-      lspconfig.gleam.setup {}
-      lspconfig.dartls.setup {}
+          dartls = {},
+          gleam = {},
+        }
+      )
+
+      for server_name, server in pairs(servers) do
+        local server = servers[server_name] or {}
+        -- This handles overriding only values explicitly passed
+        -- by the server configuration above. Useful when disabling
+        -- certain features of an LSP (for example, turning off formatting for ts_ls)
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+
+        -- https://github.com/neovim/neovim/issues/33577
+        local server_base_on_attach = vim.lsp.config[server_name].on_attach
+        local config_on_attach = server.on_attach
+        if server_base_on_attach and config_on_attach then
+          server.on_attach = function(client, bufnr)
+            server_base_on_attach(client, bufnr)
+            config_on_attach(client, bufnr)
+          end
+        end
+        vim.lsp.config(server_name, server)
+        vim.lsp.enable(server_name)
+      end
     end,
   },
 }
