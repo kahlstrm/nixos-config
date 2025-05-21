@@ -81,7 +81,6 @@ in
       git-filter-repo
 
       # Text and terminal utilities
-      pkgs-unstable.neovim
       bat
       jq
       yq-go

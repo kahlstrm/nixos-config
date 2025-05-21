@@ -42,8 +42,6 @@ in
     LANG = "en_US.UTF-8";
     LC_CTYPE = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
-    EDITOR = "nvim";
-    PAGER = "less -FirSwX";
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
     MANROFFOPT = "-c";
   };
@@ -87,7 +85,6 @@ in
           ghco = "gh pr checkout";
           ghprv = "gh pr view --web";
           copilot = "gh copilot";
-          vim = "nvim";
           ls = "ls --color=auto";
           rg = "rg --hidden --glob '!.git'";
           cat = "bat --style plain --paging=never";
@@ -118,21 +115,40 @@ in
     neovim = {
       enable = true;
       vimdiffAlias = true;
+      defaultEditor = true;
       package = pkgs-unstable.neovim-unwrapped;
       # as we manage Neovim plugins outside of Nix,
+      #      vim.list_extend(ensure_installed, {
+      #   'stylua', -- Used to format Lua code
+      #   'prettierd',
+      #   'ruff',
+      #   'clang-format',
+      #   'markdownlint',
+      # })
+
       # some plugins (mainly Treesitter) require gcc
-      extraPackages = with pkgs-unstable; [
+      extraPackages = with pkgs; [
         clang
         gnumake
-        python3
-        nodejs
         nixd
         nixfmt-rfc-style
         gleam
         dart
         ripgrep
         fd
+        rust-analyzer
+        lua-language-server
+        typescript-language-server
+        gopls
+        golangci-lint-langserver
+        pyright
+        ruff
+        stylua
+        tailwindcss-language-server
+        taplo-lsp
+        terraform-ls
       ];
+      withNodeJs = true;
     };
 
     fzf = {
