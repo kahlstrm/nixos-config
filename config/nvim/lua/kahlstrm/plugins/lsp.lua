@@ -261,15 +261,12 @@ return {
 
       require('mason-lspconfig').setup {
         ensure_installed = vim.tbl_keys(servers or {}),
-        handlers = {
-          function(server_name) end,
-        },
         automatic_enable = false,
         -- already handled by mason-tool-installer
       }
       -- no mason support https://github.com/mason-org/mason-registry/pull/6725#issuecomment-2351015814, installed via Nix
-      vim.tbl_extend(
-        'force',
+      servers = vim.tbl_extend(
+        'error',
         servers,
         ---@type table<string, vim.lsp.Config>
         {
@@ -288,7 +285,6 @@ return {
       )
 
       for server_name, server in pairs(servers) do
-        local server = servers[server_name] or {}
         -- This handles overriding only values explicitly passed
         -- by the server configuration above. Useful when disabling
         -- certain features of an LSP (for example, turning off formatting for ts_ls)
