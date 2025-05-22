@@ -18,7 +18,25 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      {
+        'williamboman/mason.nvim',
+        config = true,
+        dependencies = {
+          {
+            'kahlstrm/mason-registry-lock',
+            -- dir = '/home/kahlstrm/src/personal/mason-registry-lock'
+          },
+        },
+
+        opts = function()
+          local registry_lock = require 'mason-registry-lock'
+          return {
+            registries = {
+              registry_lock.registry_release,
+            },
+          }
+        end,
+      }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
@@ -247,23 +265,24 @@ return {
       --
       --  You can press `g?` for help in this menu.reload
       require('mason').setup()
+      require('mason-lspconfig').setup {
+        -- handled by mason-tool-installer
+        ensure_installed = {},
+        automatic_enable = false,
+      }
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      local tools_to_install = {
+      local ensure_installed = vim.tbl_keys(servers or {})
+      vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'prettierd',
         'ruff',
         'clang-format',
         'markdownlint',
-      }
-      require('mason-tool-installer').setup { ensure_installed = tools_to_install }
+      })
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed, auto_update = true }
 
-      require('mason-lspconfig').setup {
-        ensure_installed = vim.tbl_keys(servers or {}),
-        automatic_enable = false,
-        -- already handled by mason-tool-installer
-      }
       -- no mason support https://github.com/mason-org/mason-registry/pull/6725#issuecomment-2351015814, installed via Nix
       servers = vim.tbl_extend(
         'error',
