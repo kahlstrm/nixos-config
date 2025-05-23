@@ -92,9 +92,6 @@ systemFunc {
       # the overlays are available globally.
       nixpkgs.overlays = overlays;
 
-      nixpkgs.config.permittedInsecurePackages = lib.optionals (lib.versionOlder lib.version "25.05") [
-        "electron-33.4.11"
-      ];
       # Allow unfree packages.
       nixpkgs.config.allowUnfree = allowUnfree;
     }
