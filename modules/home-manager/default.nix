@@ -1,12 +1,8 @@
 {
-  currentSystemEmail,
-  isWSL,
   isDarwin,
   isLinux,
   nix-index-database,
-  pkgs-unstable,
   lib,
-  pkgs,
   config,
   flakeRoot,
   ...
@@ -15,9 +11,7 @@
 let
   homeDirectory = config.home.homeDirectory;
   nixosConfigLocation = "${homeDirectory}/nixos-config";
-  zsh-custom = import (flakeRoot + /pkgs/zsh-custom) { inherit pkgs; };
   configPath = flakeRoot + /config;
-  delta = "${pkgs.delta}/bin/delta";
 in
 {
   imports = [
@@ -28,7 +22,11 @@ in
       programs.nix-index.enableBashIntegration = false;
       programs.nix-index.enableFishIntegration = false;
     }
-    ./${if (lib.versionAtLeast lib.version "25.05") then "post" else "pre"}-25.05.nix
+    (import ./neovim.nix { inherit configPath; })
+    (import ./zsh.nix { inherit nixosConfigLocation; })
+    (import ./nh.nix { inherit nixosConfigLocation; })
+    ./git.nix
+    ./ssh.nix
   ];
   home.stateVersion = "24.11";
 
@@ -55,12 +53,6 @@ in
   xdg.configFile =
     {
       "ghostty".source = configPath + /ghostty;
-      "nvim".source =
-        if isWSL then
-          configPath + /nvim
-        else
-          # Create a directory symlink to .config/nvim, allowing mutable editing of config
-          config.lib.file.mkOutOfStoreSymlink "${homeDirectory}/nixos-config/config/nvim";
     }
     // (lib.optionalAttrs isDarwin {
       "linearmouse".source = configPath + /linearmouse;
@@ -76,64 +68,6 @@ in
   # Programs
   #---------------------------------------------------------------------
   programs = {
-    zsh = {
-      enable = true;
-      enableCompletion = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
-      shellAliases =
-        {
-          ghb = "gh browse";
-          ghco = "gh pr checkout";
-          ghprv = "gh pr view --web";
-          copilot = "gh copilot";
-          vim = "nvim";
-          ls = "ls --color=auto";
-          rg = "rg --hidden --glob '!.git'";
-          cat = "bat --style plain --paging=never";
-          dcup = "docker compose up";
-          dcdown = "docker compose down";
-          # used by git-extended oh-my-zsh plugin
-          dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
-        }
-        // lib.optionalAttrs (isLinux && !isWSL) {
-          pbcopy = "wl-copy";
-          pbpaste = "wl-paste";
-        };
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "git"
-          "terraform"
-          "docker"
-          "kubectl"
-        ] ++ zsh-custom.plugins;
-        theme = zsh-custom.theme;
-        # https://github.com/ohmyzsh/ohmyzsh/wiki/Customization
-        custom = "${zsh-custom.out}";
-      };
-      # TODO: move more stuff from .zshrc/.zprofile here
-    };
-
-    neovim = {
-      enable = true;
-      vimdiffAlias = true;
-      package = pkgs-unstable.neovim-unwrapped;
-      # as we manage Neovim plugins outside of Nix,
-      # some plugins (mainly Treesitter) require gcc
-      extraPackages = with pkgs-unstable; [
-        clang
-        gnumake
-        python3
-        nodejs
-        nixd
-        nixfmt-rfc-style
-        gleam
-        dart
-        ripgrep
-        fd
-      ];
-    };
 
     fzf = {
       enable = true;
@@ -144,56 +78,6 @@ in
       settings = {
         vim_keys = true;
       };
-    };
-
-    git = {
-      enable = true;
-      ignores = [
-        "*.swp"
-        ".DS_STORE"
-        "CLAUDE.md"
-      ];
-      userName = "Kalle Ahlström";
-      userEmail = currentSystemEmail;
-      lfs = {
-        enable = true;
-      };
-      extraConfig = {
-        init.defaultBranch = "main";
-        core = {
-          autocrlf = "input";
-          pager = delta;
-        };
-        interactive.diffFilter = "${delta} --color-only";
-        delta = {
-          navigate = true;
-        };
-        branch.sort = "-committerdate";
-        merge.conflictstyle = "zdiff3";
-        pull.ff = "only";
-        rebase.autoStash = true;
-        rerere.enabled = true;
-      };
-    };
-
-    ssh = {
-      enable = true;
-      includes = [
-        "${homeDirectory}/.ssh/config_external"
-      ];
-      addKeysToAgent = "yes";
-      extraOptionOverrides = {
-        # fallback to xterm-256color so ssh prompts don't go crazy
-        SetEnv = "TERM=xterm-256color";
-      } // (lib.optionalAttrs isDarwin { UseKeychain = "yes"; });
-
-    };
-    # nix cli helper https://github.com/viperML/nh
-    nh = {
-      enable = true;
-      # automatically sets up FLAKE environment variable
-      flake = nixosConfigLocation;
-      package = pkgs-unstable.nh;
     };
 
     # TODO: find out how to tmux
