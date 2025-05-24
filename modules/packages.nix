@@ -47,6 +47,7 @@ in
       postgresql
       wget
       rclone
+      dust
 
       # Encryption and security tools
       age
