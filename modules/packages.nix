@@ -116,6 +116,7 @@ in
       gcc
       clang
       awscli2
+      parted
     ]
     # TODO: move to desktop-packages.nix
     ++ lib.optionals guiEnabled [
