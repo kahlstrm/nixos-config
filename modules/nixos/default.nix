@@ -4,6 +4,7 @@
   currentSystemName,
   isLinux,
   guiEnabled,
+  lib,
   ...
 }:
 
@@ -29,7 +30,7 @@
     zsh
   ];
 
-  xdg.terminal-exec = {
+  xdg.terminal-exec = lib.optionalAttrs guiEnabled {
     enable = true;
     settings = {
       default = [
