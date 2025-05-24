@@ -3,7 +3,7 @@
   lib,
   isDarwin,
   isLinux,
-  isWSL,
+  guiEnabled,
   flakeRoot,
   pkgs,
   ...
@@ -33,7 +33,7 @@ in
         # used by git-extended oh-my-zsh plugin
         dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
       }
-      // lib.optionalAttrs (isLinux && !isWSL) {
+      // lib.optionalAttrs (isLinux && guiEnabled) {
         pbcopy = "wl-copy";
         pbpaste = "wl-paste";
       };

@@ -3,14 +3,14 @@
   currentSystemUser,
   currentSystemName,
   isLinux,
-  isWSL,
+  guiEnabled,
   ...
 }:
 
 {
   # Add ~/.local/bin to PATH
   environment.localBinInPath = true;
-  programs.firefox.enable = isLinux && !isWSL;
+  programs.firefox.enable = isLinux && guiEnabled;
   programs.npm.enable = true;
 
   networking.hostName = currentSystemName;

@@ -9,6 +9,7 @@ name:
   system,
   user,
   email,
+  gui ? true,
   wsl ? false,
   stable ? false,
   allowUnfree ? true,
@@ -18,8 +19,6 @@ name:
 
 let
   overlays = inputOverlays ++ import ./overlays.nix;
-  # True if this is a WSL system.
-  isWSL = wsl;
   # resolves NixOS vs nix-darwin and stable vs unstable functions
   inherit
     (import ./resolve-inputs.nix {
@@ -58,9 +57,10 @@ let
       #mutableTaps = false;
     };
   };
+  guiEnabled = (!wsl && gui) || isDarwin;
   specialArgs = {
     inherit
-      isWSL
+      guiEnabled
       isDarwin
       isLinux
       os-short
@@ -83,7 +83,7 @@ let
     isStable = stable;
   };
 in
-assert isWSL -> !isDarwin;
+assert wsl -> !isDarwin;
 systemFunc {
   inherit system specialArgs;
   # We expose some extra arguments so that our modules can parameterize
@@ -116,7 +116,7 @@ systemFunc {
       machineConfig
     ]
     # Bring in WSL if this is a WSL build
-    ++ (lib.optionals isWSL [
+    ++ (lib.optionals wsl [
       inputs.nixos-wsl.nixosModules.wsl
     ])
     ++ (lib.optionals secureBoot [

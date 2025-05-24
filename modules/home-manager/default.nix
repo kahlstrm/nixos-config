@@ -22,7 +22,7 @@ in
       programs.nix-index.enableBashIntegration = false;
       programs.nix-index.enableFishIntegration = false;
     }
-    (import ./neovim.nix { inherit configPath; })
+    (import ./neovim.nix { inherit nixosConfigLocation; })
     (import ./zsh.nix { inherit nixosConfigLocation; })
     (import ./nh.nix { inherit nixosConfigLocation; })
     ./git.nix

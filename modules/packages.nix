@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  isWSL,
+  guiEnabled,
   isDarwin,
   isLinux,
   currentSystem,
@@ -118,10 +118,10 @@ in
       awscli2
     ]
     # TODO: move to desktop-packages.nix
-    ++ lib.optionals (!isWSL) [
+    ++ lib.optionals guiEnabled [
       pkgs-unstable.rquickshare
     ]
-    ++ (lib.optionals (isLinux && !isWSL) (
+    ++ (lib.optionals (isLinux && guiEnabled) (
       [
         brave
         bitwarden-desktop

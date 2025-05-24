@@ -1,7 +1,6 @@
-{ configPath }:
+{ nixosConfigLocation }:
 {
   config,
-  isWSL,
   pkgs-unstable,
   ...
 }:
@@ -10,11 +9,8 @@ let
 in
 {
   xdg.configFile."nvim".source =
-    if isWSL then
-      configPath + /nvim
-    else
-      # Create a directory symlink to .config/nvim, allowing mutable editing of config
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/config/nvim";
+    # Create a directory symlink to .config/nvim, allowing mutable editing of config
+    config.lib.file.mkOutOfStoreSymlink "${nixosConfigLocation}/config/nvim";
   programs.neovim = {
     enable = true;
     vimdiffAlias = true;

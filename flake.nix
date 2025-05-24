@@ -101,6 +101,14 @@
         stable = false;
       };
 
+      nixosConfigurations.pannu = mkSystem "pannu" {
+        system = "x86_64-linux";
+        user = "kahlstrm";
+        email = personalEmail;
+        stable = false;
+        gui = false;
+      };
+
       nixosConfigurations.frame-work = mkSystem "frame-work" {
         system = "x86_64-linux";
         user = "kahlstrm";
