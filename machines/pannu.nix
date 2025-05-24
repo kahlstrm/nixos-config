@@ -69,29 +69,34 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.ollama = {
-    enable = true;
-    host = "0.0.0.0";
-    openFirewall = true;
-    acceleration = "rocm";
-    environmentVariables = {
-      OLLAMA_FLASH_ATTENTION = "1";
-      # currently not working for Gemma3 https://github.com/ggml-org/llama.cpp/issues/12352#issuecomment-2727452955
-      # OLLAMA_KV_CACHE_TYPE = "q8_0";
-    };
-    home = "/var/lib/ollama";
-  };
+  # need to wait for 6.4.0+ rocm packages
+  # services.ollama = {
+  #   enable = true;
+  #   host = "0.0.0.0";
+  #   openFirewall = true;
+  #   acceleration = "rocm";
+  #   environmentVariables = {
+  #     OLLAMA_FLASH_ATTENTION = "1";
+  #     # currently not working for Gemma3 https://github.com/ggml-org/llama.cpp/issues/12352#issuecomment-2727452955
+  #     # OLLAMA_KV_CACHE_TYPE = "q8_0";
+  #   };
+  #   home = "/var/lib/ollama";
+  # };
 
-  services.open-webui = {
-    enable = true;
-    host = "0.0.0.0";
-    openFirewall = true;
-    environment = {
-      OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
-    };
-  };
+  # services.open-webui = {
+  #   enable = true;
+  #   host = "0.0.0.0";
+  #   openFirewall = true;
+  #   environment = {
+  #     OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
+  #   };
+  # };
+
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedTCPPorts = [
+  #   8080
+  #   11434
+  # ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

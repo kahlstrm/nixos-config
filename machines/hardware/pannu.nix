@@ -73,7 +73,14 @@
 
   hardware.graphics = {
     enable = true;
+    extraPackages = with pkgs; [
+      amdvlk
+    ];
     enable32Bit = true;
+    extraPackages32 = with pkgs; [
+      driversi686Linux.amdvlk
+    ];
+
   };
   # networking.interfaces.enp6s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp5s0.useDHCP = lib.mkDefault true;
