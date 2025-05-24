@@ -25,6 +25,7 @@
 
       # Communication Tools
       "chatgpt"
+      "claude"
 
       # Utility Tools
       "shottr"
