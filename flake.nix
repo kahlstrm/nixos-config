@@ -107,6 +107,7 @@
         email = personalEmail;
         stable = false;
         gui = false;
+        useOutOfStoreSymlink = false;
       };
 
       nixosConfigurations.frame-work = mkSystem "frame-work" {
@@ -122,6 +123,7 @@
         user = "kahlstrm";
         email = workEmail;
         stable = false;
+        useOutOfStoreSymlink = false;
       };
 
       nixosConfigurations.vm-utm-aarch64 = mkSystem "vm-utm-aarch64" {
@@ -129,6 +131,7 @@
         user = "kahlstrm";
         email = workEmail;
         stable = false;
+        useOutOfStoreSymlink = false;
       };
 
       nixosConfigurations.vm-utm-x86_64 = mkSystem "vm-utm-x86_64" {
@@ -136,6 +139,7 @@
         user = "kahlstrm";
         email = workEmail;
         stable = false;
+        useOutOfStoreSymlink = false;
       };
 
       nixosConfigurations.wsl = mkSystem "wsl" {
@@ -144,6 +148,7 @@
         # TODO: should wsl-builds have parameterized email?
         email = personalEmail;
         wsl = true;
+        useOutOfStoreSymlink = false;
       };
 
     };

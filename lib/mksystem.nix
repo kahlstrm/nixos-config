@@ -10,6 +10,7 @@ name:
   user,
   email,
   gui ? true,
+  useOutOfStoreSymlink ? true,
   wsl ? false,
   stable ? false,
   allowUnfree ? true,
@@ -65,6 +66,7 @@ let
       isLinux
       os-short
       nix-index-database
+      useOutOfStoreSymlink
       ;
     pkgs-stable = import nixpkgs-stable {
       inherit system overlays;

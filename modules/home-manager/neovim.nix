@@ -2,6 +2,8 @@
 {
   config,
   pkgs-unstable,
+  useOutOfStoreSymlink,
+  flakeRoot,
   ...
 }:
 let
@@ -9,8 +11,12 @@ let
 in
 {
   xdg.configFile."nvim".source =
-    # Create a directory symlink to .config/nvim, allowing mutable editing of config
-    config.lib.file.mkOutOfStoreSymlink "${nixosConfigLocation}/config/nvim";
+    if useOutOfStoreSymlink then
+      # Create a directory symlink to .config/nvim, allowing mutable editing of config
+      config.lib.file.mkOutOfStoreSymlink "${nixosConfigLocation}/config/nvim"
+    else
+      (flakeRoot + /config/nvim);
+
   programs.neovim = {
     enable = true;
     vimdiffAlias = true;
