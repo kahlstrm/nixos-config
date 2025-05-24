@@ -12,6 +12,7 @@ let
   nixpkgs-stable = inputs."nixpkgs-stable-${os-short}";
   nixpkgs-unstable = inputs."nixpkgs-unstable-${os-short}";
   nixpkgs = if stable then nixpkgs-stable else nixpkgs-unstable;
+  lanzaboote = if stable then inputs.lanzaboote-stable else inputs.lanzaboote-unstable;
   home-manager =
     if stable then
       inputs."home-manager-stable-${os-short}"
@@ -26,6 +27,7 @@ in
     nixpkgs-unstable
     nix-index-database
     os-short
+    lanzaboote
     ;
   systemFunc = if isDarwin then darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
   home-manager = if isDarwin then home-manager.darwinModules else home-manager.nixosModules;

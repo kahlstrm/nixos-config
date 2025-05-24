@@ -12,6 +12,8 @@ name:
   wsl ? false,
   stable ? false,
   allowUnfree ? true,
+  # https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md
+  secureBoot ? false,
 }:
 
 let
@@ -36,6 +38,7 @@ let
     nix-index-database
     os-short
     home-manager
+    lanzaboote
     ;
   # The config files for this system.
   nixConfig = ../modules/nix-config;
@@ -85,32 +88,39 @@ systemFunc {
   inherit system specialArgs;
   # We expose some extra arguments so that our modules can parameterize
   # better based on these values.
-  modules = [
-    {
-      # Apply our overlays. Overlays are keyed by system type so we have
-      # to go through and apply our system type. We do this first so
-      # the overlays are available globally.
-      nixpkgs.overlays = overlays;
+  modules =
+    [
+      {
+        # Apply our overlays. Overlays are keyed by system type so we have
+        # to go through and apply our system type. We do this first so
+        # the overlays are available globally.
+        nixpkgs.overlays = overlays;
 
-      # Allow unfree packages.
-      nixpkgs.config.allowUnfree = allowUnfree;
-    }
+        # Allow unfree packages.
+        nixpkgs.config.allowUnfree = allowUnfree;
+      }
 
+      nixConfig
+      nix-homebrew
+      nix-homebrew-config
+      systemPackages
+      OSConfig
+      # TODO: make user config & home-manager optional
+      home-manager.home-manager
+      {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.users.${user} = import HMConfig;
+        home-manager.extraSpecialArgs = specialArgs;
+      }
+      machineConfig
+    ]
     # Bring in WSL if this is a WSL build
-    (if isWSL then inputs.nixos-wsl.nixosModules.wsl else { })
-    nixConfig
-    nix-homebrew
-    nix-homebrew-config
-    systemPackages
-    OSConfig
-    # TODO: make user config & home-manager optional
-    home-manager.home-manager
-    {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-      home-manager.users.${user} = import HMConfig;
-      home-manager.extraSpecialArgs = specialArgs;
-    }
-    machineConfig
-  ];
+    ++ (lib.optionals isWSL [
+      inputs.nixos-wsl.nixosModules.wsl
+    ])
+    ++ (lib.optionals secureBoot [
+      lanzaboote.nixosModules.lanzaboote
+      ../modules/lanzaboote.nix
+    ]);
 }
