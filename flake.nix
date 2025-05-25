@@ -108,6 +108,7 @@
         stable = false;
         gui = false;
         useOutOfStoreSymlink = false;
+        steamMachine = true;
       };
 
       nixosConfigurations.frame-work = mkSystem "frame-work" {

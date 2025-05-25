@@ -1,14 +1,20 @@
 {
   pkgs,
   currentSystemUser,
+  lib,
+  steamMachine,
   ...
 }:
 
 {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware/pannu.nix
-  ];
+  imports =
+    [
+      # Include the results of the hardware scan.
+      ./hardware/pannu.nix
+    ]
+    ++ lib.optionals steamMachine [
+      ../modules/steam-machine.nix
+    ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -17,8 +23,12 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  users.groups.kahlstrm = { };
   users.users.${currentSystemUser} = {
-    isNormalUser = true;
+    # hide user from login
+    isSystemUser = true;
+    isNormalUser = lib.mkForce false;
+    group = "kahlstrm";
     description = "Kalle Ahlstrom";
     extraGroups = [
       "networkmanager"
