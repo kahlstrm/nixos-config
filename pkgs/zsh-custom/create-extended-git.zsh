@@ -22,5 +22,5 @@ for alias_name in ${(k)aliases}; do
   new_alias="$(
     echo "${aliases[$alias_name]}" \
     | sed -e 's/git /dotfiles /g')"
-  echo alias "cf${alias_name}"=\'"$new_alias"\'
+  echo alias "c${alias_name}"=\'"$new_alias"\'
 done
