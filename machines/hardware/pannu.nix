@@ -57,6 +57,15 @@
     fsType = "ext4";
   };
 
+  fileSystems."/mnt/wip" = {
+    device = "/dev/disk/by-label/wip";
+    fsType = "ext4";
+    options = [
+      "defaults"
+      "nofail"
+    ];
+  };
+
   fileSystems."/var/lib/ollama" = {
     device = "/dev/disk/by-label/ollama";
     fsType = "ext4";
