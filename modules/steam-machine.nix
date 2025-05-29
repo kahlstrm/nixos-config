@@ -41,7 +41,7 @@
         "-r 120"
       ];
       env = {
-        MANGOHUD = "1";
+        # MANGOHUD = "1";
         ENABLE_GAMESCOPE_WSI = "1";
       };
       steamArgs = [
