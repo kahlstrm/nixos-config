@@ -53,9 +53,11 @@ stdenv.mkDerivation rec {
     classpath="$classpath:${jnr-posix}/share/java/jnr-posix-${jnr-posix.version}.jar"
     mkdir -p $out/bin
     makeWrapper ${openjdk11withJavaFxWebKit}/bin/java $out/bin/microsoft-identity-broker \
+      --add-flags "-Xmx128m -Xss256k -XX:+UseParallelGC -XX:ParallelGCThreads=1" \
       --add-flags "-classpath $classpath com.microsoft.identity.broker.service.IdentityBrokerService" \
       --add-flags "-verbose"
     makeWrapper ${openjdk11withJavaFxWebKit}/bin/java $out/bin/microsoft-identity-device-broker \
+      --add-flags "-Xmx128m -Xss256k -XX:+UseParallelGC -XX:ParallelGCThreads=1" \
       --add-flags "-classpath $classpath" \
       --add-flags "com.microsoft.identity.broker.service.DeviceBrokerService" \
       --add-flags "-verbose"
