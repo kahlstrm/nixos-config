@@ -48,6 +48,7 @@ in
       wget
       rclone
       dust
+      vim
 
       # Encryption and security tools
       age
