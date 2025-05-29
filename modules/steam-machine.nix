@@ -45,8 +45,9 @@
       };
       steamArgs = [
         "-pipewire-dmabuf"
-        "-tenfoot"
-        # TODO: change to -steamos3 when it supports resolutions >1080p
+        "-gamepadui"
+        "-steamos3"
+        "-steampal"
         "-steamdeck"
       ];
     };
