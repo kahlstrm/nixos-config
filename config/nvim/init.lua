@@ -187,4 +187,6 @@ require('lazy').setup('kahlstrm/plugins', {
     },
   },
 })
+-- run restore to ensure that dependencies match lazy-lock.json
+require('lazy').restore { show = false }
 -- vim: ts=2 sts=2 sw=2 et
