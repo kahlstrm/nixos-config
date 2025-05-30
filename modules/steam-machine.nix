@@ -57,12 +57,14 @@
     gamescopeSession = {
       enable = true;
       args = [
+        "--adaptive-sync"
         "--hdr-enabled"
         "--hdr-itm-enabled"
         "--mangoapp" # performance overlay
         "--xwayland-count 2"
         "--rt"
         "-f"
+        "-W 3840"
         "-H 2160"
         "-r 120"
       ];
@@ -75,17 +77,16 @@
       steamArgs = [
         "-pipewire-dmabuf"
         "-gamepadui"
-        "-steamos3"
-        "-steampal"
         "-steamdeck"
       ];
     };
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
     extraPackages = with pkgs; [
       mangohud
-      gamescope-wsi
     ];
   };
+  hardware.graphics.extraPackages = with pkgs; [ gamescope-wsi ];
+  hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [ gamescope-wsi ];
   programs.gamescope = {
     enable = true;
     capSysNice = true;
