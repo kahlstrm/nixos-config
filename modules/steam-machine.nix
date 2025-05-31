@@ -56,6 +56,12 @@
     };
   };
 
+  programs.steam.remotePlay.openFirewall = true;
+  programs.steam.localNetworkGameTransfers.openFirewall = true;
+
+  # Steam seems to ping this one also
+  networking.firewall.allowedTCPPorts = [ 27037 ];
+
   # doesn't build with 6.15 kernel currently, and not in use
   # hardware.xone.enable = true;
 
