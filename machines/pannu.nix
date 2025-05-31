@@ -60,6 +60,7 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
+  security.rtkit.enable = true;
   # Enable sound.
   services.pipewire = {
     enable = true;
