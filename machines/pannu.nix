@@ -40,7 +40,6 @@
 
   environment.systemPackages = with pkgs; [
     rocmPackages.rocm-smi
-    firefox
   ];
 
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
