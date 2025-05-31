@@ -18,6 +18,9 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # firmware updater
+  services.fwupd.enable = true;
+
   users.groups.kahlstrm = { };
   users.users.${currentSystemUser} = {
     # hide user from login
@@ -36,6 +39,7 @@
 
   environment.systemPackages = with pkgs; [
     rocmPackages.rocm-smi
+    firefox
   ];
 
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
