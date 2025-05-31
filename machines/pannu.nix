@@ -2,19 +2,14 @@
   pkgs,
   currentSystemUser,
   lib,
-  steamMachine,
   ...
 }:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware/pannu.nix
-    ]
-    ++ lib.optionals steamMachine [
-      ../modules/steam-machine.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware/pannu.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
