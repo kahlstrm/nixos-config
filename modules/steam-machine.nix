@@ -47,6 +47,7 @@
       desktopSession = "plasma";
     };
     steamos = {
+      useSteamOSConfig = false;
       enableBluetoothConfig = true;
       enableDefaultCmdlineConfig = true;
       enableMesaPatches = true;
