@@ -140,6 +140,14 @@
         forceSSL = true;
         useACMEHost = "p.kalski.xyz";
       };
+
+      "p.kalski.xyz" = {
+        locations."/" = {
+          return = "301 https://kahlstrm.xyz";
+        };
+        forceSSL = true;
+        useACMEHost = "p.kalski.xyz";
+      };
     };
   };
 
