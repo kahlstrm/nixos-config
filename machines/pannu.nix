@@ -2,6 +2,7 @@
   pkgs,
   currentSystemUser,
   lib,
+  config,
   ...
 }:
 
@@ -101,14 +102,50 @@
   #   };
   # };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [
-  #   8080
-  #   11434
-  # ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "kalle.ahlstrom@iki.fi";
+    certs."p.kalski.xyz" = {
+      inherit (config.services.nginx) group;
+      domain = "p.kalski.xyz";
+      dnsProvider = "cloudflare";
+      credentialsFile = "/var/lib/secrets/cloudflare.env";
+      extraDomainNames = [ "*.p.kalski.xyz" ];
+    };
+  };
+
+  services.nginx = {
+    enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    virtualHosts = {
+      "owui.p.kalski.xyz" = {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8080";
+          proxyWebsockets = true;
+        };
+        forceSSL = true;
+        useACMEHost = "p.kalski.xyz";
+      };
+
+      "ollama.p.kalski.xyz" = {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:11434";
+          proxyWebsockets = true;
+        };
+        forceSSL = true;
+        useACMEHost = "p.kalski.xyz";
+      };
+    };
+  };
+
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 
   system.stateVersion = "25.05"; # Did you read the comment?
 }
