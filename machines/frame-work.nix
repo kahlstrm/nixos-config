@@ -110,7 +110,7 @@
   # Install firefox.
   programs.firefox.enable = true;
   # Enables native Wayland on Chromium/Electron based applications
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
