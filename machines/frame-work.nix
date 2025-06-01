@@ -47,10 +47,6 @@
     LC_TIME = "fi_FI.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "amdgpu" ];
-
   # fingerprint support
   services.fprintd.enable = true;
   # fingerprint sudo
@@ -77,9 +73,6 @@
     #media-session.enable = true;
   };
   hardware.graphics.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${currentSystemUser} = {
