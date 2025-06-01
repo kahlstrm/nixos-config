@@ -80,6 +80,12 @@
             "org/gnome/desktop/peripherals/mouse" = {
               accel-profile = "flat";
             };
+            "org/gnome/shell/keybindings" = {
+              show-screenshot-ui = [
+                "Print"
+                "<Super><Shift>s"
+              ];
+            };
           };
         }
       ];
