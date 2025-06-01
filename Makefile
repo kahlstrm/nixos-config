@@ -27,7 +27,7 @@ endif
 
 build:
 ifneq ($(HAS_NH),)
-	nh $(NH_SUBCMD) build -a -H "${NIXNAME}" .
+	nh $(NH_SUBCMD) build -H "${NIXNAME}" .
 else ifeq ($(UNAME), Darwin)
 	nix build --extra-experimental-features nix-command --extra-experimental-features flakes ".#darwinConfigurations.${NIXNAME}.system"
 else
