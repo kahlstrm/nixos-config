@@ -30,6 +30,9 @@
     zsh
   ];
 
+  # Enables native Wayland on Chromium/Electron based applications
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   xdg.terminal-exec = lib.optionalAttrs guiEnabled {
     enable = true;
     settings = {
