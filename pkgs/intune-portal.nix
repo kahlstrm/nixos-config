@@ -7,7 +7,7 @@
   libuuid,
   xorg,
   curlMinimal,
-  openssl,
+  openssl_3,
   libsecret,
   webkitgtk_4_1,
   libsoup_3,
@@ -24,6 +24,11 @@
   dbus,
   nixosTests,
 }:
+let
+  curlMinimal_openssl_3 = curlMinimal.override {
+    openssl = openssl_3;
+  };
+in
 stdenv.mkDerivation rec {
   pname = "intune-portal";
   version = "1.2503.10-noble";
@@ -42,8 +47,8 @@ stdenv.mkDerivation rec {
           stdenv.cc.cc
           libuuid
           xorg.libX11
-          curlMinimal
-          openssl
+          curlMinimal_openssl_3
+          openssl_3
           libsecret
           webkitgtk_4_1
           libsoup_3
