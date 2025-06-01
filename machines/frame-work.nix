@@ -93,6 +93,8 @@
     ];
   };
   services.intune.enable = true;
+  systemd.user.timers.intune-agent.wantedBy = [ "graphical-session.target" ];
+  systemd.sockets.intune-daemon.wantedBy = [ "sockets.target" ];
 
   environment.systemPackages = with pkgs; [
     # microsoft-edge
