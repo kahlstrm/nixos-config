@@ -1,23 +1,18 @@
-# yoinked from https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/mi/microsoft-identity-broker/package.nix
 {
   stdenv,
   lib,
   fetchurl,
   dpkg,
+  openjdk11,
   jnr-posix,
   makeWrapper,
   zip,
   nixosTests,
   bash,
-  openjdk11,
-  openjfx11,
+  glib,
+  xorg,
+  alsa-lib,
 }:
-let
-  openjdk11withJavaFxWebKit = openjdk11.override {
-    enableJavaFX = true;
-    openjfx_jdk = openjfx11;
-  };
-in
 stdenv.mkDerivation rec {
   pname = "microsoft-identity-broker";
   version = "2.0.1";
@@ -30,13 +25,18 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     dpkg
     makeWrapper
-    openjdk11withJavaFxWebKit
+    openjdk11
     zip
+  ];
+
+  buildInputs = [
+    glib
+    xorg.libXtst
+    alsa-lib
   ];
 
   buildPhase = ''
     runHook preBuild
-
     rm opt/microsoft/identity-broker/lib/jnr-posix-3.1.4.jar
     runHook postBuild
   '';
@@ -52,15 +52,19 @@ stdenv.mkDerivation rec {
     done
     classpath="$classpath:${jnr-posix}/share/java/jnr-posix-${jnr-posix.version}.jar"
     mkdir -p $out/bin
-    makeWrapper ${openjdk11withJavaFxWebKit}/bin/java $out/bin/microsoft-identity-broker \
-      --add-flags "-Xmx128m -Xss256k -XX:+UseParallelGC -XX:ParallelGCThreads=1" \
-      --add-flags "-classpath $classpath com.microsoft.identity.broker.service.IdentityBrokerService" \
-      --add-flags "-verbose"
-    makeWrapper ${openjdk11withJavaFxWebKit}/bin/java $out/bin/microsoft-identity-device-broker \
-      --add-flags "-Xmx128m -Xss256k -XX:+UseParallelGC -XX:ParallelGCThreads=1" \
+    makeWrapper ${openjdk11}/bin/java $out/bin/microsoft-identity-broker \
+      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath buildInputs}" \
       --add-flags "-classpath $classpath" \
-      --add-flags "com.microsoft.identity.broker.service.DeviceBrokerService" \
-      --add-flags "-verbose"
+      --add-flags "-Xmx128m -Xss256k -XX:+UseParallelGC -XX:ParallelGCThreads=1" \
+      --add-flags "-verbose" \
+      --add-flags "com.microsoft.identity.broker.service.IdentityBrokerService"
+
+    makeWrapper ${openjdk11}/bin/java $out/bin/microsoft-identity-device-broker \
+      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath buildInputs}" \
+      --add-flags "-classpath $classpath" \
+      --add-flags "-Xmx128m -Xss256k -XX:+UseParallelGC -XX:ParallelGCThreads=1" \
+      --add-flags "-verbose" \
+      --add-flags "com.microsoft.identity.broker.service.DeviceBrokerService"
 
     runHook postInstall
   '';
@@ -85,7 +89,7 @@ stdenv.mkDerivation rec {
         $out/bin/microsoft-identity-device-broker \
       --replace \
         /usr/lib/jvm/java-11-openjdk-amd64 \
-        ${openjdk11withJavaFxWebKit}
+        ${openjdk11}
   '';
 
   passthru = {
