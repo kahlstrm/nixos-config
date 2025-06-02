@@ -1,15 +1,16 @@
 {
   pkgs,
   currentSystemUser,
-  nixos-hardware,
   isStable,
+  inputs,
   ...
 }:
 {
   imports = [
+    inputs.mdatp.nixosModules.mdatp
+    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
     # Include the results of the hardware scan.
     ./hardware/frame-work.nix
-    nixos-hardware.nixosModules.framework-13-7040-amd
     ../modules/keyd.nix
     ../modules/gnome.nix
     (import ../modules/virt-manager.nix { spiceUSBRedirectionEnabled = false; })
@@ -95,6 +96,7 @@
   services.intune.enable = true;
   systemd.user.timers.intune-agent.wantedBy = [ "graphical-session.target" ];
   systemd.sockets.intune-daemon.wantedBy = [ "sockets.target" ];
+  services.mdatp.enable = true;
 
   environment.systemPackages = with pkgs; [
     # microsoft-edge

@@ -69,6 +69,7 @@ let
       nix-index-database
       useOutOfStoreSymlink
       steamMachine
+      inputs
       ;
     pkgs-stable = import nixpkgs-stable {
       inherit system overlays;
@@ -78,7 +79,6 @@ let
       inherit system overlays;
       config.allowUnfree = allowUnfree;
     };
-    nixos-hardware = inputs.nixos-hardware;
     currentSystem = system;
     currentSystemName = name;
     currentSystemUser = user;

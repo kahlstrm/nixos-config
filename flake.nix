@@ -7,6 +7,11 @@
     nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
 
+    mdatp = {
+      url = "github:NitorCreations/nix-mdatp";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
+    };
+
     home-manager-unstable-darwin = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable-darwin";
