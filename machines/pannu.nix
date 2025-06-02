@@ -3,6 +3,7 @@
   currentSystemUser,
   lib,
   config,
+  inputs,
   ...
 }:
 
@@ -10,6 +11,9 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware/pannu.nix
+
+    inputs.jovian.nixosModules.jovian
+    (import ../modules/steam-machine.nix { hasAmdGPU = true; })
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -21,6 +25,9 @@
 
   # firmware updater
   services.fwupd.enable = true;
+
+  # prevent computer from sleeping
+  powerManagement.enable = false;
 
   users.groups.kahlstrm = { };
   users.users.${currentSystemUser} = {

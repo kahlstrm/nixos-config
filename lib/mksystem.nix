@@ -127,9 +127,5 @@ systemFunc {
     ++ (lib.optionals secureBoot [
       lanzaboote.nixosModules.lanzaboote
       ../modules/lanzaboote.nix
-    ])
-    ++ (lib.optionals steamMachine [
-      inputs.jovian.nixosModules.jovian
-      ../modules/steam-machine.nix
     ]);
 }

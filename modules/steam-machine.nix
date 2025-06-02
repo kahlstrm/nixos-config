@@ -1,3 +1,6 @@
+{
+  hasAmdGPU ? false,
+}:
 { currentSystemUser, pkgs, ... }:
 {
   users.groups."steam-machine" = { };
@@ -44,6 +47,8 @@
   users.users."${currentSystemUser}".extraGroups = [ "games" ];
   services.desktopManager.plasma6.enable = true;
   jovian = {
+    hardware.has.amd.gpu = hasAmdGPU;
+    hardware.amd.gpu.enableBacklightControl = false;
     steam = {
       autoStart = true;
       enable = true;
