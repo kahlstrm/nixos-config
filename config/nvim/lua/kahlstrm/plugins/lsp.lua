@@ -240,6 +240,7 @@ return {
             })
           end,
         },
+        jdtls = {},
         --
 
         lua_ls = {
