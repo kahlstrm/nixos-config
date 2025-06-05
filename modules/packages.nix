@@ -23,6 +23,15 @@ let
       })
     else
       pkgs.bun;
+  dive = pkgs.dive.overrideAttrs (oldAttrs: {
+    nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.installShellFiles ];
+    postInstall = ''
+      installShellCompletion --cmd dive \
+        --bash <($out/bin/dive completion bash) \
+        --fish <($out/bin/dive completion fish) \
+        --zsh <($out/bin/dive completion zsh)
+    '';
+  });
 in
 {
   # List packages installed in system profile. To search, run:
