@@ -33,7 +33,7 @@ in
       gleam
       dart
       ripgrep
-      java
+      jdk
     ];
   };
 }

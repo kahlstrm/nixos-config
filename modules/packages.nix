@@ -48,6 +48,7 @@ in
       wget
       rclone
       dust
+      dive
       vim
 
       # Encryption and security tools
@@ -61,13 +62,14 @@ in
       rustup
       pkgs-unstable.go
       terraform
-      dive
       nodejs
       corepack
       python3
-      uv
       deno
       bun
+      jdk
+
+      uv
       nixfmt-rfc-style
       protobuf
       kubectl
