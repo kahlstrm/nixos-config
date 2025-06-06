@@ -59,6 +59,7 @@ in
 
       # Cloud-related tools and SDKs
       # awscli2
+      ssm-session-manager-plugin
       rustup
       pkgs-unstable.go
       terraform
