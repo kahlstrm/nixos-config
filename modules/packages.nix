@@ -23,15 +23,6 @@ let
       })
     else
       pkgs.bun;
-  dive = pkgs.dive.overrideAttrs (oldAttrs: {
-    nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.installShellFiles ];
-    postInstall = ''
-      installShellCompletion --cmd dive \
-        --bash <($out/bin/dive completion bash) \
-        --fish <($out/bin/dive completion fish) \
-        --zsh <($out/bin/dive completion zsh)
-    '';
-  });
 in
 {
   # List packages installed in system profile. To search, run:
@@ -82,6 +73,8 @@ in
       nixfmt-rfc-style
       protobuf
       kubectl
+      k9s
+      fluxcd
       kubernetes-helm
       ollama
 
@@ -155,5 +148,6 @@ in
     prefix = ''${HOME}/.npm
   '';
 
+  environment.variables.EDITOR = "vim";
   environment.variables.NPM_CONFIG_GLOBALCONFIG = "/etc/npmrc";
 }

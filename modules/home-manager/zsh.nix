@@ -18,6 +18,17 @@ in
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+
+    sessionVariables = {
+      LANG = "en_US.UTF-8";
+      LC_CTYPE = "en_US.UTF-8";
+      LC_ALL = "en_US.UTF-8";
+      PAGER = "less -FirSwX";
+      EDITOR = "nvim";
+      MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+      MANROFFOPT = "-c";
+    };
+
     shellAliases =
       {
         ghb = "gh browse";
