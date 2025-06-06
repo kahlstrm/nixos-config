@@ -54,6 +54,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
           },
         },
         file_ignore_patterns = { '^.git/', '^node_modules/' },
+        path_display = { 'truncate' },
       },
       -- pickers = {}
       extensions = {
