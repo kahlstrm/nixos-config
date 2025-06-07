@@ -2,9 +2,12 @@
   currentSystemUser,
   pkgs,
   os-short,
+  currentSystemName,
+  lib,
   ...
 }:
 let
+  isNotPannu = currentSystemName != "pannu";
 in
 {
   imports = [
@@ -32,7 +35,25 @@ in
         "nix-command"
         "flakes"
       ];
+
+      builders-use-substitutes = true;
     };
     package = pkgs.nix;
+    distributedBuilds = true;
+    buildMachines = lib.optionals isNotPannu [
+      {
+        hostName = "p.kalski.xyz";
+        sshUser = "kahlstrm";
+        system = "x86_64-linux";
+        maxJobs = 10;
+        speedFactor = 1;
+        supportedFeatures = [
+          "big-parallel"
+          "nixos-test"
+          "benchmark"
+          "kvm"
+        ];
+      }
+    ];
   };
 }

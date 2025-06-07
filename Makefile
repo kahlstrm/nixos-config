@@ -58,12 +58,7 @@ endif
 
 # TODO: look into deploy-rs or something to make this work on darwin as well
 deploy-pannu:
-ifeq ($(UNAME), Darwin)
-	$(error boot only work on Linux)
-else
 	nixos-rebuild switch --build-host pannu --target-host pannu --flake . --use-remote-sudo
-endif
-
 fmt:
 	fd '\.nix$$'| xargs nixfmt
 # This builds the given NixOS configuration and pushes the results to the
