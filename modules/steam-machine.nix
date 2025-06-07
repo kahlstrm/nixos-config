@@ -46,6 +46,7 @@
 
   users.users."${currentSystemUser}".extraGroups = [ "games" ];
   services.desktopManager.plasma6.enable = true;
+
   jovian = {
     hardware.has.amd.gpu = hasAmdGPU;
     hardware.amd.gpu.enableBacklightControl = false;
