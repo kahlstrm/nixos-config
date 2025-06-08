@@ -126,6 +126,10 @@
       domain = "jet.kalski.xyz";
       dnsProvider = "cloudflare";
       credentialsFile = "/var/lib/secrets/cloudflare.env";
+      # Need to setup pannu root SSH-key and add public key to jetKVM for this to work
+      # Settings -> Advanced
+      # Developer Mode on
+      # Then add key to "SSH Public key" list
       postRun = ''
         ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "mkdir -p /userdata/jetkvm/tls"
         cat fullchain.pem | ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "cat > /userdata/jetkvm/tls/user-defined.crt"
