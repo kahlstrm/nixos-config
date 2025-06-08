@@ -122,6 +122,23 @@
       credentialsFile = "/var/lib/secrets/cloudflare.env";
       extraDomainNames = [ "*.p.kalski.xyz" ];
     };
+    certs."jet.kalski.xyz" = {
+      domain = "jet.kalski.xyz";
+      dnsProvider = "cloudflare";
+      credentialsFile = "/var/lib/secrets/cloudflare.env";
+      postRun = ''
+        ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "mkdir -p /userdata/jetkvm/tls"
+        cat fullchain.pem | ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "cat > /userdata/jetkvm/tls/user-defined.crt"
+        cat key.pem | ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "cat > /userdata/jetkvm/tls/user-defined.key"
+        ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "sed -i 's/\"tls_mode\": \"\"/\"tls_mode\": \"custom\"/' /userdata/kvm_config.json"
+      '';
+    };
+  };
+
+  programs.ssh.knownHosts = {
+    "jet.kalski.xyz" = {
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJuFoL+bSI5l0VM9kkl6Fj5g2yMor9osv2rnTNLz3KKR";
+    };
   };
 
   services.nginx = {
