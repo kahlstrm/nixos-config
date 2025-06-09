@@ -139,12 +139,6 @@
     };
   };
 
-  programs.ssh.knownHosts = {
-    "jet.kalski.xyz" = {
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJuFoL+bSI5l0VM9kkl6Fj5g2yMor9osv2rnTNLz3KKR";
-    };
-  };
-
   services.nginx = {
     enable = true;
     recommendedGzipSettings = true;

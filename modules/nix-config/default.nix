@@ -44,7 +44,10 @@ in
       {
         hostName = "p.kalski.xyz";
         sshUser = "kahlstrm";
-        system = "x86_64-linux";
+        systems = [
+          "x86_64-linux"
+          "i686-linux"
+        ];
         maxJobs = 10;
         speedFactor = 1;
         supportedFeatures = [

@@ -46,6 +46,7 @@ let
   machineConfig = ../machines/${name}.nix;
   OSConfig = ../modules/${os-short};
   HMConfig = ../modules/home-manager;
+  shared = ../modules/shared.nix;
   systemPackages = ../modules/packages.nix;
   # TODO: make this cleaner
   nix-homebrew = lib.optionalAttrs isDarwin inputs.nix-homebrew.darwinModules.nix-homebrew;
@@ -109,6 +110,7 @@ systemFunc {
       nix-homebrew
       nix-homebrew-config
       systemPackages
+      shared
       OSConfig
       # TODO: make user config & home-manager optional
       home-manager.home-manager
