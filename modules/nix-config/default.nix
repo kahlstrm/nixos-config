@@ -39,24 +39,5 @@ in
       builders-use-substitutes = true;
     };
     package = pkgs.nix;
-    distributedBuilds = true;
-    buildMachines = lib.optionals isNotPannu [
-      {
-        hostName = "p.kalski.xyz";
-        sshUser = "kahlstrm";
-        systems = [
-          "x86_64-linux"
-          "i686-linux"
-        ];
-        maxJobs = 10;
-        speedFactor = 1;
-        supportedFeatures = [
-          "big-parallel"
-          "nixos-test"
-          "benchmark"
-          "kvm"
-        ];
-      }
-    ];
   };
 }
