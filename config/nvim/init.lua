@@ -187,6 +187,10 @@ require('lazy').setup('kahlstrm/plugins', {
     },
   },
 })
+local lockfile = vim.fn.stdpath 'config' .. '/lazy-lock.json'
 -- run restore to ensure that dependencies match lazy-lock.json
-require('lazy').restore { show = false }
+-- only works on non-read-only filesystems
+if vim.fn.filereadable(lockfile) == 1 and vim.fn.filewritable(lockfile) == 1 then
+  require('lazy').restore { show = false }
+end
 -- vim: ts=2 sts=2 sw=2 et
