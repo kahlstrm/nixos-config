@@ -4,15 +4,12 @@ UNAME := $(shell uname)
 NIXNAME ?= $(shell hostname)
 
 HAS_NH := $(shell command -v nh 2>/dev/null)
+HAS_NG_REBUILD := $(shell which nixos-rebuild-ng 2>/dev/null)
 # Determine the 'nh' subcommand based on OS
-ifeq ($(HAS_NH),)
-    NH_SUBCMD :=
+ifeq ($(UNAME), Darwin)
+	NH_SUBCMD := darwin
 else
-    ifeq ($(UNAME), Darwin)
-        NH_SUBCMD := darwin
-    else
-        NH_SUBCMD := os
-    endif
+	NH_SUBCMD := os
 endif
 
 switch:
@@ -56,9 +53,23 @@ else
 	sudo nixos-rebuild switch --install-bootloader --flake ".#${NIXNAME}"
 endif
 
-# TODO: look into deploy-rs or something to make this work on darwin as well
+# TODO: look into deploy-rs
 deploy-pannu:
+ifneq ($(HAS_NG_REBUILD),)
+	# works on darwin without linux builder
+	nixos-rebuild-ng switch --build-host pannu --target-host pannu --flake . --sudo --ask-sudo-password
+else
+ifeq ($(UNAME), Darwin)
+	$(error darwin needs nixos-rebuild-ng)
+else
+# TODO: check if works (not on darwin)
+# ifneq ($(HAS_NH),)
+# 	nh os switch -a -H pannu --target-host pannu --build-host pannu .
+# endif
 	nixos-rebuild switch --build-host pannu --target-host pannu --flake . --use-remote-sudo
+endif
+endif
+
 fmt:
 	fd '\.nix$$'| xargs nixfmt
 # This builds the given NixOS configuration and pushes the results to the
