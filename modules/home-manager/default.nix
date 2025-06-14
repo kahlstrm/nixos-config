@@ -27,6 +27,7 @@ in
     (import ./nh.nix { inherit nixosConfigLocation; })
     ./git.nix
     ./ssh.nix
+    ./btop.nix
   ];
   home.stateVersion = "24.11";
 
@@ -54,21 +55,10 @@ in
     })
     // (lib.optionalAttrs isLinux {
     });
-  #---------------------------------------------------------------------
-  # Programs
-  #---------------------------------------------------------------------
+
   programs = {
 
-    fzf = {
-      enable = true;
-    };
-
-    btop = {
-      enable = true;
-      settings = {
-        vim_keys = true;
-      };
-    };
+    fzf.enable = true;
 
     # TODO: find out how to tmux
     # tmux = {
