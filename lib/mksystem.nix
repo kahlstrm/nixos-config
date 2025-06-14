@@ -16,7 +16,6 @@ name:
   allowUnfree ? true,
   # https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md
   secureBoot ? false,
-  steamMachine ? false,
 }:
 
 let
@@ -69,7 +68,6 @@ let
       os-short
       nix-index-database
       useOutOfStoreSymlink
-      steamMachine
       inputs
       ;
     pkgs-stable = import nixpkgs-stable {
@@ -88,7 +86,6 @@ let
     isStable = stable;
   };
 in
-assert stable -> !steamMachine;
 assert wsl -> !isDarwin;
 systemFunc {
   inherit system specialArgs;
