@@ -124,6 +124,8 @@ in
       clang
       awscli2
       parted
+      lm_sensors
+      linuxPackages.turbostat
     ]
     # TODO: move to desktop-packages.nix
     ++ lib.optionals guiEnabled [
