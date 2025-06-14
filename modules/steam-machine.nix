@@ -83,6 +83,8 @@
     };
   };
 
+  programs.alvr.enable = true;
+  programs.alvr.openFirewall = true;
   # doesn't build with 6.15 kernel currently, and not in use
   # hardware.xone.enable = true;
 
