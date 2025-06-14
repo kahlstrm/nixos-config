@@ -165,6 +165,15 @@
         useACMEHost = "p.kalski.xyz";
       };
 
+      "sunshine.p.kalski.xyz" = {
+        locations."/" = {
+          proxyPass = "https://127.0.0.1:47990";
+          proxyWebsockets = true;
+        };
+        forceSSL = true;
+        useACMEHost = "p.kalski.xyz";
+      };
+
       "p.kalski.xyz" = {
         locations."/" = {
           return = "301 https://kahlstrm.xyz";

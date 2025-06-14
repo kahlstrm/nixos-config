@@ -72,6 +72,17 @@
   # Steam seems to ping this one also
   networking.firewall.allowedTCPPorts = [ 27037 ];
 
+  # Add sunshine game streaming
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+    settings = {
+      origin_web_ui_allowed = "pc";
+    };
+  };
+
   # doesn't build with 6.15 kernel currently, and not in use
   # hardware.xone.enable = true;
 
