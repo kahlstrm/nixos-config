@@ -30,7 +30,6 @@ in
       nodejs
       nixd
       nixfmt-rfc-style
-      gleam
       dart
       ripgrep
       jdk

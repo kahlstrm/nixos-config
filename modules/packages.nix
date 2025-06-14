@@ -67,7 +67,6 @@ in
       nodejs
       corepack
       python3
-      deno
       bun
       jdk
 
