@@ -241,6 +241,7 @@ return {
           end,
         },
         jdtls = {},
+        kotlin_language_server = {},
         --
 
         lua_ls = {
