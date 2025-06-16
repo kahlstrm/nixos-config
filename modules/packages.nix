@@ -102,6 +102,7 @@ let
     just
     parallel
     file
+    lsof
     openssl
   ];
 
