@@ -44,6 +44,7 @@ in
         # used by git-extended oh-my-zsh plugin
         dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
         aliasgrep = "alias | rg";
+        pollama = "OLLAMA_HOST=https://ollama.p.kalski.xyz ollama";
       }
       // lib.optionalAttrs (isLinux && guiEnabled) {
         pbcopy = "wl-copy";
