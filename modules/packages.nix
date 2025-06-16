@@ -23,6 +23,124 @@ let
       })
     else
       pkgs.bun;
+
+  # packages to install to all systems:
+  # TODO: make an assert check that verifies that these packages are available on all target platforms
+  allSystemsPackages = with pkgs; [
+    # General packages for development and system management
+    nixos-rebuild-ng
+    coreutils
+    gnused
+    inetutils
+    dig
+    iftop
+    killall
+    btop
+    htop
+    fastfetch
+    mariadb
+    sqlite
+    postgresql
+    wget
+    rclone
+    dust
+    dive
+    vim
+
+    # Encryption and security tools
+    age
+    #age-plugin-yubikey
+    gnupg
+    libfido2
+
+    # Cloud-related tools and SDKs
+    # awscli2
+    ssm-session-manager-plugin
+    rustup
+    go
+    terraform
+    nodejs
+    corepack
+    python3
+    bun
+    jdk
+
+    uv
+    nixfmt-rfc-style
+    protobuf
+    kubectl
+    k9s
+    fluxcd
+    kubernetes-helm
+    ollama
+
+    # Media-related packages
+    ffmpeg
+
+    # Source code management, Git, GitHub tools
+    git
+    gh
+    git-filter-repo
+
+    # Text and terminal utilities
+    pkgs-unstable.neovim
+    bat
+    jq
+    yq-go
+    fd
+    fzf
+    ripgrep
+    tree
+    tmux
+    unzip
+    zip
+    hyperfine
+    wrk
+    tlrc
+    cmake
+    gnumake
+    just
+    parallel
+    file
+    openssl
+  ];
+
+  darwinOnlyPackages = with pkgs; [
+    dockutil
+    cocoapods
+    # manage python/node/jvm stuff outside of nix for the moment on darwin
+    pkgs-unstable.mise
+  ];
+
+  # TODO: make an assertion that checks package availability for both x86_64 and aarch64
+  linuxOnlyPackages = with pkgs; [
+    openssh
+    gcc
+    clang
+    awscli2
+    parted
+    lm_sensors
+  ];
+
+  # TODO: make an assertion that checks package availability for both x86_64 and aarch64
+  linuxGUIPackages = with pkgs; [
+    brave
+    bitwarden-desktop
+    valgrind
+    xclip
+    wl-clipboard
+    ghostty
+  ];
+
+  linuxAmd64Packages = with pkgs; [
+    linuxPackages.turbostat
+  ];
+
+  linuxAmd64GUIPackages = with pkgs; [
+    spotify
+    slack
+  ];
+
 in
 {
   # List packages installed in system profile. To search, run:
@@ -30,127 +148,18 @@ in
   # If you have nh installed:
   # $ nh search wget
   environment.systemPackages =
-    with pkgs;
-    [
-      # General packages for development and system management
-      nixos-rebuild-ng
-      coreutils
-      gnused
-      inetutils
-      dig
-      iftop
-      killall
-      btop
-      htop
-      fastfetch
-      mariadb
-      sqlite
-      postgresql
-      wget
-      rclone
-      dust
-      dive
-      vim
-
-      # Encryption and security tools
-      age
-      #age-plugin-yubikey
-      gnupg
-      libfido2
-
-      # Cloud-related tools and SDKs
-      # awscli2
-      ssm-session-manager-plugin
-      rustup
-      pkgs-unstable.go
-      terraform
-      nodejs
-      corepack
-      python3
-      bun
-      jdk
-
-      uv
-      nixfmt-rfc-style
-      protobuf
-      kubectl
-      k9s
-      fluxcd
-      kubernetes-helm
-      ollama
-
-      # Media-related packages
-      ffmpeg
-
-      # Source code management, Git, GitHub tools
-      git
-      pkgs-unstable.gh
-      git-filter-repo
-
-      # Text and terminal utilities
-      pkgs-unstable.neovim
-      bat
-      jq
-      yq-go
-      fd
-      fzf
-      ripgrep
-      tree
-      tmux
-      unzip
-      zip
-      hyperfine
-      wrk
-      tlrc
-      cmake
-      gnumake
-      just
-      parallel
-      file
-      openssl
-    ]
-    ++ (lib.optionals isDarwin [
-      dockutil
-      cocoapods
-      # manage python/node/jvm stuff outside of nix for the moment on darwin
-      pkgs-unstable.mise
-    ])
-    ++ (lib.optionals isLinux) [
-      # For Keychain support we use Apple's patched version on MacOS
-      # https://github.com/NixOS/nixpkgs/issues/62353
-      openssh
-      gcc
-      clang
-      awscli2
-      parted
-      lm_sensors
-      linuxPackages.turbostat
-    ]
-    # TODO: move to desktop-packages.nix
-    ++ lib.optionals guiEnabled [
-      pkgs-unstable.rquickshare
-    ]
-    ++ (lib.optionals (isLinux && guiEnabled) (
-      [
-        brave
-        bitwarden-desktop
-        valgrind
-        xclip
-        wl-clipboard
-        # Ghostty is installed via Cask on Mac
-        pkgs-unstable.ghostty
-      ]
-      ++ lib.optionals (currentSystem == "x86_64-linux") [
-        spotify
-        slack
-      ]
-    ));
+    allSystemsPackages
+    ++ lib.optionals isDarwin darwinOnlyPackages
+    ++ lib.optionals isLinux linuxOnlyPackages
+    ++ lib.optionals (currentSystem == "x86_64-linux") linuxAmd64Packages
+    ++ lib.optionals (isLinux && guiEnabled) linuxGUIPackages
+    ++ lib.optionals (currentSystem == "x86_64-linux" && guiEnabled) linuxAmd64GUIPackages;
 
   # workaround to allow global npm package installs
   environment.etc.npmrc.text = ''
     prefix = ''${HOME}/.npm
   '';
+  environment.variables.NPM_CONFIG_GLOBALCONFIG = "/etc/npmrc";
 
   environment.variables.EDITOR = "vim";
-  environment.variables.NPM_CONFIG_GLOBALCONFIG = "/etc/npmrc";
 }
