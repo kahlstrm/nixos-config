@@ -66,12 +66,7 @@
     };
   };
 
-  programs.steam.remotePlay.openFirewall = true;
   programs.steam.localNetworkGameTransfers.openFirewall = true;
-
-  # Steam seems to ping this one also
-  networking.firewall.allowedTCPPorts = [ 27037 ];
-
   # Add sunshine game streaming
   services.sunshine = {
     enable = true;
