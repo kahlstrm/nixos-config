@@ -74,17 +74,30 @@ in
     (lib.optionalString isDarwin ''
       eval "$(mise activate --shims zsh)"
     '')
+    (
+      if isDarwin then
+        ''
+          listport() {
+             if [ ! -z "$1" ]; then
+                 lsof -nP -iTCP:$1 -sTCP:LISTEN
+                 return
+             fi
+             lsof -nP -iTCP -sTCP:LISTEN
+          }
+        ''
+      else
+        ''
+          listport() {
+             if [ ! -z "$1" ]; then
+                 ss -tnlp | grep ":$1 "
+                 return
+             fi
+             ss -tnlp
+          }
+        ''
+    )
     ''
       PATH=$PATH:$HOME/.npm/bin
-      # TODO: not sure if works on Linux as-is
-      function listport(){
-        if [ ! -z "$1" ]; then
-          lsof -nP -iTCP:$1 -sTCP:LISTEN
-          return
-        fi
-        lsof -nP -iTCP -sTCP:LISTEN
-      }
-
       ghrl(){
         if [ -z "$1" ]; then
           echo 'Please provide github username'
