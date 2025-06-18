@@ -48,13 +48,14 @@ let
     vim
 
     # Encryption and security tools
-    age
-    #age-plugin-yubikey
+    # age
+    # age-plugin-yubikey
+    # libfido2
     gnupg
-    libfido2
 
     # Cloud-related tools and SDKs
     # awscli2
+    clang
     ssm-session-manager-plugin
     rustup
     go
@@ -116,8 +117,6 @@ let
   # TODO: make an assertion that checks package availability for both x86_64 and aarch64
   linuxOnlyPackages = with pkgs; [
     openssh
-    gcc
-    clang
     awscli2
     parted
     lm_sensors

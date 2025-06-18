@@ -22,7 +22,7 @@ in
     vimdiffAlias = true;
     package = pkgs-unstable.neovim-unwrapped;
     # as we manage Neovim plugins outside of Nix,
-    # some plugins (mainly Treesitter) require gcc
+    # some plugins (mainly Treesitter) require C compiler
     extraPackages = with pkgs-unstable; [
       clang
       gnumake
