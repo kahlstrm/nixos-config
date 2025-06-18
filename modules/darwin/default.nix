@@ -16,10 +16,8 @@
 
   homebrew = {
     enable = true;
-    # TODO: enable rest when have the time to migrate
     casks = [
       # Development Tools
-      # "visual-studio-code"
       "orbstack"
       "ghostty" # automatic update support on MacOS, hence separate
 

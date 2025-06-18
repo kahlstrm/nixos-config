@@ -9,7 +9,6 @@
   homebrew = {
     # TODO: migrate all these apps to casks
     casks = [
-      "visual-studio-code"
       "session-manager-plugin"
       #"discord"
       #"zoom"

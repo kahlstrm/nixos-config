@@ -107,6 +107,10 @@ let
     openssl
   ];
 
+  AllSystemGUIPackages = with pkgs; [
+    vscode
+  ];
+
   darwinOnlyPackages = with pkgs; [
     dockutil
     cocoapods
@@ -149,6 +153,7 @@ in
   # $ nh search wget
   environment.systemPackages =
     allSystemsPackages
+    ++ lib.optionals guiEnabled AllSystemGUIPackages
     ++ lib.optionals isDarwin darwinOnlyPackages
     ++ lib.optionals isLinux linuxOnlyPackages
     ++ lib.optionals (currentSystem == "x86_64-linux") linuxAmd64Packages

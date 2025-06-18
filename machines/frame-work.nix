@@ -101,7 +101,6 @@
   environment.systemPackages = with pkgs; [
     # microsoft-edge
     rocmPackages.rocm-smi
-    vscode
   ];
 
   # Install firefox.
