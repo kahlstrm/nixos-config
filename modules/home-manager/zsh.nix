@@ -45,6 +45,7 @@ in
         dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
         aliasgrep = "alias | rg";
         pollama = "OLLAMA_HOST=https://ollama.p.kalski.xyz ollama";
+        nix-ld-enable = "export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH";
       }
       // lib.optionalAttrs (isLinux && guiEnabled) {
         pbcopy = "wl-copy";

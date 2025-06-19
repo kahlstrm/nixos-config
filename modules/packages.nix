@@ -10,19 +10,15 @@
 }:
 
 let
-  bun =
+  wrapNixLDIfLinux =
+    pkg: binName:
     if isLinux then
-      pkgs.bun.overrideAttrs (oldAttrs: {
-        buildInputs = oldAttrs.buildInputs or [ ] ++ [ pkgs.makeWrapper ];
-        postInstall =
-          oldAttrs.postInstall or ""
-          + ''
-            wrapProgram $out/bin/bun \
-              --set LD_LIBRARY_PATH "${pkgs.stdenv.cc.cc.lib}/lib/:$LD_LIBRARY_PATH"
-          '';
-      })
+      (pkgs.writeShellScriptBin binName ''
+        export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+        exec ${pkg}/bin/${binName} "$@"
+      '')
     else
-      pkgs.bun;
+      pkg;
 
   # packages to install to all systems:
   # TODO: make an assert check that verifies that these packages are available on all target platforms
@@ -63,7 +59,7 @@ let
     nodejs
     corepack
     python3
-    bun
+    (wrapNixLDIfLinux bun "bun")
     jdk
 
     uv
