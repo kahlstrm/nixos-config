@@ -241,6 +241,7 @@ return {
           end,
         },
         jdtls = {},
+        jsonls = {},
         kotlin_language_server = {},
         --
 
