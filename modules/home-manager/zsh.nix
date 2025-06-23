@@ -99,6 +99,7 @@ in
     )
     ''
       PATH=$PATH:$HOME/.npm/bin
+      PATH=$PATH:$(go env GOPATH)/bin
       ghrl(){
         if [ -z "$1" ]; then
           echo 'Please provide github username'
