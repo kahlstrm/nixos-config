@@ -46,6 +46,8 @@ in
         aliasgrep = "alias | rg";
         pollama = "OLLAMA_HOST=https://ollama.p.kalski.xyz ollama";
         nix-ld-enable = "export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH";
+        claudec = "claude --continue";
+        clauder = "claude --resume";
       }
       // lib.optionalAttrs (isLinux && guiEnabled) {
         pbcopy = "wl-copy";
