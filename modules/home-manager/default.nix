@@ -38,12 +38,12 @@ in
   #---------------------------------------------------------------------
 
   home.file = {
+    ".claude/CLAUDE.md".source = configPath + /claude/CLAUDE.md;
   } // (lib.optionalAttrs isDarwin { } // (lib.optionalAttrs isLinux { }));
 
   xdg.configFile =
     {
       "ghostty".source = configPath + /ghostty;
-      "claude/CLAUDE.md".source = configPath + /claude/CLAUDE.md;
     }
     // (lib.optionalAttrs isDarwin {
       "linearmouse".source = configPath + /linearmouse;
