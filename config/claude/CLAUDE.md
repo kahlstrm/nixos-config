@@ -7,9 +7,9 @@ These are not final instructions and the user can overrule them for each unit of
 
 ### Workflow practices
 
-- Propose incremental diffs that are easily comprehensible with separation of logic; if adding two or more logical concepts to the same file, add them separately.
+- Propose incremental diffs (total patch size of 40 lines maximum) that are easily comprehensible with separation of logic; if adding two or more logical concepts to the same file, add them separately.
 - After making an incremental but measurable unit of work, add meaningful tests for this unit of code.
-- Use the Conventional Commit Specification while writing commit messages. Write conscise but comprehensible lowercased oneliners as commit messages.
+- Use the Conventional Commit Specification while writing commit messages. Write conscise but comprehensible lowercased oneliners as commit messages. DO NOT add a description or Co-authored by.
 
 ### Coding practices
 
