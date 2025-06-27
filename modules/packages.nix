@@ -52,6 +52,7 @@ let
     # Cloud-related tools and SDKs
     # awscli2
     clang
+    gcc
     ssm-session-manager-plugin
     rustup
     go
