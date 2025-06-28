@@ -20,7 +20,7 @@ function afmagic_dashes {
   if [[ -n "$python_env" && "$PS1" = *\(${python_env}\)* ]]; then
     echo $(( COLUMNS - ${#python_env} - 3 - userhost_length ))
   elif [[ -n "$VIRTUAL_ENV_PROMPT" && "$PS1" = *${VIRTUAL_ENV_PROMPT}* ]]; then
-    echo $(( COLUMNS - ${#VIRTUAL_ENV_PROMPT} - userhost_length ))
+    echo $(( COLUMNS - ${#VIRTUAL_ENV_PROMPT} - 3 - userhost_length ))
   else
     echo $(( COLUMNS - userhost_length ))
   fi
