@@ -1,7 +1,12 @@
-{ currentSystemEmail, pkgs, ... }:
+{
+  lib,
+  currentSystemEmail,
+  personalEmail,
+  ...
+}:
 let
-
-  delta = "${pkgs.delta}/bin/delta";
+  isPersonalEmailSet = personalEmail != null && personalEmail != "";
+  isDifferentEmail = isPersonalEmailSet && (personalEmail != currentSystemEmail);
 in
 {
   programs.git = {
@@ -10,7 +15,14 @@ in
       "*.swp"
       ".DS_STORE"
       "CLAUDE.md"
+      "GEMINI.md"
     ];
+    delta = {
+      enable = true;
+      options = {
+        navigate = true;
+      };
+    };
     userName = "Kalle Ahlström";
     userEmail = currentSystemEmail;
     lfs = {
@@ -20,11 +32,6 @@ in
       init.defaultBranch = "main";
       core = {
         autocrlf = "input";
-        pager = delta;
-      };
-      interactive.diffFilter = "${delta} --color-only";
-      delta = {
-        navigate = true;
       };
       branch.sort = "-committerdate";
       merge.conflictstyle = "zdiff3";
@@ -32,5 +39,19 @@ in
       rebase.autoStash = true;
       rerere.enabled = true;
     };
+    includes = lib.optionals isDifferentEmail [
+      {
+        condition = "gitdir:~/nixos-config/";
+        contents = {
+          user.email = personalEmail;
+        };
+      }
+      {
+        contents = {
+          user.email = personalEmail;
+        };
+        condition = "gitdir:~/src/github/";
+      }
+    ];
   };
 }

@@ -95,6 +95,7 @@
           inputs
           ;
         flakeRootPath = ./.;
+        personalEmail = personalEmail;
       };
     in
     {

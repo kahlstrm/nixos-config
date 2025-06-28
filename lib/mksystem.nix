@@ -2,6 +2,7 @@
   inputOverlays,
   inputs,
   flakeRootPath,
+  personalEmail,
 }:
 
 name:
@@ -69,6 +70,7 @@ let
       nix-index-database
       useOutOfStoreSymlink
       inputs
+      personalEmail
       ;
     pkgs-stable = import nixpkgs-stable {
       inherit system overlays;
