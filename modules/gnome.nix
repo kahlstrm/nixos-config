@@ -3,11 +3,17 @@
   lib,
   ...
 }:
-{
-  environment.systemPackages = with pkgs; [
-    gnomeExtensions.dash-to-dock
-    gnomeExtensions.caffeine
+let
+  gnomeExtensions = with pkgs.gnomeExtensions; [
+    dash-to-dock
+    caffeine
+    appindicator
   ];
+
+in
+{
+
+  environment.systemPackages = gnomeExtensions;
   # https://discourse.nixos.org/t/howto-disable-most-gnome-default-applications-and-what-they-are/13505
   environment.gnome.excludePackages = with pkgs; [
     epiphany # use firefox/brave instead
@@ -42,10 +48,7 @@
                 "slack.desktop"
                 "bitwarden.desktop"
               ];
-              enabled-extensions = [
-                "dash-to-dock@micxgx.gmail.com"
-                "caffeine@patapon.info"
-              ];
+              enabled-extensions = (lib.map (ext: ext.extensionUuid) gnomeExtensions);
             };
             "org/gnome/shell/extensions/dash-to-dock" = {
               apply-custom-theme = true;
