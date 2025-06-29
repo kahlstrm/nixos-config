@@ -14,6 +14,7 @@
     ../modules/keyd.nix
     ../modules/gnome.nix
     (import ../modules/virt-manager.nix { spiceUSBRedirectionEnabled = false; })
+    ../modules/binbash.nix
   ];
 
   # Bootloader.
