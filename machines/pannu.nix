@@ -14,6 +14,7 @@
 
     inputs.jovian.nixosModules.jovian
     (import ../modules/steam-machine.nix { hasAmdGPU = true; })
+    (import ../modules/lact.nix { hasAmdGPU = true; adminUser = "steam-machine"; })
   ];
 
   # Use the systemd-boot EFI boot loader.
