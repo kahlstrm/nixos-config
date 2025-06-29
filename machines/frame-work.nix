@@ -101,7 +101,9 @@
   environment.systemPackages = with pkgs; [
     # microsoft-edge
     rocmPackages.rocm-smi
+    netbird-ui
   ];
+  services.netbird.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
