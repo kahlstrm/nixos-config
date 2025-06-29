@@ -42,6 +42,7 @@ let
     dust
     dive
     vim
+    wireguard-tools
 
     # Encryption and security tools
     # age
