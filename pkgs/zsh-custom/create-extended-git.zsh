@@ -6,6 +6,9 @@ typeset -A ALIASES=(
   [grssp]="git restore --source --patch"
   [grstp]="git restore --staged --patch"
   [gwips]='git commit --no-verify --no-gpg-sign --message "--wip-- [skip ci]"'
+  [grbi2]="git rebase --interactive HEAD~2"
+  [grbi3]="git rebase --interactive HEAD~3"
+  [grbi4]="git rebase --interactive HEAD~4"
   [grbi5]="git rebase --interactive HEAD~5"
 )
 
