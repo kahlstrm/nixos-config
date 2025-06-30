@@ -7,6 +7,14 @@
 let
   isPersonalEmailSet = personalEmail != null && personalEmail != "";
   isDifferentEmail = isPersonalEmailSet && (personalEmail != currentSystemEmail);
+  makePersonalGitDirPathConfigs =
+    gitDirPaths:
+    map (gitdirPath: {
+      condition = "gitdir:${gitdirPath}";
+      contents = {
+        user.email = personalEmail;
+      };
+    }) gitDirPaths;
 in
 {
   programs.git = {
@@ -39,19 +47,10 @@ in
       rebase.autoStash = true;
       rerere.enabled = true;
     };
-    includes = lib.optionals isDifferentEmail [
-      {
-        condition = "gitdir:~/nixos-config/";
-        contents = {
-          user.email = personalEmail;
-        };
-      }
-      {
-        contents = {
-          user.email = personalEmail;
-        };
-        condition = "gitdir:~/src/github/";
-      }
-    ];
+    includes = lib.optionals isDifferentEmail (makePersonalGitDirPathConfigs [
+      "~/nixos-config/"
+      "~/infra/"
+      "~/src/github/"
+    ]);
   };
 }
