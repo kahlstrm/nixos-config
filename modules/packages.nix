@@ -120,6 +120,7 @@ let
   linuxOnlyPackages = with pkgs; [
     openssh
     awscli2
+    google-cloud-sdk
     parted
     lm_sensors
   ];
