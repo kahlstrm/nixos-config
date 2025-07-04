@@ -38,6 +38,8 @@ return {
     'nvim-treesitter/nvim-treesitter-context',
     opts = {
       multiline_threshold = 1,
+      max_lines = 5,
+      trim_scope = 'inner',
       on_attach = function()
         vim.cmd 'hi TreesitterContextBottom gui=underline guisp=Grey'
       end,
