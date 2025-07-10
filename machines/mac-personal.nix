@@ -16,6 +16,7 @@
       #"google-chrome"
       "firefox"
       "sidequest"
+      "winbox"
       #"brave"
     ];
     masApps = {
