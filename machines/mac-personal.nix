@@ -17,6 +17,7 @@
       "firefox"
       "sidequest"
       "winbox"
+      "bambu-studio"
       #"brave"
     ];
     masApps = {
