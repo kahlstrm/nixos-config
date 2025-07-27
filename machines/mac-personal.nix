@@ -18,6 +18,7 @@
       "sidequest"
       "winbox"
       "bambu-studio"
+      "signal"
       #"brave"
     ];
     masApps = {
