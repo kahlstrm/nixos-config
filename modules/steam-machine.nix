@@ -60,7 +60,6 @@
       useSteamOSConfig = false;
       enableBluetoothConfig = true;
       enableDefaultCmdlineConfig = true;
-      enableMesaPatches = true;
       enableProductSerialAccess = true;
       enableSysctlConfig = true;
     };
