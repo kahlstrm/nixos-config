@@ -403,11 +403,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1748846255,
-        "narHash": "sha256-dyGz9t1ilP83YCf9OWiYEjr0X7uFBTwfhJnhdOINf5k=",
+        "lastModified": 1753815785,
+        "narHash": "sha256-1sILU1ngODIt+lOlhueKB8T2hH/LSZXJBk3mD0yruXQ=",
         "owner": "NitorCreations",
         "repo": "nix-mdatp",
-        "rev": "15f725318616194ec18af5a33f386b5ebce4704c",
+        "rev": "0a98b4eb3958c6b34dbd2f2205cd429e0efa4e2c",
         "type": "github"
       },
       "original": {
