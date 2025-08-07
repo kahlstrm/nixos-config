@@ -64,6 +64,9 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+-- nice border on floating windows
+vim.opt.winborder = 'rounded'
+
 -- sensible tab settings
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
