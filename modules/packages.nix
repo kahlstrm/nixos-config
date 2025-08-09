@@ -68,6 +68,7 @@ let
     nixfmt-rfc-style
     protobuf
     kubectl
+    talosctl
     k9s
     fluxcd
     kubernetes-helm
