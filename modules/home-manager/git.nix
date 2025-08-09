@@ -24,6 +24,7 @@ in
       ".DS_STORE"
       "CLAUDE.md"
       "GEMINI.md"
+      "AGENTS.md"
     ];
     delta = {
       enable = true;

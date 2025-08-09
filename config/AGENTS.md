@@ -1,4 +1,4 @@
-# Claude Code Instructions
+# Agentic Code Instructions
 
 Please take the following instruction into mind when working.
 These are not final instructions and the user can overrule them for each unit of work

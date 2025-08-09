@@ -5,6 +5,7 @@
   lib,
   config,
   flakeRoot,
+  useOutOfStoreSymlink,
   ...
 }:
 
@@ -38,23 +39,31 @@ in
   #---------------------------------------------------------------------
 
   home.file = {
-    ".claude/CLAUDE.md".source = configPath + /claude/CLAUDE.md;
-  } // (lib.optionalAttrs isDarwin { } // (lib.optionalAttrs isLinux { }));
+    ".claude/CLAUDE.md".source = configPath + /AGENTS.md;
+    ".gemini/GEMINI.md".source = configPath + /AGENTS.md;
+  }
+  // (lib.optionalAttrs isDarwin { } // (lib.optionalAttrs isLinux { }));
 
-  xdg.configFile =
-    {
-      "ghostty".source = configPath + /ghostty;
-    }
-    // (lib.optionalAttrs isDarwin {
-      "linearmouse".source = configPath + /linearmouse;
-      "mise".source = configPath + /mise;
-      # linearmouse will overwrite the file when changed in config.
-      # Changes should be made via Nix config.
-      # https://github.com/nix-community/home-manager/issues/3090
-      "linearmouse".force = true;
-    })
-    // (lib.optionalAttrs isLinux {
-    });
+  xdg.configFile = {
+    "opencode/AGENTS.md".source = configPath + /AGENTS.md;
+    "opencode/settings.json".source =
+      if useOutOfStoreSymlink then
+        # Create a directory symlink to .config/nvim, allowing mutable editing of config
+        config.lib.file.mkOutOfStoreSymlink "${nixosConfigLocation}/config/opencode/opencode.json"
+      else
+        (configPath + /opencode/opencode.json);
+    "ghostty".source = configPath + /ghostty;
+  }
+  // (lib.optionalAttrs isDarwin {
+    "linearmouse".source = configPath + /linearmouse;
+    "mise".source = configPath + /mise;
+    # linearmouse will overwrite the file when changed in config.
+    # Changes should be made via Nix config.
+    # https://github.com/nix-community/home-manager/issues/3090
+    "linearmouse".force = true;
+  })
+  // (lib.optionalAttrs isLinux {
+  });
 
   programs = {
 
