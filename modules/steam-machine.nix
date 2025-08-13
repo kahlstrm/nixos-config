@@ -51,6 +51,7 @@ in
   };
 
   users.groups.games = { };
+  boot.kernelModules = lib.optionals (!isStable) [ "ntsync" ];
 
   users.users."${currentSystemUser}".extraGroups = [ "games" ];
   services.desktopManager.plasma6.enable = true;
