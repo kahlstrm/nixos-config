@@ -5,6 +5,7 @@
   currentSystemUser,
   pkgs,
   lib,
+  isStable,
   ...
 }:
 let
