@@ -1,7 +1,15 @@
 {
   hasAmdGPU ? false,
 }:
-{ currentSystemUser, pkgs, ... }:
+{
+  currentSystemUser,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  compatPaths = lib.makeSearchPathOutput "steamcompattool" "" (with pkgs; [ proton-ge-bin ]);
+in
 {
   users.groups."steam-machine" = { };
   users.users."steam-machine" = {
@@ -55,6 +63,9 @@
       enable = true;
       user = "steam-machine";
       desktopSession = "plasma";
+      environment = {
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS = compatPaths;
+      };
     };
     steamos = {
       useSteamOSConfig = false;
