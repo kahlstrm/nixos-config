@@ -14,7 +14,10 @@
 
     inputs.jovian.nixosModules.jovian
     (import ../modules/steam-machine.nix { hasAmdGPU = true; })
-    (import ../modules/lact.nix { hasAmdGPU = true; adminUser = "steam-machine"; })
+    (import ../modules/lact.nix {
+      hasAmdGPU = true;
+      adminUser = "steam-machine";
+    })
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -26,12 +29,6 @@
 
   # firmware updater
   services.fwupd.enable = true;
-
-  # prevent computer from sleeping
-  systemd.targets.sleep.enable = false;
-  systemd.targets.suspend.enable = false;
-  systemd.targets.hibernate.enable = false;
-  systemd.targets.hybrid-sleep.enable = false;
 
   users.groups.kahlstrm = { };
   users.users.${currentSystemUser} = {
