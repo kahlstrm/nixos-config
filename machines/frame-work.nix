@@ -102,7 +102,6 @@
   environment.systemPackages = with pkgs; [
     # microsoft-edge
     rocmPackages.rocm-smi
-    netbird-ui
     winbox4
   ];
   services.netbird.enable = true;
