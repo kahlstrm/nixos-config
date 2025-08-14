@@ -19,6 +19,7 @@
       "winbox"
       "bambu-studio"
       "signal"
+      "moonlight"
       #"brave"
     ];
     masApps = {
