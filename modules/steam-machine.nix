@@ -113,6 +113,7 @@ in
       desktopSession = "plasma";
       environment = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = compatPaths;
+        PROTON_FSR4_UPGRADE = "1";
       };
     };
     steamos = {
