@@ -5,6 +5,9 @@
   inputs,
   ...
 }:
+let
+  hyprland = true;
+in
 {
   imports = [
     inputs.mdatp.nixosModules.mdatp
@@ -12,9 +15,11 @@
     # Include the results of the hardware scan.
     ./hardware/frame-work.nix
     ../modules/keyd.nix
-    ../modules/gnome.nix
+    (if hyprland then ../modules/hyprland.nix else ../modules/gnome.nix)
     (import ../modules/virt-manager.nix { spiceUSBRedirectionEnabled = false; })
     ../modules/binbash.nix
+    ../modules/fingerprint.nix
+    ../modules/intune.nix
   ];
 
   # Bootloader.
@@ -48,11 +53,6 @@
     LC_TELEPHONE = "fi_FI.UTF-8";
     LC_TIME = "fi_FI.UTF-8";
   };
-
-  # fingerprint support
-  services.fprintd.enable = true;
-  # fingerprint sudo
-  security.pam.services.sudo.fprintAuth = true;
 
   # firmware updater
   services.fwupd.enable = true;
@@ -95,9 +95,6 @@
       #  thunderbird
     ];
   };
-  services.intune.enable = true;
-  systemd.user.timers.intune-agent.wantedBy = [ "graphical-session.target" ];
-  systemd.sockets.intune-daemon.wantedBy = [ "sockets.target" ];
   services.mdatp.enable = true;
 
   environment.systemPackages = with pkgs; [
