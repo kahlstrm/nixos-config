@@ -46,13 +46,15 @@
   # Enable mdadm for software RAID
   boot.swraid = {
     enable = true;
-    mdadmConf = let
-      telegramNotify = pkgs.callPackage ../../pkgs/mdadm-telegram-notify.nix { };
-    in ''
-      # mdadm will scan for arrays
-      ARRAY /dev/md0 devices=/dev/sda,/dev/sdb
-      PROGRAM ${telegramNotify}/bin/mdadm-telegram-notify
-    '';
+    mdadmConf =
+      let
+        telegramNotify = pkgs.callPackage ../../pkgs/mdadm-telegram-notify.nix { };
+      in
+      ''
+        # mdadm will scan for arrays
+        ARRAY /dev/md0 devices=/dev/sda,/dev/sdb
+        PROGRAM ${telegramNotify}/bin/mdadm-telegram-notify
+      '';
   };
 
   fileSystems."/mnt/raid" = {

@@ -29,30 +29,29 @@ in
       MANROFFOPT = "-c";
     };
 
-    shellAliases =
-      {
-        ghb = "gh browse";
-        ghco = "gh pr checkout";
-        ghprv = "gh pr view --web";
-        copilot = "gh copilot";
-        vim = "nvim";
-        ls = "ls --color=auto";
-        rg = "rg --hidden --glob '!.git'";
-        cat = "bat --style plain --paging=never";
-        dcup = "docker compose up";
-        dcdown = "docker compose down";
-        # used by git-extended oh-my-zsh plugin
-        dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
-        aliasgrep = "alias | rg";
-        pollama = "OLLAMA_HOST=https://ollama.p.kalski.xyz ollama";
-        nix-ld-enable = "export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH";
-        claudec = "claude --continue";
-        clauder = "claude --resume";
-      }
-      // lib.optionalAttrs (isLinux && guiEnabled) {
-        pbcopy = "wl-copy";
-        pbpaste = "wl-paste";
-      };
+    shellAliases = {
+      ghb = "gh browse";
+      ghco = "gh pr checkout";
+      ghprv = "gh pr view --web";
+      copilot = "gh copilot";
+      vim = "nvim";
+      ls = "ls --color=auto";
+      rg = "rg --hidden --glob '!.git'";
+      cat = "bat --style plain --paging=never";
+      dcup = "docker compose up";
+      dcdown = "docker compose down";
+      # used by git-extended oh-my-zsh plugin
+      dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
+      aliasgrep = "alias | rg";
+      pollama = "OLLAMA_HOST=https://ollama.p.kalski.xyz ollama";
+      nix-ld-enable = "export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH";
+      claudec = "claude --continue";
+      clauder = "claude --resume";
+    }
+    // lib.optionalAttrs (isLinux && guiEnabled) {
+      pbcopy = "wl-copy";
+      pbpaste = "wl-paste";
+    };
     oh-my-zsh = {
       enable = true;
       plugins = [
@@ -60,7 +59,8 @@ in
         "terraform"
         "docker"
         "kubectl"
-      ] ++ zsh-custom.plugins;
+      ]
+      ++ zsh-custom.plugins;
       theme = zsh-custom.theme;
       # https://github.com/ohmyzsh/ohmyzsh/wiki/Customization
       custom = "${zsh-custom.out}";

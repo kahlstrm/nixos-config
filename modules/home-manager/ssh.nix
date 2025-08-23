@@ -14,7 +14,8 @@
     extraOptionOverrides = {
       # fallback to xterm-256color so ssh prompts don't go crazy
       SetEnv = "TERM=xterm-256color";
-    } // (lib.optionalAttrs isDarwin { UseKeychain = "yes"; });
+    }
+    // (lib.optionalAttrs isDarwin { UseKeychain = "yes"; });
     matchBlocks = {
       "pannu" = {
         hostname = "p.kalski.xyz";

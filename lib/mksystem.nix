@@ -93,40 +93,39 @@ systemFunc {
   inherit system specialArgs;
   # We expose some extra arguments so that our modules can parameterize
   # better based on these values.
-  modules =
-    [
-      {
-        # Apply our overlays. Overlays are keyed by system type so we have
-        # to go through and apply our system type. We do this first so
-        # the overlays are available globally.
-        nixpkgs.overlays = overlays;
+  modules = [
+    {
+      # Apply our overlays. Overlays are keyed by system type so we have
+      # to go through and apply our system type. We do this first so
+      # the overlays are available globally.
+      nixpkgs.overlays = overlays;
 
-        # Allow unfree packages.
-        nixpkgs.config.allowUnfree = allowUnfree;
-      }
+      # Allow unfree packages.
+      nixpkgs.config.allowUnfree = allowUnfree;
+    }
 
-      nixConfig
-      nix-homebrew
-      nix-homebrew-config
-      systemPackages
-      shared
-      OSConfig
-      # TODO: make user config & home-manager optional
-      home-manager.home-manager
-      {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.users.${user} = import HMConfig;
-        home-manager.extraSpecialArgs = specialArgs;
-      }
-      machineConfig
-    ]
-    # Bring in WSL if this is a WSL build
-    ++ (lib.optionals wsl [
-      inputs.nixos-wsl.nixosModules.wsl
-    ])
-    ++ (lib.optionals secureBoot [
-      lanzaboote.nixosModules.lanzaboote
-      ../modules/lanzaboote.nix
-    ]);
+    nixConfig
+    nix-homebrew
+    nix-homebrew-config
+    systemPackages
+    shared
+    OSConfig
+    # TODO: make user config & home-manager optional
+    home-manager.home-manager
+    {
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.users.${user} = import HMConfig;
+      home-manager.extraSpecialArgs = specialArgs;
+    }
+    machineConfig
+  ]
+  # Bring in WSL if this is a WSL build
+  ++ (lib.optionals wsl [
+    inputs.nixos-wsl.nixosModules.wsl
+  ])
+  ++ (lib.optionals secureBoot [
+    lanzaboote.nixosModules.lanzaboote
+    ../modules/lanzaboote.nix
+  ]);
 }
