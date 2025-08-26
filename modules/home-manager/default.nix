@@ -10,8 +10,7 @@
 }:
 
 let
-  homeDirectory = config.home.homeDirectory;
-  nixosConfigLocation = "${homeDirectory}/nixos-config";
+  nixosConfigLocation = "${config.home.homeDirectory}/nixos-config";
   configPath = flakeRoot + /config;
 in
 {

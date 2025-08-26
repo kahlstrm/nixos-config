@@ -6,7 +6,7 @@
   ...
 }:
 let
-  hyprland = true;
+  omarchy = true;
 in
 {
   imports = [
@@ -15,7 +15,7 @@ in
     # Include the results of the hardware scan.
     ./hardware/frame-work.nix
     ../modules/keyd.nix
-    (if hyprland then ../modules/hyprland.nix else ../modules/gnome.nix)
+    (if omarchy then ../modules/omarchy else ../modules/gnome.nix)
     (import ../modules/virt-manager.nix { spiceUSBRedirectionEnabled = false; })
     ../modules/binbash.nix
     ../modules/fingerprint.nix

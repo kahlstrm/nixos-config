@@ -32,6 +32,8 @@ in
     desktopManager.gnome.enable = true;
     displayManager.gdm.enable = true;
   };
+  # Ensure DBus broker when running GNOME
+  services.dbus.implementation = lib.mkForce "broker";
   programs.dconf = {
     enable = true;
     profiles = {
