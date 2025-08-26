@@ -10,6 +10,15 @@ let
   package = import ./omarchy-pkg.nix { inherit pkgs; };
   initialTheme = "tokyo-night";
   nixosConfigLocation = "${config.home.homeDirectory}/nixos-config";
+  # Provide a Ghostty config tailored for Omarchy/Hyprland by removing
+  # background opacity from the upstream config using substituteInPlace
+  # with --replace-fail (instead of sed), as requested.
+  ghosttyOmarchy = pkgs.runCommand "ghostty-omarchy-config" { } ''
+    mkdir -p "$out"
+    cp -r ${flakeRoot + "/config/ghostty"}/* "$out"/
+    # Remove the background opacity line to avoid transparency conflicts
+    substituteInPlace "$out/config" --replace-fail $'background-opacity=0.97\n' ""
+  '';
 in
 {
 
@@ -45,6 +54,8 @@ in
   xdg.configFile."omarchy/branding/screensaver.txt".source = package + "/logo.txt";
   xdg.configFile."waybar".source = lib.mkForce (package + "/config/waybar");
   xdg.configFile."swayosd".source = lib.mkForce (package + "/config/swayosd");
+  # Override Ghostty config when using Omarchy/Hyprland
+  xdg.configFile."ghostty".source = lib.mkForce ghosttyOmarchy;
   # Keep mako config following the current Omarchy theme
   xdg.configFile."mako/config".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/omarchy/current/theme/mako.ini";
