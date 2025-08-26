@@ -12,7 +12,7 @@ let
   fsrVersion = "67D435F7d97000";
   fsrDll = pkgs.fetchurl {
     url = "https://download.amd.com/dir/bin/amdxcffx64.dll/${fsrVersion}/amdxcffx64.dll";
-    sha256 = "sha256-OuTTllFAwQjzKJXbRhV7Ma15AgFo1U+EHFYqH9/EqVw="; # fix hash
+    sha256 = "sha256-lPFBo94zQAigPa0V9FNtRAnOCRHyO53scimF30sQysk="; # fix hash
     curlOpts = "--referer https://support.amd.com";
   };
 
