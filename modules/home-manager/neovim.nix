@@ -7,7 +7,7 @@
   ...
 }:
 let
-
+  pkgs = pkgs-unstable;
 in
 {
   xdg.configFile."nvim".source =
@@ -20,16 +20,17 @@ in
   programs.neovim = {
     enable = true;
     vimdiffAlias = true;
-    package = pkgs-unstable.neovim-unwrapped;
+    package = pkgs.neovim-unwrapped;
     # as we manage Neovim plugins outside of Nix,
     # some plugins (mainly Treesitter) require C compiler
-    extraPackages = with pkgs-unstable; [
+    extraPackages = with pkgs; [
       clang
       gnumake
       python3
       nodejs
       nixd
       nixfmt-rfc-style
+      golangci-lint
       dart
       ripgrep
       jdk

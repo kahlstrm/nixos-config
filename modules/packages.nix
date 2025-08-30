@@ -57,6 +57,7 @@ let
     ssm-session-manager-plugin
     rustup
     go
+    golangci-lint
     terraform
     nodejs
     corepack

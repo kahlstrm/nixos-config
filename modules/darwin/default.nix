@@ -129,7 +129,7 @@
           };
         };
         "61" = {
-          enabled = 1;
+          enabled = true;
           value = {
             parameters = [
               32
@@ -140,7 +140,7 @@
           };
         };
         "65" = {
-          enabled = 0;
+          enabled = false;
           value = {
             parameters = [
               65535
@@ -162,7 +162,7 @@
           };
         };
         "164" = {
-          enabled = 0;
+          enabled = false;
           value = {
             parameters = [
               65535
