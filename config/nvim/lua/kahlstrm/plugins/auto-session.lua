@@ -9,7 +9,7 @@ return {
     suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
     -- log_level = 'debug',
     use_git_branch = true,
-    show_auto_restore_notif = true,
+    git_auto_restore_on_branch_change = true,
   },
   keys = {
     { '<leader>ss', '<cmd>SessionSearch<CR>', desc = '[S]earch [S]essions' },
