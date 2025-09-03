@@ -283,6 +283,7 @@ return {
         'ruff',
         'clang-format',
         'markdownlint',
+        'tflint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed, auto_update = true }
 
