@@ -85,6 +85,13 @@ return { -- Fuzzy Finder (files, lsp, etc)
         },
       }
     end, { desc = '[S]earch by [G]rep' })
+    vim.keymap.set('v', '<leader>sg', function()
+      builtin.grep_string {
+        additional_args = {
+          '--hidden',
+        },
+      }
+    end, { desc = '[S]earch by [G]rep' })
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
