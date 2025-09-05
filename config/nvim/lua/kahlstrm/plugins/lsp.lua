@@ -303,7 +303,6 @@ return {
             },
           },
           dartls = {},
-          gleam = {},
         }
       )
 
