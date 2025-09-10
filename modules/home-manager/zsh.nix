@@ -47,7 +47,8 @@ in
       nix-ld-enable = "export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH";
       claudec = "claude --continue";
       clauder = "claude --resume";
-      codex = "codex -a untrusted -m gpt-5 -c model_reasoning_effort=\"high\"";
+      codex = "codex -a untrusted --search -m gpt-5 -c model_reasoning_effort=\"high\"";
+      codexc = "codex --continue";
     }
     // lib.optionalAttrs (isLinux && guiEnabled) {
       pbcopy = "wl-copy";
