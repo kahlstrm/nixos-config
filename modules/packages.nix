@@ -52,6 +52,7 @@ let
 
     # Cloud-related tools and SDKs
     # awscli2
+    google-cloud-sdk
     clang
     gcc
     ssm-session-manager-plugin
