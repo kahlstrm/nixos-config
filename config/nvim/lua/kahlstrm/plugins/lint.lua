@@ -9,7 +9,12 @@ return {
         markdown = { 'markdownlint' },
         terraform = { 'tflint' },
       }
-      lint.linters.markdownlint.args = { '--disable', 'MD013' }
+      local function add_args(linter, extra)
+        lint.linters[linter].args = vim.list_extend(lint.linters[linter].args or {}, extra)
+      end
+
+      add_args('markdownlint', { '--disable', 'MD013' })
+      add_args('tflint', { '--disable-rule=terraform_required_providers' })
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
