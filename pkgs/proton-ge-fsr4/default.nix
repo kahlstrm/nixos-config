@@ -1,9 +1,11 @@
-{ pkgs }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 let
-  fsrVersion = "67D435F7d97000";
+  fsrVersion = "68840348eb8000";
   fsrDll = pkgs.fetchurl {
     url = "https://download.amd.com/dir/bin/amdxcffx64.dll/${fsrVersion}/amdxcffx64.dll";
-    sha256 = "sha256-lPFBo94zQAigPa0V9FNtRAnOCRHyO53scimF30sQysk="; # fix hash
+    sha256 = "sha256-GMxplq5m/u364DYt44ffsc3Zvf3Rv674Qfl15PPQIwg="; # fix hash
     curlOpts = "--referer https://support.amd.com";
   };
 in
