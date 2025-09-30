@@ -14,7 +14,7 @@ return {
       end
 
       add_args('markdownlint', { '--disable', 'MD013' })
-      add_args('tflint', { '--disable-rule=terraform_required_providers' })
+      add_args('tflint', { '--disable-rule=terraform_required_providers', '--disable-rule=terraform_required_version' })
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
