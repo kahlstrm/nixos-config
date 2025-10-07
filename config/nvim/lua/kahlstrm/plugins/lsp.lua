@@ -230,7 +230,9 @@ return {
           },
         },
         taplo = {},
-        terraformls = {},
+        terraformls = {
+          cmd = { 'terraform-ls', 'serve', '-log-file', '/dev/null' },
+        },
         eslint = {
           on_attach = function(_, bufnr)
             vim.api.nvim_create_autocmd('BufWritePre', {
