@@ -95,9 +95,15 @@
     };
     # NOTE: if the key has dots it needs to be quoted.
     CustomUserPreferences = {
-      # Hide Spotlight icon from the menu bar
-      # https://apple.stackexchange.com/questions/417604/cannot-remove-spotlight-item-from-menu-bar-with-defaults
-      "com.apple.Spotlight".MenuItemHidden = 1;
+      "com.apple.Spotlight" = {
+        # Hide Spotlight icon from the menu bar
+        # https://apple.stackexchange.com/questions/417604/cannot-remove-spotlight-item-from-menu-bar-with-defaults
+        MenuItemHidden = 1;
+        # Counterintuitively Disables spotlight search for listed applications
+        EnabledPreferenceRules = [
+          "com.apple.Safari"
+        ];
+      };
       "com.apple.ActivityMonitor".UpdatePeriod = 2;
       # Custom App Shortcuts
       # https://support.apple.com/en-us/guide/mac-help/mchlp2271/mac
