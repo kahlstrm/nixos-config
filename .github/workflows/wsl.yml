@@ -54,9 +54,6 @@ jobs:
     runs-on: windows-latest
     needs: build-wsl-artifact
     steps:
-      - uses: vedantmgoyal9/setup-wsl2@v1.1.0
-        with:
-          distro: none
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
