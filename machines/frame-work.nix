@@ -6,7 +6,7 @@
   ...
 }:
 let
-  omarchy = true;
+  omarchy = false;
 in
 {
   imports = [
