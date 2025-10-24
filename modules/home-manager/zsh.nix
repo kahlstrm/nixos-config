@@ -102,6 +102,15 @@ in
         ''
     )
     ''
+      ssm-connect() {
+        local instance_id
+        instance_id=$(aws ec2 describe-instances \
+          --query 'Reservations[].Instances[?State.Name==`running`].[InstanceId, Tags[?Key==`Name`].Value|[0]]' \
+          --output text | fzf | awk '{print $1}')
+        [ -n "$instance_id" ] && aws ssm start-session --target "$instance_id"
+      }
+    ''
+    ''
       PATH=$PATH:$HOME/.npm/bin
       PATH=$PATH:$(go env GOPATH)/bin
       ghrl(){
