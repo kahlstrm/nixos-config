@@ -59,7 +59,7 @@ let
     rustup
     go
     golangci-lint
-    terraform
+    tenv
     nodejs
     corepack
     python3
@@ -169,4 +169,5 @@ in
   environment.variables.NPM_CONFIG_GLOBALCONFIG = "/etc/npmrc";
 
   environment.variables.EDITOR = "vim";
+  environment.variables.TENV_AUTO_INSTALL = "true";
 }
