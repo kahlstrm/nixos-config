@@ -20,24 +20,20 @@ let
     else
       pkg;
 
-  # Wrap compilers on Darwin to include libiconv for Rust linking
-  clangWithLibs = if isDarwin then
-    pkgs.wrapCCWith {
-      cc = pkgs.clang.cc;
-      bintools = pkgs.clang.bintools;
+  # Override clang on Darwin to add libiconv for Rust linking
+  clangWithLibiconv = if isDarwin then
+    pkgs.clang.override {
       extraBuildCommands = ''
-        echo "-L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
+        echo " -L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
       '';
     }
   else
     pkgs.clang;
 
-  gccWithLibs = if isDarwin then
-    pkgs.wrapCCWith {
-      cc = pkgs.gcc.cc;
-      bintools = pkgs.gcc.bintools;
+  gccWithLibiconv = if isDarwin then
+    pkgs.gcc.override {
       extraBuildCommands = ''
-        echo "-L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
+        echo " -L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
       '';
     }
   else
@@ -136,6 +132,7 @@ let
   darwinOnlyPackages = with pkgs; [
     dockutil
     cocoapods
+    llvmPackages.bintools-unwrapped # provides dsymutil for debug symbols
     # manage python/node/jvm stuff outside of nix for the moment on darwin
     pkgs-unstable.mise
   ];
@@ -176,7 +173,10 @@ in
   # $ nh search wget
   environment.systemPackages =
     allSystemsPackages
-    ++ [ clangWithLibs gccWithLibs ]
+    ++ [
+      clangWithLibiconv
+      (lib.lowPrio gccWithLibiconv)  # Lower priority so clang wins for cc/c++/ld
+    ]
     ++ lib.optionals guiEnabled AllSystemGUIPackages
     ++ lib.optionals isDarwin darwinOnlyPackages
     ++ lib.optionals isLinux linuxOnlyPackages
