@@ -25,19 +25,16 @@ in
       "CLAUDE.md"
       "GEMINI.md"
       "AGENTS.md"
+      "/.claude/"
     ];
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-      };
-    };
-    userName = "Kalle Ahlström";
-    userEmail = currentSystemEmail;
     lfs = {
       enable = true;
     };
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Kalle Ahlström";
+        email = currentSystemEmail;
+      };
       init.defaultBranch = "main";
       core = {
         autocrlf = "input";
@@ -53,5 +50,13 @@ in
       "~/infra/"
       "~/src/github/"
     ]);
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+    };
   };
 }
