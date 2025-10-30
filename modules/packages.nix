@@ -20,6 +20,29 @@ let
     else
       pkg;
 
+  # Wrap compilers on Darwin to include libiconv for Rust linking
+  clangWithLibs = if isDarwin then
+    pkgs.wrapCCWith {
+      cc = pkgs.clang.cc;
+      bintools = pkgs.clang.bintools;
+      extraBuildCommands = ''
+        echo "-L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
+      '';
+    }
+  else
+    pkgs.clang;
+
+  gccWithLibs = if isDarwin then
+    pkgs.wrapCCWith {
+      cc = pkgs.gcc.cc;
+      bintools = pkgs.gcc.bintools;
+      extraBuildCommands = ''
+        echo "-L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
+      '';
+    }
+  else
+    pkgs.gcc;
+
   # packages to install to all systems:
   # TODO: make an assert check that verifies that these packages are available on all target platforms
   allSystemsPackages = with pkgs; [
@@ -53,8 +76,6 @@ let
     # Cloud-related tools and SDKs
     # awscli2
     google-cloud-sdk
-    clang
-    gcc
     ssm-session-manager-plugin
     rustup
     go
@@ -155,6 +176,7 @@ in
   # $ nh search wget
   environment.systemPackages =
     allSystemsPackages
+    ++ [ clangWithLibs gccWithLibs ]
     ++ lib.optionals guiEnabled AllSystemGUIPackages
     ++ lib.optionals isDarwin darwinOnlyPackages
     ++ lib.optionals isLinux linuxOnlyPackages
