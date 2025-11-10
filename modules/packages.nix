@@ -21,23 +21,25 @@ let
       pkg;
 
   # Override clang on Darwin to add libiconv for Rust linking
-  clangWithLibiconv = if isDarwin then
-    pkgs.clang.override {
-      extraBuildCommands = ''
-        echo " -L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
-      '';
-    }
-  else
-    pkgs.clang;
+  clangWithLibiconv =
+    if isDarwin then
+      pkgs.clang.override {
+        extraBuildCommands = ''
+          echo " -L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
+        '';
+      }
+    else
+      pkgs.clang;
 
-  gccWithLibiconv = if isDarwin then
-    pkgs.gcc.override {
-      extraBuildCommands = ''
-        echo " -L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
-      '';
-    }
-  else
-    pkgs.gcc;
+  gccWithLibiconv =
+    if isDarwin then
+      pkgs.gcc.override {
+        extraBuildCommands = ''
+          echo " -L${pkgs.libiconv}/lib" >> $out/nix-support/cc-ldflags
+        '';
+      }
+    else
+      pkgs.gcc;
 
   # packages to install to all systems:
   # TODO: make an assert check that verifies that these packages are available on all target platforms
@@ -72,6 +74,7 @@ let
     # Cloud-related tools and SDKs
     # awscli2
     google-cloud-sdk
+    azure-cli
     ssm-session-manager-plugin
     rustup
     go
@@ -175,7 +178,7 @@ in
     allSystemsPackages
     ++ [
       clangWithLibiconv
-      (lib.lowPrio gccWithLibiconv)  # Lower priority so clang wins for cc/c++/ld
+      (lib.lowPrio gccWithLibiconv) # Lower priority so clang wins for cc/c++/ld
     ]
     ++ lib.optionals guiEnabled AllSystemGUIPackages
     ++ lib.optionals isDarwin darwinOnlyPackages
