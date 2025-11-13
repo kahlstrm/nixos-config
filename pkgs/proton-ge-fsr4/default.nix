@@ -5,7 +5,7 @@ let
   fsrVersion = "68840348eb8000";
   fsrDll = pkgs.fetchurl {
     url = "https://download.amd.com/dir/bin/amdxcffx64.dll/${fsrVersion}/amdxcffx64.dll";
-    sha256 = "sha256-GMxplq5m/u364DYt44ffsc3Zvf3Rv674Qfl15PPQIwg="; # fix hash
+    sha256 = "sha256-LUtfuOi1+eMwwcN2mJEyob4Yea8gu3+SRCxErQKvhvs="; # fix hash
     curlOpts = "--referer https://support.amd.com";
   };
 in
@@ -35,8 +35,8 @@ in
 
   preFixup = (old.preFixup or "") + ''
     substituteInPlace "$steamcompattool/proton" \
-      --replace-fail 'if not version_match:' '# if not version_match:' \
-      --replace-fail 'with open(g_proton.lib_dir + "wine/amdprop/amdxcffx64_version", "w") as file:' '# with open(g_proton.lib_dir + "wine/amdprop/amdxcffx64_version", "w") as file:' \
-      --replace-fail 'file.write(versions[1] + "\n")' '# file.write(versions[1] + "\n")'
+      --replace-fail 'self.download_file(fsr_dll_url, fsr_dll)' 'pass  # nix: keep existing FSR4 dll' \
+      --replace-fail 'with open(version_file, "w") as file:' '# with open(version_file, "w") as file:' \
+      --replace-fail 'file.write(version + "\n")' '# file.write(version + "\n")'
   '';
 })
