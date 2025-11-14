@@ -52,11 +52,11 @@ in
     ]);
   };
 
-  programs.delta = {
+  programs.difftastic = {
     enable = true;
-    enableGitIntegration = true;
-    options = {
-      navigate = true;
-    };
+    git.enable = true;
   };
+
+  programs.mergiraf.enable = true;
+
 }
