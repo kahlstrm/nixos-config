@@ -74,7 +74,6 @@ let
     # Cloud-related tools and SDKs
     # awscli2
     google-cloud-sdk
-    azure-cli
     ssm-session-manager-plugin
     rustup
     go

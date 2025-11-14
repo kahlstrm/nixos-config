@@ -38,5 +38,6 @@
     erlang
     gleam
     dart
+    azure-cli
   ];
 }
