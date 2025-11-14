@@ -23,7 +23,7 @@ in
       LANG = "en_US.UTF-8";
       LC_CTYPE = "en_US.UTF-8";
       LC_ALL = "en_US.UTF-8";
-      PAGER = "less -FirSwX";
+      PAGER = "less -FiRSwX";
       EDITOR = "nvim";
       MANPAGER = "sh -c 'col -bx | bat -l man -p'";
       MANROFFOPT = "-c";
