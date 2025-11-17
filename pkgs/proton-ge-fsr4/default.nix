@@ -36,7 +36,7 @@ in
   preFixup = (old.preFixup or "") + ''
     substituteInPlace "$steamcompattool/proton" \
       --replace-fail 'self.download_file(fsr_dll_url, fsr_dll)' 'pass  # nix: keep existing FSR4 dll' \
-      --replace-fail 'with open(version_file, "w") as file:' '# with open(version_file, "w") as file:' \
+      --replace-fail 'with open(version_file, "w") as file:' 'pass  # nix: keep existing FSR4 dll' \
       --replace-fail 'file.write(version + "\n")' '# file.write(version + "\n")'
   '';
 })
