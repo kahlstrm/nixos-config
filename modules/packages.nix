@@ -93,7 +93,6 @@ let
     k9s
     fluxcd
     kubernetes-helm
-    ollama
 
     # Media-related packages
     ffmpeg
