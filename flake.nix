@@ -56,12 +56,12 @@
 
     # Secure boot, instructions https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md
     lanzaboote-unstable = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote/v0.4.3";
       inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
     };
 
     lanzaboote-stable = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote/v0.4.3";
       inputs.nixpkgs.follows = "nixpkgs-stable-nixos";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
