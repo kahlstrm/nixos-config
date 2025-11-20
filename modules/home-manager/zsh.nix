@@ -47,7 +47,7 @@ in
       nix-ld-enable = "export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH";
       claudec = "claude --continue";
       clauder = "claude --resume";
-      codex = "codex --sandbox danger-full-access --ask-for-approval untrusted --enable web_search_request -m gpt-5.1 -c model_reasoning_effort=\"high\"";
+      codex = "codex --sandbox danger-full-access --ask-for-approval untrusted --enable web_search_request -m gpt-5.1-codex-max -c model_reasoning_effort=\"high\"";
       codexc = "codex resume --last";
       codexr = "codex resume";
     }
