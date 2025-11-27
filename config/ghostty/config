@@ -2,9 +2,7 @@ theme=Ayu
 background-opacity=0.97
 font-size=13.37
 font-feature=-calt
-# make the window be maximized on startup
-window-width=9001
-window-height=9001
+maximize=true
 
 #keybinds
 keybind= alt+up=ignore
