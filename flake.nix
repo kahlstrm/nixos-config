@@ -162,5 +162,14 @@
         useOutOfStoreSymlink = false;
       };
 
+      nixosConfigurations.zima = mkSystem "zima" {
+        system = "x86_64-linux";
+        user = "kahlstrm";
+        email = personalEmail;
+        stable = false;
+        gui = false;
+        useOutOfStoreSymlink = false;
+      };
+
     };
 }
