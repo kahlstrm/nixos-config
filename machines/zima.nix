@@ -19,14 +19,7 @@
   networking.networkmanager.enable = true;
 
   # OpenSSH for remote administration
-  services.openssh = {
-    enable = true;
-    settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-    };
-  };
+  services.openssh.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Helsinki";
