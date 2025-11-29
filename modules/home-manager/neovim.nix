@@ -31,7 +31,6 @@ in
       nixd
       nixfmt-rfc-style
       golangci-lint
-      dart
       ripgrep
       jdk
     ];

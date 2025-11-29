@@ -37,7 +37,6 @@
     mongosh
     erlang
     gleam
-    dart
     azure-cli
   ];
 }
