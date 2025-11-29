@@ -69,6 +69,23 @@ else
 	nixos-rebuild switch --build-host pannu --target-host pannu --flake . --use-remote-sudo
 endif
 endif
+#
+# TODO: look into deploy-rs
+deploy-zima:
+ifneq ($(HAS_NG_REBUILD),)
+	# works on darwin without linux builder
+	nixos-rebuild-ng switch --build-host zima --target-host zima --flake . --sudo --ask-sudo-password
+else
+ifeq ($(UNAME), Darwin)
+	$(error darwin needs nixos-rebuild-ng)
+else
+# TODO: check if works (not on darwin)
+# ifneq ($(HAS_NH),)
+# 	nh os switch -a -H zima --target-host zima --build-host zima .
+# endif
+	nixos-rebuild switch --build-host zima --target-host zima --flake . --use-remote-sudo
+endif
+endif
 
 fmt:
 	fd '\.nix$$'| xargs nixfmt
