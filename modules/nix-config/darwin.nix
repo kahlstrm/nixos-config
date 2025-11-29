@@ -7,4 +7,8 @@
   };
   nix.settings.sandbox = true;
   nix.settings.trusted-users = [ "@admin" ];
+  launchd.daemons.nix-gc.serviceConfig = {
+    StandardOutPath = "/var/log/nix-gc.log";
+    StandardErrorPath = "/var/log/nix-gc.log";
+  };
 }
