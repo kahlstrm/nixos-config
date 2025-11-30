@@ -111,6 +111,8 @@
         Zoom = "@~z";
       };
       # https://apple.stackexchange.com/questions/91679/is-there-a-way-to-set-an-application-shortcut-in-the-keyboard-preference-pane-vi
+      # easiest is to first do `defaults read com.apple.symbolichotkeys > a` to capture current config, then change in the bindings in the settings app,
+      # then `defaults read com.apple.symbolichotkeys > b` and then `nvim -d a b`
       "com.apple.symbolichotkeys".AppleSymbolicHotKeys = {
         "27" = {
           enabled = true;
@@ -174,6 +176,18 @@
               65535
               65535
               0
+            ];
+            type = "standard";
+          };
+        };
+        # some random "Game Overlay" binding that
+        "260" = {
+          enabled = 0;
+          value = {
+            parameters = [
+              65535
+              53
+              1048576
             ];
             type = "standard";
           };
