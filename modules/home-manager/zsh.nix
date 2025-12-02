@@ -42,7 +42,7 @@ in
       dcdown = "docker compose down";
       # used by git-extended oh-my-zsh plugin
       dotfiles = "git --git-dir ${nixosConfigLocation}/.git --work-tree ${nixosConfigLocation}";
-      aliasgrep = "alias | rg";
+      aliasrg = "alias | rg";
       pollama = "OLLAMA_HOST=https://ollama.p.kalski.xyz ollama";
       nix-ld-enable = "export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH";
       claudec = "claude --continue";
