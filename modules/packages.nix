@@ -72,7 +72,7 @@ let
     gnupg
 
     # Cloud-related tools and SDKs
-    # awscli2
+    awscli2
     google-cloud-sdk
     ssm-session-manager-plugin
     rustup
@@ -141,8 +141,6 @@ let
   # TODO: make an assertion that checks package availability for both x86_64 and aarch64
   linuxOnlyPackages = with pkgs; [
     openssh
-    awscli2
-    google-cloud-sdk
     parted
     lm_sensors
   ];

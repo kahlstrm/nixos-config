@@ -43,7 +43,6 @@
     #
     # completions from nixpkgs not work for some reason
     brews = [
-      "awscli"
       "mas"
     ];
     masApps = {
