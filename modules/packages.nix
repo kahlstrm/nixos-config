@@ -133,6 +133,7 @@ let
   darwinOnlyPackages = with pkgs; [
     dockutil
     cocoapods
+    mas
     llvmPackages.bintools-unwrapped # provides dsymutil for debug symbols
     # manage python/node/jvm stuff outside of nix for the moment on darwin
     pkgs-unstable.mise
