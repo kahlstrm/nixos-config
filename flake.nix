@@ -4,8 +4,8 @@
   inputs = {
     nixpkgs-unstable-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable-nixos.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
 
     mdatp = {
       url = "github:NitorCreations/nix-mdatp";
@@ -23,12 +23,12 @@
     };
 
     home-manager-stable-nixos = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs-stable-nixos";
     };
 
     home-manager-stable-darwin = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs-stable-darwin";
     };
 
@@ -48,7 +48,7 @@
     };
 
     darwin-stable = {
-      url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs-stable-darwin";
     };
 
