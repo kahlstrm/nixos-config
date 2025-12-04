@@ -181,8 +181,8 @@
           enabled = 0;
           value = {
             parameters = [
-              65535
-              53
+              96
+              50
               1048576
             ];
             type = "standard";
