@@ -2,7 +2,7 @@
   pkgs,
   currentSystemUser,
   isStable,
-  inputs,
+  resolvedModules,
   ...
 }:
 let
@@ -10,8 +10,8 @@ let
 in
 {
   imports = [
-    inputs.mdatp.nixosModules.mdatp
-    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+    resolvedModules.mdatp
+    resolvedModules.nixos-hardware.framework-13-7040-amd
     # Include the results of the hardware scan.
     ./hardware/frame-work.nix
     ../modules/keyd.nix

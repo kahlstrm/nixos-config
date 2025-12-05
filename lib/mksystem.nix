@@ -40,6 +40,7 @@ let
     os-short
     home-manager
     lanzaboote
+    nixarr
     ;
   # The config files for this system.
   nixConfig = ../modules/nix-config;
@@ -69,7 +70,6 @@ let
       os-short
       nix-index-database
       useOutOfStoreSymlink
-      inputs
       personalEmail
       ;
     pkgs-stable = import nixpkgs-stable {
@@ -79,6 +79,12 @@ let
     pkgs-unstable = import nixpkgs-unstable {
       inherit system overlays;
       config.allowUnfree = allowUnfree;
+    };
+    resolvedModules = {
+      nixarr = nixarr.nixosModules.default;
+      jovian = inputs.jovian.nixosModules.jovian;
+      mdatp = inputs.mdatp.nixosModules.mdatp;
+      nixos-hardware = inputs.nixos-hardware.nixosModules;
     };
     currentSystem = system;
     currentSystemName = name;

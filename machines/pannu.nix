@@ -3,7 +3,7 @@
   currentSystemUser,
   lib,
   config,
-  inputs,
+  resolvedModules,
   ...
 }:
 
@@ -12,7 +12,7 @@
     # Include the results of the hardware scan.
     ./hardware/pannu.nix
 
-    inputs.jovian.nixosModules.jovian
+    resolvedModules.jovian
     (import ../modules/steam-machine.nix { hasAmdGPU = true; })
     (import ../modules/lact.nix {
       hasAmdGPU = true;
@@ -119,21 +119,6 @@
       dnsProvider = "cloudflare";
       credentialsFile = "/var/lib/secrets/cloudflare.env";
       extraDomainNames = [ "*.p.kalski.xyz" ];
-    };
-    certs."jet.kalski.xyz" = {
-      domain = "jet.kalski.xyz";
-      dnsProvider = "cloudflare";
-      credentialsFile = "/var/lib/secrets/cloudflare.env";
-      # Need to setup pannu root SSH-key and add public key to jetKVM for this to work
-      # Settings -> Advanced
-      # Developer Mode on
-      # Then add key to "SSH Public key" list
-      postRun = ''
-        ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "mkdir -p /userdata/jetkvm/tls"
-        cat fullchain.pem | ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "cat > /userdata/jetkvm/tls/user-defined.crt"
-        cat key.pem | ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "cat > /userdata/jetkvm/tls/user-defined.key"
-        ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "sed -i 's/\"tls_mode\": \"\"/\"tls_mode\": \"custom\"/' /userdata/kvm_config.json"
-      '';
     };
   };
   services.iperf3.enable = true;

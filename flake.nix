@@ -76,6 +76,16 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
     };
 
+    nixarr-stable = {
+      url = "github:rasmus-kirk/nixarr";
+      inputs.nixpkgs.follows = "nixpkgs-stable-nixos";
+    };
+
+    nixarr-unstable = {
+      url = "github:rasmus-kirk/nixarr";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
+    };
+
   };
 
   outputs =
@@ -121,6 +131,15 @@
         useOutOfStoreSymlink = false;
       };
 
+      nixosConfigurations.zima = mkSystem "zima" {
+        system = "x86_64-linux";
+        user = "kahlstrm";
+        email = personalEmail;
+        stable = true;
+        gui = false;
+        useOutOfStoreSymlink = false;
+      };
+
       nixosConfigurations.frame-work = mkSystem "frame-work" {
         system = "x86_64-linux";
         user = "kahlstrm";
@@ -159,15 +178,6 @@
         # TODO: should wsl-builds have parameterized email?
         email = personalEmail;
         wsl = true;
-        useOutOfStoreSymlink = false;
-      };
-
-      nixosConfigurations.zima = mkSystem "zima" {
-        system = "x86_64-linux";
-        user = "kahlstrm";
-        email = personalEmail;
-        stable = false;
-        gui = false;
         useOutOfStoreSymlink = false;
       };
 
