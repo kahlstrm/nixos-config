@@ -2,6 +2,7 @@
   config,
   lib,
   modulesPath,
+  pkgs,
   ...
 }:
 
@@ -51,6 +52,15 @@
 
   swapDevices = [ ];
 
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # VAAPI iHD driver for Broadwell+
+      vpl-gpu-rt # oneVPL runtime for QSV (11th gen+)
+      intel-compute-runtime # optional, but often useful
+      libva-utils # for vainfo
+    ];
+  };
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
