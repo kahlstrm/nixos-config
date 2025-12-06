@@ -15,6 +15,11 @@
   imports = [
     resolvedModules.nixarr
   ];
+  # give jellyfin access to GPU/render devices
+  users.users.jellyfin.extraGroups = [
+    "video"
+    "render"
+  ];
 
   nixarr = {
     enable = true;
