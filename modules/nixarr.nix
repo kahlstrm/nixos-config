@@ -69,10 +69,6 @@
       enable = true;
       openFirewall = false;
     };
-    bazarr = {
-      enable = true;
-      openFirewall = false;
-    };
     prowlarr = {
       enable = true;
       openFirewall = false;
