@@ -39,6 +39,7 @@
       enable = true;
       vpn.enable = true;
       peerPort = peerPort;
+      privateTrackers.disableDhtPex = true;
     };
 
     jellyfin = {
