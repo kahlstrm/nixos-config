@@ -51,6 +51,10 @@
   services.btrfs.autoScrub.fileSystems = [ "/mnt/data" ];
 
   swapDevices = [ ];
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25;
+  };
 
   hardware.graphics = {
     enable = true;
