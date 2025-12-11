@@ -103,12 +103,23 @@ in
         ''
     )
     ''
-      ssm-connect() {
-        local instance_id
-        instance_id=$(aws ec2 describe-instances \
-          --query 'Reservations[].Instances[?State.Name==`running`].[InstanceId, Tags[?Key==`Name`].Value|[0]]' \
-          --output text | fzf | awk '{print $1}')
-        [ -n "$instance_id" ] && aws ssm start-session --target "$instance_id"
+      ssm-ec2() {
+        local instances id
+
+        # Get instances first, fail loudly if AWS is misconfigured
+        if ! instances=$(aws ec2 describe-instances \
+          --query "Reservations[].Instances[?State.Name=='running'].[InstanceId, Tags[?Key=='Name'].Value|[0]]" \
+          --output text); then
+          echo "Failed to list EC2 instances (check AWS profile/credentials)." >&2
+          return 1
+        fi
+
+        [ -z "$instances" ] && echo "No running instances found." >&2 && return 1
+
+        id=$(printf '%s\n' "$instances" | fzf | awk '{print $1}')
+        [ -z "$id" ] && echo "No instance selected." >&2 && return 1
+
+        aws ssm start-session --target "$id" "$@"
       }
     ''
     ''
