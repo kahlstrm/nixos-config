@@ -42,6 +42,7 @@
     device = "/dev/disk/by-label/tank";
     fsType = "btrfs";
     options = [
+      "subvol=@media"
       "compress=zstd"
       "noatime"
     ];

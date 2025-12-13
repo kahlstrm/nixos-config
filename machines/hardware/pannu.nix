@@ -43,25 +43,6 @@
     ];
   };
 
-  # Enable mdadm for software RAID
-  boot.swraid = {
-    enable = true;
-    mdadmConf =
-      let
-        telegramNotify = pkgs.callPackage ../../pkgs/mdadm-telegram-notify.nix { };
-      in
-      ''
-        # mdadm will scan for arrays
-        ARRAY /dev/md0 devices=/dev/sda,/dev/sdb
-        PROGRAM ${telegramNotify}/bin/mdadm-telegram-notify
-      '';
-  };
-
-  fileSystems."/mnt/raid" = {
-    device = "/dev/md0";
-    fsType = "ext4";
-  };
-
   fileSystems."/mnt/wip" = {
     device = "/dev/disk/by-label/wip";
     fsType = "ext4";
