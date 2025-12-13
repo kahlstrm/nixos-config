@@ -144,6 +144,7 @@ let
     openssh
     parted
     lm_sensors
+    btrfs-progs
   ];
 
   # TODO: make an assertion that checks package availability for both x86_64 and aarch64
