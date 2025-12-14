@@ -50,6 +50,9 @@ in
       codex = "codex --sandbox danger-full-access --ask-for-approval untrusted --enable web_search_request -m gpt-5.2 -c model_reasoning_effort=\"high\"";
       codexc = "codex resume --last";
       codexr = "codex resume";
+      gemini = "gemini --model pro";
+      geminic = "gemini resume latest";
+      geminir = "gemini resume";
     }
     // lib.optionalAttrs (isLinux && guiEnabled) {
       pbcopy = "wl-copy";
