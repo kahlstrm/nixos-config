@@ -131,6 +131,15 @@
         useOutOfStoreSymlink = false;
       };
 
+      nixosConfigurations.poenttoe = mkSystem "poenttoe" {
+        system = "x86_64-linux";
+        user = "kahlstrm";
+        email = personalEmail;
+        stable = true;
+        gui = false;
+        useOutOfStoreSymlink = false;
+      };
+
       nixosConfigurations.zima = mkSystem "zima" {
         system = "x86_64-linux";
         user = "kahlstrm";

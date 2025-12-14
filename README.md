@@ -318,6 +318,28 @@ With `username` being the user you have set in your configuration.
 
 After this, rebooting the system should boot you into the system.
 
+## Setup (Cloud VM / Infected VPS)
+
+For Cloud VMs provisioned via `nixos-infect` or similar tools (where the SSH key for root is propagated), the bootstrap process involves:
+
+1.  **Wait for Infection:** Ensure the server is provisioned and infected.
+2.  **Bootstrap:** Run the following from this repo root:
+    ```bash
+    make bootstrap-poenttoe
+    ```
+    This will:
+    - SSH as root.
+    - Create your user (`kahlstrm`) if missing.
+    - Ask you to set a password for `kahlstrm` interactively.
+    - Copy the root authorized_keys to `kahlstrm`.
+    - Deploy the NixOS configuration using the server itself as the builder.
+
+3.  **Deploy Updates:**
+    For subsequent updates, deploy as your user:
+    ```bash
+    make deploy-poenttoe
+    ```
+
 ## Setup (WSL)
 
 I use Nix to build a WSL root tarball for Windows. I then have my entire

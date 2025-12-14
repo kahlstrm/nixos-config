@@ -2,6 +2,7 @@
 UNAME := $(shell uname)
 
 NIXNAME ?= $(shell hostname)
+POENTTOE_IP ?= poenttoe
 
 HAS_NH := $(shell command -v nh 2>/dev/null)
 HAS_NG_REBUILD := $(shell which nixos-rebuild-ng 2>/dev/null)
@@ -84,6 +85,22 @@ else
 # 	nh os switch -a -H zima --target-host zima --build-host zima .
 # endif
 	nixos-rebuild switch --build-host zima --target-host zima --flake . --use-remote-sudo
+endif
+endif
+
+bootstrap-poenttoe:
+	# Create user kahlstrm if not exists, set password, copy root keys
+	ssh -t root@$(POENTTOE_IP) "id -u kahlstrm &>/dev/null || useradd -m -G wheel kahlstrm; echo 'Please set password for kahlstrm:'; passwd kahlstrm"
+	ssh root@$(POENTTOE_IP) "mkdir -p /home/kahlstrm/.ssh && [ -f /home/kahlstrm/.ssh/authorized_keys ] || (cp /etc/ssh/authorized_keys.d/root /home/kahlstrm/.ssh/authorized_keys && chown -R kahlstrm: /home/kahlstrm/.ssh && chmod 700 /home/kahlstrm/.ssh && chmod 600 /home/kahlstrm/.ssh/authorized_keys)"
+
+deploy-poenttoe:
+ifneq ($(HAS_NG_REBUILD),)
+	nixos-rebuild-ng switch --build-host kahlstrm@$(POENTTOE_IP) --target-host kahlstrm@$(POENTTOE_IP) --flake .#poenttoe --sudo --ask-sudo-password
+else
+ifeq ($(UNAME), Darwin)
+	$(error darwin needs nixos-rebuild-ng)
+else
+	nixos-rebuild switch --build-host kahlstrm@$(POENTTOE_IP) --target-host kahlstrm@$(POENTTOE_IP) --flake .#poenttoe --use-remote-sudo
 endif
 endif
 
