@@ -27,7 +27,7 @@ in
       clang
       gnumake
       python3
-      nodejs
+      nodejs_24
       nixd
       nixfmt-rfc-style
       golangci-lint

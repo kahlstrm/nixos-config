@@ -79,7 +79,7 @@ let
     go
     golangci-lint
     tenv
-    nodejs
+    nodejs_24
     corepack
     python3
     (wrapNixLDIfLinux bun "bun")
