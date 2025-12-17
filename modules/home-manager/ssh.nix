@@ -29,6 +29,10 @@
         hostname = "zima.kalski.xyz";
         user = "kahlstrm";
       };
+      "poenttoe" = {
+        hostname = "poenttoe.kalski.xyz";
+        user = "kahlstrm";
+      };
     };
   };
 }

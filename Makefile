@@ -2,7 +2,7 @@
 UNAME := $(shell uname)
 
 NIXNAME ?= $(shell hostname)
-POENTTOE_IP ?= poenttoe
+POENTTOE_IP ?= poenttoe.kalski.xyz
 
 HAS_NH := $(shell command -v nh 2>/dev/null)
 HAS_NG_REBUILD := $(shell which nixos-rebuild-ng 2>/dev/null)

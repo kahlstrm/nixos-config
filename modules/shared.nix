@@ -7,5 +7,8 @@
     "p.kalski.xyz" = {
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFk8+06RzXtg+i6G8YZBB4YPHB55FyhtpgjELqU5bYMF";
     };
+    "poenttoe.kalski.xyz" = {
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM3Ej4EpcyblV2ULtqb9sCg8vM1zH96sy/eVjwEzv/l6";
+    };
   };
 }
