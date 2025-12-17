@@ -15,6 +15,8 @@
     settings.PermitRootLogin = "no";
     settings.PasswordAuthentication = false; # Enabled to allow password login after you set one
   };
+  services.iperf3.enable = true;
+  services.iperf3.openFirewall = true;
 
   # Match infected config defaults
   boot.tmp.cleanOnBoot = true;
