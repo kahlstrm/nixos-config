@@ -28,6 +28,8 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
+  services.tailscale.enable = true;
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   # OpenSSH for remote administration
   services.openssh.enable = true;
