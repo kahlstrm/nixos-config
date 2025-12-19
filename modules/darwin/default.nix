@@ -44,6 +44,7 @@
     ];
     masApps = {
       "bitwarden" = 1352778147;
+      "wireguard" = 1451685025;
     };
   };
 
