@@ -27,6 +27,15 @@ in
       # Built-in TLS
       tls_letsencrypt_hostname = domain;
       tls_letsencrypt_challenge_type = "TLS-ALPN-01";
+      # Embedded DERP Server (Relay + STUN)
+      derp.server = {
+        enabled = true;
+        region_id = 999;
+        region_code = "headscale";
+        region_name = "Headscale";
+        stun_listen_addr = "[::]:3478";
+        verify_clients = true;
+      };
     };
   };
   # Initialize the DNS file if it doesn't exist
@@ -35,7 +44,6 @@ in
       echo "[]" > ${dnsFile}
     fi
   '';
-
   # Define the ACL Policy
   environment.etc."headscale/acl.hujson".text = ''
     {
@@ -57,10 +65,14 @@ in
     }
   '';
 
-  # Open firewall ports for Headscale (443) and DERP (UDP)
+  # Open firewall ports for Headscale (443), DERP/WireGuard (41641), and STUN (3478)
   networking.firewall.allowedTCPPorts = [ 443 ];
-  networking.firewall.allowedUDPPorts = [ 41641 ];
+  networking.firewall.allowedUDPPorts = [
+    41641
+    3478
+  ];
 
   # Ensure headscale group exists
   users.groups.headscale = { };
+
 }
