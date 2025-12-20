@@ -33,11 +33,11 @@
         hostname = "poenttoe.kalski.xyz";
         user = "kahlstrm";
       };
-      "rb5009" = {
-        hostname = "kuberack-rb5009.networking.kalski.xyz";
+      "kuberack" = {
+        hostname = "kuberack.networking.kalski.xyz";
       };
-      "hex-s" = {
-        hostname = "stationary-hex-s.networking.kalski.xyz";
+      "stationary" = {
+        hostname = "stationary.networking.kalski.xyz";
       };
     };
   };
