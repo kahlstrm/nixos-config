@@ -14,7 +14,7 @@
   services.openssh = {
     enable = true;
     settings.PermitRootLogin = "no";
-    settings.PasswordAuthentication = false; # Enabled to allow password login after you set one
+    settings.PasswordAuthentication = true;
   };
   services.iperf3.enable = true;
   services.iperf3.openFirewall = true;
