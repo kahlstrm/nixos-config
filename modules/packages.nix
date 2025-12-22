@@ -1,7 +1,24 @@
 {
+  packages ? { },
+}:
+let
+  # Package category defaults and validation
+  defaults = {
+    admin = true;
+    dev = true;
+    cloud = true;
+    databases = true;
+    gui = true;
+  };
+  extraKeys = builtins.removeAttrs packages (builtins.attrNames defaults);
+  cfg =
+    assert
+      extraKeys == { } || throw "unknown package categories: ${toString (builtins.attrNames extraKeys)}";
+    defaults // packages;
+in
+{
   lib,
   pkgs,
-  guiEnabled,
   isDarwin,
   isLinux,
   currentSystem,
@@ -41,69 +58,19 @@ let
     else
       pkgs.gcc;
 
-  # packages to install to all systems:
-  # TODO: make an assert check that verifies that these packages are available on all target platforms
-  allSystemsPackages = with pkgs; [
-    # General packages for development and system management
+  # Core packages - always installed on all systems
+  corePackages = with pkgs; [
     nixos-rebuild-ng
     coreutils
     gnused
-    inetutils
-    dig
-    iftop
-    killall
-    btop
-    htop
-    fastfetch
-    mariadb
-    sqlite
-    postgresql
-    wget
-    rclone
-    dust
-    dive
     vim
-    wireguard-tools
-
-    # Encryption and security tools
-    # age
-    # age-plugin-yubikey
-    # libfido2
-    gnupg
-
-    # Cloud-related tools and SDKs
-    awscli2
-    google-cloud-sdk
-    ssm-session-manager-plugin
-    rustup
-    go
-    golangci-lint
-    tenv
-    nodejs_24
-    corepack
-    python3
-    (wrapNixLDIfLinux bun "bun")
-    jdk
-
-    uv
-    nixfmt-rfc-style
-    protobuf
-    kubectl
-    talosctl
-    k9s
-    fluxcd
-    kubernetes-helm
-
-    # Media-related packages
-    ffmpeg
-
-    # Source code management, Git, GitHub tools
+    pkgs-unstable.neovim
     git
     gh
-    git-filter-repo
-
-    # Text and terminal utilities
-    pkgs-unstable.neovim
+    htop
+    btop
+    fastfetch
+    wget
     bat
     jq
     yq-go
@@ -114,41 +81,94 @@ let
     tmux
     unzip
     zip
-    hyperfine
-    wrk
-    tlrc
-    cmake
-    gnumake
-    just
-    parallel
     file
     lsof
+    gnupg
+    hyperfine
+    parallel
+  ];
+
+  # Admin packages - system administration and diagnostics
+  adminPackages = with pkgs; [
+    inetutils
+    dig
+    iftop
+    killall
+    wireguard-tools
     openssl
+    dust
+    dive
+    ffmpeg
+    rclone
   ];
 
-  AllSystemGUIPackages = with pkgs; [
-    vscode
-  ];
-
-  darwinOnlyPackages = with pkgs; [
-    dockutil
-    cocoapods
-    mas
-    llvmPackages.bintools-unwrapped # provides dsymutil for debug symbols
-    # manage python/node/jvm stuff outside of nix for the moment on darwin
-    pkgs-unstable.mise
-  ];
-
-  # TODO: make an assertion that checks package availability for both x86_64 and aarch64
-  linuxOnlyPackages = with pkgs; [
+  adminLinuxPackages = with pkgs; [
     openssh
     parted
     lm_sensors
     btrfs-progs
   ];
 
-  # TODO: make an assertion that checks package availability for both x86_64 and aarch64
-  linuxGUIPackages = with pkgs; [
+  # Dev packages - programming languages, build tools
+  devPackages = with pkgs; [
+    rustup
+    go
+    golangci-lint
+    nodejs_24
+    corepack
+    python3
+    (wrapNixLDIfLinux bun "bun")
+    jdk
+    uv
+    cmake
+    gnumake
+    just
+    protobuf
+    nixfmt-rfc-style
+    git-filter-repo
+    wrk
+    tlrc
+  ];
+
+  devCompilers = [
+    clangWithLibiconv
+    (lib.lowPrio gccWithLibiconv)
+  ];
+
+  devDarwinPackages = with pkgs; [
+    dockutil
+    cocoapods
+    mas
+    llvmPackages.bintools-unwrapped
+    pkgs-unstable.mise
+  ];
+
+  # Cloud packages - cloud SDKs and Kubernetes tools
+  cloudPackages = with pkgs; [
+    awscli2
+    google-cloud-sdk
+    ssm-session-manager-plugin
+    kubectl
+    talosctl
+    k9s
+    fluxcd
+    kubernetes-helm
+    tenv
+  ];
+
+  # Database packages - database CLI clients
+  databasePackages = with pkgs; [
+    mariadb
+    sqlite
+    postgresql
+  ];
+
+  # GUI packages
+  guiPackages = with pkgs; [
+    vscode
+  ];
+
+  guiLinuxPackages = with pkgs; [
     brave
     bitwarden-desktop
     valgrind
@@ -157,33 +177,38 @@ let
     ghostty
   ];
 
-  linuxAmd64Packages = with pkgs; [
-    linuxPackages.turbostat
-  ];
-
-  linuxAmd64GUIPackages = with pkgs; [
+  guiLinuxAmd64Packages = with pkgs; [
     spotify
     slack
   ];
 
+  # Non-GUI linux amd64 packages
+  linuxAmd64Packages = with pkgs; [
+    linuxPackages.turbostat
+  ];
+
 in
 {
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # If you have nh installed:
-  # $ nh search wget
   environment.systemPackages =
-    allSystemsPackages
-    ++ [
-      clangWithLibiconv
-      (lib.lowPrio gccWithLibiconv) # Lower priority so clang wins for cc/c++/ld
-    ]
-    ++ lib.optionals guiEnabled AllSystemGUIPackages
-    ++ lib.optionals isDarwin darwinOnlyPackages
-    ++ lib.optionals isLinux linuxOnlyPackages
-    ++ lib.optionals (currentSystem == "x86_64-linux") linuxAmd64Packages
-    ++ lib.optionals (isLinux && guiEnabled) linuxGUIPackages
-    ++ lib.optionals (currentSystem == "x86_64-linux" && guiEnabled) linuxAmd64GUIPackages;
+    # Core - always installed
+    corePackages
+    # Admin - system administration tools
+    ++ lib.optionals cfg.admin adminPackages
+    ++ lib.optionals (cfg.admin && isLinux) adminLinuxPackages
+    # Dev - development tools
+    ++ lib.optionals cfg.dev devPackages
+    ++ lib.optionals cfg.dev devCompilers
+    ++ lib.optionals (cfg.dev && isDarwin) devDarwinPackages
+    # Cloud - cloud and k8s tools
+    ++ lib.optionals cfg.cloud cloudPackages
+    # Databases - database clients
+    ++ lib.optionals cfg.databases databasePackages
+    # GUI packages
+    ++ lib.optionals cfg.gui guiPackages
+    ++ lib.optionals (cfg.gui && isLinux) guiLinuxPackages
+    ++ lib.optionals (cfg.gui && currentSystem == "x86_64-linux") guiLinuxAmd64Packages
+    # Platform-specific (not category-gated)
+    ++ lib.optionals (currentSystem == "x86_64-linux") linuxAmd64Packages;
 
   # workaround to allow global npm package installs
   environment.etc.npmrc.text = ''

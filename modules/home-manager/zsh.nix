@@ -127,7 +127,9 @@ in
     ''
     ''
       PATH=$PATH:$HOME/.npm/bin
-      PATH=$PATH:$(go env GOPATH)/bin
+      if command -v go >/dev/null 2>&1; then
+        PATH=$PATH:$(go env GOPATH)/bin
+      fi
       # Fallback AWS completion (works because aws_completer is bash style and we have _bash_complete available already)
       if command -v aws_completer >/dev/null 2>&1; then
         complete -C aws_completer aws

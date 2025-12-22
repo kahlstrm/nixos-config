@@ -17,6 +17,8 @@ name:
   allowUnfree ? true,
   # https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md
   secureBoot ? false,
+  # Package categories - all default to true for backwards compatibility
+  packages ? { },
 }:
 
 let
@@ -42,13 +44,19 @@ let
     lanzaboote
     nixarr
     ;
+  guiEnabled = (!wsl && gui) || isDarwin;
   # The config files for this system.
   nixConfig = ../modules/nix-config;
   machineConfig = ../machines/${name}.nix;
   OSConfig = ../modules/${os-short};
   HMConfig = ../modules/home-manager;
   shared = ../modules/shared.nix;
-  systemPackages = ../modules/packages.nix;
+  systemPackages = import ../modules/packages.nix {
+    packages = {
+      gui = guiEnabled;
+    }
+    // packages;
+  };
   # TODO: make this cleaner
   nix-homebrew = lib.optionalAttrs isDarwin inputs.nix-homebrew.darwinModules.nix-homebrew;
   nix-homebrew-config = lib.optionalAttrs isDarwin {
@@ -61,7 +69,6 @@ let
       #mutableTaps = false;
     };
   };
-  guiEnabled = (!wsl && gui) || isDarwin;
   specialArgs = {
     inherit
       guiEnabled

@@ -138,6 +138,11 @@
         stable = true;
         gui = false;
         useOutOfStoreSymlink = false;
+        packages = {
+          dev = false;
+          cloud = false;
+          databases = false;
+        };
       };
 
       nixosConfigurations.zima = mkSystem "zima" {
@@ -147,6 +152,11 @@
         stable = true;
         gui = false;
         useOutOfStoreSymlink = false;
+        packages = {
+          dev = false;
+          cloud = false;
+          databases = false;
+        };
       };
 
       nixosConfigurations.frame-work = mkSystem "frame-work" {
