@@ -10,12 +10,10 @@
 }:
 let
 
-  proton-ge-bin-fsr4 = import ../pkgs/proton-ge-fsr4 { inherit pkgs; };
   compatPaths = lib.makeSearchPathOutput "steamcompattool" "" (
     with pkgs;
     [
       proton-ge-bin
-      proton-ge-bin-fsr4
     ]
   );
 in
