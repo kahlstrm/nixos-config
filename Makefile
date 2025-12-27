@@ -57,6 +57,9 @@ endif
 deploy-pannu:
 	nixos-rebuild switch --build-host pannu --target-host pannu --flake . --sudo --ask-sudo-password
 
+build-pannu:
+	nixos-rebuild build --build-host pannu --target-host pannu --flake .
+
 # TODO: look into deploy-rs
 deploy-zima:
 	nixos-rebuild switch --build-host zima --target-host zima --flake . --sudo --ask-sudo-password
