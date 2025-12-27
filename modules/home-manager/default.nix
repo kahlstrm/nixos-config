@@ -46,7 +46,7 @@ in
 
   xdg.configFile = {
     "opencode/AGENTS.md".source = configPath + /AGENTS.md;
-    "opencode/settings.json".source =
+    "opencode/opencode.json".source =
       if useOutOfStoreSymlink then
         # Create a directory symlink to .config/nvim, allowing mutable editing of config
         config.lib.file.mkOutOfStoreSymlink "${nixosConfigLocation}/config/opencode/opencode.json"
