@@ -6,6 +6,8 @@
     "bash": {
       "git diff": "allow",
       "git status": "allow",
+      "ls": "allow",
+      "pwd": "allow",
       "*": "ask"
     }
   }
