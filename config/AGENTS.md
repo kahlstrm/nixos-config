@@ -9,7 +9,7 @@ These are not final instructions and the user can overrule them for each unit of
 
 - Propose incremental edits that are easily comprehensible with separation of logic; if adding two or more logical concepts to the same file, add them separately.
 - After making an incremental but measurable unit of work, add meaningful tests for this unit of code.
-- Check recent commits to see the commit convention used. Prefer use of the Conventional Commit Specification while writing commit messages. Write conscise lowercased oneliners as commit messages.
+- Check recent commits to see the commit convention used. Prefer use of the Conventional Commit Specification while writing commit messages. Write conscise oneliners as commit messages.
 
 ### Coding practices
 
