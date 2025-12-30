@@ -20,6 +20,7 @@
       "bambu-studio"
       "signal"
       "moonlight"
+      "virtual-desktop-streamer"
       #"brave"
     ];
     masApps = {
