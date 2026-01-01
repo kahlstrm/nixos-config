@@ -150,6 +150,30 @@ For MacOS systems use the `darwin` subcommand and `os` for NixOS.
 > similar to the Neovim configuration, the repository must be
 > cloned to `~/nixos-config` for `nh` to work from everywhere on the system.
 
+## Headscale notes
+
+These configs include a Headscale server with ACLs defined in
+`modules/headscale.nix`. Tags are applied per-node.
+
+Preferred: have the node advertise its tag (allowed by `tagOwners`):
+
+```shell
+tailscale up --advertise-tags=tag:ark
+```
+
+To force a tag onto a node (server-side), run on the Headscale host:
+
+```shell
+sudo headscale nodes tag --identifier <ID> --tags tag:ark
+```
+
+The `nodes tag` command replaces the node's forced tags, so include all
+tags you want to keep. You can verify with:
+
+```shell
+sudo headscale nodes list --tags
+```
+
 ## Setup (NixOS/VM)
 
 You can download the Minimal NixOS ISO from the

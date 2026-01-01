@@ -51,7 +51,8 @@ in
         "group:admin": ["admin@kalski.xyz"]
       },
       "tagOwners": {
-        "tag:https": ["group:admin"]
+        "tag:https": ["zima@kalski.xyz"],
+        "tag:ark": ["pannu@kalski.xyz"]
       },
       "acls": [
         // Allow all users to access nodes tagged with 'tag:https'
@@ -60,6 +61,21 @@ in
           "action": "accept",
           "src": ["*"],
           "dst": ["tag:https:443"]
+        },
+        // Allow all users to access nodes tagged with 'tag:ark'
+        // UDP game port (7777)
+        {
+          "action": "accept",
+          "src": ["*"],
+          "dst": ["tag:ark:7777"],
+          "proto": "udp"
+        },
+        // TCP RCON port (27020)
+        {
+          "action": "accept",
+          "src": ["*"],
+          "dst": ["tag:ark:27020"],
+          "proto": "tcp"
         }
       ]
     }

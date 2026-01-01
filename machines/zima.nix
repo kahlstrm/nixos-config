@@ -29,6 +29,10 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
   services.tailscale.enable = true;
+  services.tailscale.extraUpFlags = [
+    "--login-server=https://head.kalski.xyz"
+    "--advertise-tags=tag:https"
+  ];
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   # OpenSSH for remote administration

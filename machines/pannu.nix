@@ -51,6 +51,12 @@
   ];
 
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  services.tailscale.enable = true;
+  services.tailscale.extraUpFlags = [
+    "--login-server=https://head.kalski.xyz"
+    "--advertise-tags=tag:ark"
+  ];
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   # Set your time zone.
   time.timeZone = "Europe/Helsinki";
