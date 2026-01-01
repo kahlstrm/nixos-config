@@ -92,6 +92,7 @@ let
   adminPackages = with pkgs; [
     inetutils
     dig
+    tcpdump
     iftop
     killall
     wireguard-tools
