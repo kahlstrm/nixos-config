@@ -33,6 +33,9 @@ in
     "--login-server=https://head.kalski.xyz"
     "--advertise-tags=tag:https"
   ];
+  services.tailscale.extraSetFlags = [
+    "--accept-dns=false"
+  ];
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   # OpenSSH for remote administration

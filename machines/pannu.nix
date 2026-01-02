@@ -56,6 +56,9 @@
     "--login-server=https://head.kalski.xyz"
     "--advertise-tags=tag:ark"
   ];
+  services.tailscale.extraSetFlags = [
+    "--accept-dns=false"
+  ];
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   # Set your time zone.

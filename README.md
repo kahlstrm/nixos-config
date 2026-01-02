@@ -161,6 +161,8 @@ Preferred: have the node advertise its tag (allowed by `tagOwners`):
 tailscale up --advertise-tags=tag:ark
 ```
 
+Note: `extraUpFlags` only apply with `authKeyFile`; otherwise run `tailscale up` manually (can’t set tags via `tailscale set`).
+
 To force a tag onto a node (server-side), run on the Headscale host:
 
 ```shell
