@@ -22,9 +22,6 @@ in
     ignores = [
       "*.swp"
       ".DS_STORE"
-      "CLAUDE.md"
-      "GEMINI.md"
-      "AGENTS.md"
       "/.claude/"
     ];
     lfs = {
