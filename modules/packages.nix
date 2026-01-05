@@ -10,7 +10,7 @@ let
     databases = true;
     gui = true;
   };
-  extraKeys = builtins.removeAttrs packages (builtins.attrNames defaults);
+  extraKeys = removeAttrs packages (builtins.attrNames defaults);
   cfg =
     assert
       extraKeys == { } || throw "unknown package categories: ${toString (builtins.attrNames extraKeys)}";
@@ -48,6 +48,14 @@ let
     else
       pkgs.clang;
 
+  sedButGsedOnDarwin =
+    if isDarwin then
+      pkgs.writeShellScriptBin "gsed" ''
+        exec ${pkgs.gnused}/bin/sed "$@"
+      ''
+    else
+      pkgs.gnused;
+
   gccWithLibiconv =
     if isDarwin then
       pkgs.gcc.override {
@@ -62,7 +70,7 @@ let
   corePackages = with pkgs; [
     nixos-rebuild-ng
     coreutils
-    gnused
+    sedButGsedOnDarwin
     vim
     pkgs-unstable.neovim
     git
