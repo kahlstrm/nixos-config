@@ -85,6 +85,7 @@ let
     fd
     fzf
     ripgrep
+    ast-grep
     tree
     tmux
     unzip
