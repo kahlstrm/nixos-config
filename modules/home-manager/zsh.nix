@@ -126,7 +126,7 @@ in
       }
     ''
     ''
-      PATH=$PATH:$HOME/.npm/bin
+      PATH=$PATH:$HOME/.local/bin:$HOME/.npm/bin
       if command -v go >/dev/null 2>&1; then
         PATH=$PATH:$(go env GOPATH)/bin
       fi
