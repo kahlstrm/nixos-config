@@ -43,6 +43,14 @@
   };
 
   programs.zsh.enable = true;
+  programs.vim = {
+    enable = true;
+    defaultEditor = false;
+  };
+  environment.etc."vimrc.local".text = ''
+    set number
+    set relativenumber
+  '';
   programs.nix-ld.enable = true;
   # Virtualization settings
   virtualisation.docker.enable = true;
