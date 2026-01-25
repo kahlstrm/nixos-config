@@ -39,6 +39,7 @@ in
 
   home.file = {
     ".claude/CLAUDE.md".source = configPath + /AGENTS.md;
+    ".claude/skills".source = configPath + /claude/skills;
     ".gemini/GEMINI.md".source = configPath + /AGENTS.md;
     ".codex/AGENTS.md".source = configPath + /AGENTS.md;
   }
