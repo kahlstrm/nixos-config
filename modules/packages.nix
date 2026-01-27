@@ -134,7 +134,7 @@ let
     gnumake
     just
     protobuf
-    nixfmt-rfc-style
+    nixfmt
     git-filter-repo
     wrk
     tlrc

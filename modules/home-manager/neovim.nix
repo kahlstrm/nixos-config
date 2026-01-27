@@ -29,7 +29,7 @@ in
       python3
       nodejs_24
       nixd
-      nixfmt-rfc-style
+      nixfmt
       golangci-lint
       ripgrep
       jdk
