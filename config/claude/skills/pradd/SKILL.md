@@ -1,5 +1,5 @@
 ---
-name: pr-address
+name: pradd
 description: Address PR review comments interactively
 disable-model-invocation: true
 ---
