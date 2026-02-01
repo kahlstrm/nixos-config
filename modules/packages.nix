@@ -117,6 +117,7 @@ let
     parted
     lm_sensors
     btrfs-progs
+    pciutils
   ];
 
   # Dev packages - programming languages, build tools
