@@ -53,7 +53,7 @@ in
         config.lib.file.mkOutOfStoreSymlink "${nixosConfigLocation}/config/opencode/opencode.json"
       else
         (configPath + /opencode/opencode.json);
-    "ghostty".source = configPath + /ghostty;
+    "ghostty/config".source = configPath + /ghostty/config;
   }
   // (lib.optionalAttrs isDarwin {
     "linearmouse".source = configPath + /linearmouse;
@@ -64,6 +64,7 @@ in
     "linearmouse".force = true;
   })
   // (lib.optionalAttrs isLinux {
+    "ghostty/linux-keybinds".source = configPath + /ghostty/linux-keybinds;
   });
 
   programs = {
