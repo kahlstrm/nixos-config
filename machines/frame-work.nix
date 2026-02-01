@@ -30,6 +30,12 @@ in
     "/dev/disk/by-uuid/67130c52-43c6-40c3-a4af-c5d9b803aebd";
   boot.kernelPackages = if isStable then pkgs.linuxPackages else pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  # MT7921 WiFi fixes for 6GHz stability
+  boot.extraModprobeConfig = ''
+    options mt7921_common disable_clc=1
+    options cfg80211 ieee80211_regdom=FI
+  '';
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
