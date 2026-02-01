@@ -64,6 +64,7 @@ in
             };
             "org/gnome/desktop/interface" = {
               color-scheme = "prefer-dark";
+              gtk-enable-primary-paste = false;
             };
             "org/gnome/desktop/wm/keybindings" = {
               cycle-group = [
