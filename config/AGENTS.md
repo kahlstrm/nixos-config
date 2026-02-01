@@ -22,3 +22,4 @@ These are not final instructions and the user can overrule them for each unit of
 - Document ONLY complex and/or obscure logic with comments; self-explanatory code shouldn't need comments. Usually a variable or function name should be enough documentation.
 - Follow DRY principle: extract repeated code into functions/modules after 3+ uses, or 2+ uses for large identical blocks.
 - Before writing utility functions, consider searching for existing functionality in the codebase first for code reuse.
+- Whenever there is some kind of verification in place, addressing it by fixing it is the only way to go forward. Skipping or disabling verification steps is NOT ALLOWED.
