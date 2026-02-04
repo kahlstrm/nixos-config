@@ -11,6 +11,7 @@ These are not final instructions and the user can overrule them for each unit of
 - After making an incremental but measurable unit of work, add meaningful tests for this unit of code.
 - Check recent commits to see the commit convention used. Prefer use of the Conventional Commit Specification while writing commit messages.
 - Write ONLY conscise oneliners as commit messages without a description.
+- When creating an issue to Linear/Jira, put it to backlog instead of triage immediately.
 
 ### Coding practices
 
