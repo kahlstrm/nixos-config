@@ -23,7 +23,7 @@ These are not final instructions and the user can overrule them for each unit of
 - Follow DRY principle: extract repeated code into functions/modules after 3+ uses, or 2+ uses for large identical blocks.
 - Before writing utility functions, consider searching for existing functionality in the codebase first for code reuse.
 
-- Whenever there is some kind of verification in place, addressing it by fixing it is the only way to go forward. Skipping or disabling verification steps is NOT ALLOWED.
+- Whenever there is some kind of verification in place, addressing it by fixing it is the only way to go forward. Skipping or disabling verification steps is NOT ALLOWED. There are no "unrelated" errors, and every error should be fixed.
 
 ### Debugging practices
 
