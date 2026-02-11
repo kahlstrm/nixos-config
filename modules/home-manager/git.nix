@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   currentSystemEmail,
   personalEmail,
   ...
@@ -7,6 +8,14 @@
 let
   isPersonalEmailSet = personalEmail != null && personalEmail != "";
   isDifferentEmail = isPersonalEmailSet && (personalEmail != currentSystemEmail);
+  difft-wrapper = pkgs.writeShellScript "difft-wrapper" ''
+    if [ -n "$GIT_PAGER_IN_USE" ]; then
+      exec ${lib.getExe pkgs.difftastic} "$@"
+    else
+      diff -u --label "a/$1" --label "b/$1" "$2" "$5"
+      exit 0
+    fi
+  '';
   makePersonalGitDirPathConfigs =
     gitDirPaths:
     map (gitdirPath: {
@@ -49,10 +58,8 @@ in
     ]);
   };
 
-  programs.difftastic = {
-    enable = true;
-    git.enable = true;
-  };
+  programs.difftastic.enable = true;
+  programs.git.settings.diff.external = toString difft-wrapper;
 
   programs.mergiraf.enable = true;
 
