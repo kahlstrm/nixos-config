@@ -12,6 +12,7 @@
 let
   nixosConfigLocation = "${config.home.homeDirectory}/nixos-config";
   configPath = flakeRoot + /config;
+  agentSkillsPath = configPath + /.agents/skills;
 in
 {
   imports = [
@@ -39,7 +40,8 @@ in
 
   home.file = {
     ".claude/CLAUDE.md".source = configPath + /AGENTS.md;
-    ".claude/skills".source = configPath + /claude/skills;
+    ".claude/skills".source = agentSkillsPath;
+    ".agents/skills".source = agentSkillsPath;
     ".gemini/GEMINI.md".source = configPath + /AGENTS.md;
     ".codex/AGENTS.md".source = configPath + /AGENTS.md;
   }
