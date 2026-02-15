@@ -49,7 +49,7 @@ in
       nix-ld-enable = "export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH";
       claudec = "claude --continue";
       clauder = "claude --resume";
-      codex = "codex --sandbox danger-full-access --ask-for-approval untrusted --enable web_search_request -m gpt-5.2-codex -c model_reasoning_effort=\"high\"";
+      codex = "codex --sandbox danger-full-access --ask-for-approval untrusted --enable web_search_request -c model_reasoning_effort=\"high\"";
       codexc = "codex resume --last";
       codexr = "codex resume";
       gemini = "gemini --model pro";
