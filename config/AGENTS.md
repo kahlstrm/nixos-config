@@ -5,6 +5,10 @@ These are not final instructions and the user can overrule them for each unit of
 
 ## Coding instructions
 
+### Tool Use
+
+- When parsing json, use `jq`.
+
 ### Workflow practices
 
 - Propose incremental edits that are easily comprehensible with separation of logic; if adding two or more logical concepts to the same file, add them separately.
