@@ -1,4 +1,5 @@
 {
+  pkgs,
   ...
 }:
 {
@@ -17,7 +18,6 @@
       #"brave"
     ];
     brews = [
-      "swagger-codegen"
     ];
     masApps = {
       "telegram" = 747648890;
@@ -25,4 +25,7 @@
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    swagger-codegen3
+  ];
 }

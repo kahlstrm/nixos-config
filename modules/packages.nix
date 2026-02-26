@@ -149,7 +149,6 @@ let
   devDarwinPackages = with pkgs; [
     dockutil
     cocoapods
-    mas
     llvmPackages.bintools-unwrapped
     pkgs-unstable.mise
   ];
