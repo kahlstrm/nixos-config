@@ -125,6 +125,7 @@ let
     rustup
     go
     golangci-lint
+    tflint
     nodejs_24
     corepack
     python3
