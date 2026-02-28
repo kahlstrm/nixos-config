@@ -55,6 +55,7 @@ in
       gemini = "gemini --model pro";
       geminic = "gemini resume latest";
       geminir = "gemini resume";
+      oc = "opencode";
     }
     // lib.optionalAttrs (isLinux && guiEnabled) {
       pbcopy = "wl-copy";

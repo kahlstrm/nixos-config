@@ -1,14 +1,25 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-gemini-auth@1.3.6", "opencode-openai-codex-auth@4.2.0"],
   "permission": {
     "edit": "ask",
     "bash": {
-      "git diff": "allow",
-      "git status": "allow",
-      "ls": "allow",
+      "*": "ask",
+      "git status *": "allow",
+      "git log *": "allow",
+      "git diff *": "allow",
+      "git branch *": "allow",
+      "git show *": "allow",
+      "git rev-parse *": "allow",
+      "docker ps *": "allow",
+      "docker images *": "allow",
+      "docker inspect *": "allow",
+      "which *": "allow",
+      "gh pr view *": "allow",
+      "gh issue view *": "allow",
+      "ls *": "allow",
       "pwd": "allow",
-      "*": "ask"
+      "mkdir *": "allow",
+      "wc *": "allow"
     }
   }
 }
