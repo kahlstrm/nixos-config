@@ -140,6 +140,7 @@ let
     git-filter-repo
     wrk
     tlrc
+    goreleaser
   ];
 
   devCompilers = [
