@@ -31,7 +31,7 @@ in
     ignores = [
       "*.swp"
       ".DS_STORE"
-      "/.claude/"
+      "/.claude/settings.local.json"
     ];
     lfs = {
       enable = true;
