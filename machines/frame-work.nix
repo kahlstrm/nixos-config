@@ -107,6 +107,7 @@ in
     # microsoft-edge
     rocmPackages.rocm-smi
     winbox4
+    azure-cli
   ];
   services.netbird.enable = true;
 

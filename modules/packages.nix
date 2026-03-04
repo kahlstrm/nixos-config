@@ -127,7 +127,7 @@ let
     golangci-lint
     tflint
     nodejs_24
-    corepack
+    # corepack
     python3
     (wrapNixLDIfLinux bun "bun")
     jdk
