@@ -176,10 +176,10 @@ let
 
   # GUI packages
   guiPackages = with pkgs; [
-    vscode
   ];
 
   guiLinuxPackages = with pkgs; [
+    vscode
     brave
     bitwarden-desktop
     valgrind
