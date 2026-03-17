@@ -8,6 +8,7 @@ These are not final instructions and the user can overrule them for each unit of
 ### Tool Use
 
 - When parsing json, use `jq`.
+- When using AWS CLI, use the --profile to select the AWS SSO profile. To list available profiles, use `aws configure list-profiles`
 
 ### Workflow practices
 
