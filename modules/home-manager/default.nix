@@ -12,7 +12,7 @@
 let
   nixosConfigLocation = "${config.home.homeDirectory}/nixos-config";
   configPath = flakeRoot + /config;
-  agentSkillsPath = configPath + /.agents/skills;
+  agentSkillsPath = configPath + /agents/skills;
 in
 {
   imports = [
