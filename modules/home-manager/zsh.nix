@@ -110,10 +110,17 @@ in
     )
     ''
       ssm-ec2() {
-        local instances id
+        local instances id profile_args=() ssm_args=()
 
-        # Get instances first, fail loudly if AWS is misconfigured
+        while [[ $# -gt 0 ]]; do
+          case "$1" in
+            --profile) profile_args=(--profile "$2"); shift 2 ;;
+            *) ssm_args+=("$1"); shift ;;
+          esac
+        done
+
         if ! instances=$(aws ec2 describe-instances \
+          "''${profile_args[@]}" \
           --query "Reservations[].Instances[?State.Name=='running'].[InstanceId, Tags[?Key=='Name'].Value|[0]]" \
           --output text); then
           echo "Failed to list EC2 instances (check AWS profile/credentials)." >&2
@@ -125,7 +132,7 @@ in
         id=$(printf '%s\n' "$instances" | fzf | awk '{print $1}')
         [ -z "$id" ] && echo "No instance selected." >&2 && return 1
 
-        aws ssm start-session --target "$id" "$@"
+        aws ssm start-session "''${profile_args[@]}" --target "$id" "''${ssm_args[@]}"
       }
     ''
     ''
