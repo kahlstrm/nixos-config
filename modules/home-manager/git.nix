@@ -32,6 +32,7 @@ in
       "*.swp"
       ".DS_STORE"
       "/.claude/settings.local.json"
+      "/.claude/worktrees/"
     ];
     lfs = {
       enable = true;
