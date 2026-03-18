@@ -111,17 +111,22 @@ in
     )
     ''
       ssm-ec2() {
-        local instances id profile_args=() ssm_args=()
+        local instances id global_args=() ssm_args=()
 
         while [[ $# -gt 0 ]]; do
           case "$1" in
-            --profile) profile_args=(--profile "$2"); shift 2 ;;
+            --profile)
+              [[ -z "''${2:-}" ]] && echo "Error: --profile requires a value." >&2 && return 1
+              global_args+=(--profile "$2"); shift 2 ;;
+            --region)
+              [[ -z "''${2:-}" ]] && echo "Error: --region requires a value." >&2 && return 1
+              global_args+=(--region "$2"); shift 2 ;;
             *) ssm_args+=("$1"); shift ;;
           esac
         done
 
         if ! instances=$(aws ec2 describe-instances \
-          "''${profile_args[@]}" \
+          "''${global_args[@]}" \
           --query "Reservations[].Instances[?State.Name=='running'].[InstanceId, Tags[?Key=='Name'].Value|[0]]" \
           --output text); then
           echo "Failed to list EC2 instances (check AWS profile/credentials)." >&2
@@ -133,7 +138,7 @@ in
         id=$(printf '%s\n' "$instances" | fzf | awk '{print $1}')
         [ -z "$id" ] && echo "No instance selected." >&2 && return 1
 
-        aws ssm start-session "''${profile_args[@]}" --target "$id" "''${ssm_args[@]}"
+        aws ssm start-session "''${global_args[@]}" --target "$id" "''${ssm_args[@]}"
       }
     ''
     ''
