@@ -7,7 +7,7 @@ Create a commit and pull request for changes: $ARGUMENTS
 
 ## Steps
 
-0. Run repository specific checks, lint, tests that are relateed to the changes.
+0. Run repository specific checks, lint, tests that are relateed to the changes. If available, also run `/simplify` to sanity check the changes.
 
 1. **Gather context**
    - Run `git status` to see staged and unstaged changes
@@ -30,7 +30,7 @@ Create a commit and pull request for changes: $ARGUMENTS
 
 4. **Push and create pull request**
    - Push branch to remote with `git push -u origin <branch>`
-   - Check if `.github/PULL_REQUEST_TEMPLATE.md` (or `.github/pull_request_template.md`) exists in the project.
+   - Check if `.github/PULL_REQUEST_TEMPLATE.md` (or `.github/pull_request_template.md`) exists in the repository (from the repository root!).
    - If template exists, read it and fill in based on the changes:
      - Replace placeholders with actual content from the commits
    - If no template, create a basic PR body with summary and changes list
