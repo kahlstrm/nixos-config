@@ -7,7 +7,7 @@ Create a commit and pull request for changes: $ARGUMENTS
 
 ## Steps
 
-0. Run repository specific checks, lint, tests that are relateed to the changes. If available, also run `/simplify` to sanity check the changes.
+0. Run repository specific checks, lint, tests that are relateed to the changes.
 
 1. **Gather context**
    - Run `git status` to see staged and unstaged changes
