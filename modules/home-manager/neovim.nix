@@ -26,6 +26,7 @@ in
     extraPackages = with pkgs; [
       clang
       gnumake
+      tree-sitter
       python3
       nodejs_24
       nixd
