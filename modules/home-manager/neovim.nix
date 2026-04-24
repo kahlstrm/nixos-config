@@ -21,6 +21,8 @@ in
     enable = true;
     vimdiffAlias = true;
     package = pkgs.neovim-unwrapped;
+    # https://github.com/nix-community/home-manager/pull/9028
+    sideloadInitLua = true;
     # as we manage Neovim plugins outside of Nix,
     # some plugins (mainly Treesitter) require C compiler
     extraPackages = with pkgs; [
