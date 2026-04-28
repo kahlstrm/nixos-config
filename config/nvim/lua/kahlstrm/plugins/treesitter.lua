@@ -6,7 +6,31 @@ return {
     build = ':TSUpdate',
     main = 'nvim-treesitter',
     init = function()
-      local ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'nix',
+        'rust',
+        'go',
+        'javascript',
+        'typescript',
+        'tsx',
+        'terraform',
+        'yaml',
+        'json',
+        'groovy',
+        'kotlin',
+        'java',
+      }
 
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
@@ -21,13 +45,7 @@ return {
         end,
       })
 
-      local installed = require('nvim-treesitter.config').get_installed()
-      local to_install = vim.iter(ensure_installed)
-        :filter(function(p) return not vim.tbl_contains(installed, p) end)
-        :totable()
-      if #to_install > 0 then
-        require('nvim-treesitter').install(to_install)
-      end
+      require('nvim-treesitter').install(ensure_installed)
     end,
   },
   -- https://github.com/nvim-treesitter/nvim-treesitter-context
