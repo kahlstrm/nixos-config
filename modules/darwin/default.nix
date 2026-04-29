@@ -31,7 +31,7 @@
       "linearmouse"
     ];
     onActivation = {
-      autoUpdate = true;
+      autoUpdate = false;
       upgrade = true;
     };
     taps = [ ];
