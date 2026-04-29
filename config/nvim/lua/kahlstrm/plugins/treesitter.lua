@@ -30,6 +30,7 @@ return {
         'groovy',
         'kotlin',
         'java',
+        'thrift',
       }
 
       vim.api.nvim_create_autocmd('FileType', {
