@@ -9,4 +9,9 @@ final: prev: {
   direnv = prev.direnv.overrideAttrs (_: {
     doCheck = false;
   });
+  # mise tests use mockito which needs to bind TCP sockets; the Nix sandbox
+  # on Darwin denies that, so skip them.
+  mise = prev.mise.overrideAttrs (_: {
+    doCheck = false;
+  });
 }
