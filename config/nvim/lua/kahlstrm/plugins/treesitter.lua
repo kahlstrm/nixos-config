@@ -26,6 +26,7 @@ return {
         'tsx',
         'terraform',
         'yaml',
+        'toml',
         'json',
         'groovy',
         'kotlin',
