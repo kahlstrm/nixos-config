@@ -357,11 +357,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784986375,
-        "narHash": "sha256-XDnEnsLAwxdVF4+SFNHwprHaFaa1ZbazilqKL1aLrks=",
+        "lastModified": 1784990708,
+        "narHash": "sha256-yx1XD3lPV5fyb0vmiCTFy0kcv1gwnOpjsKYVO7xEfME=",
         "owner": "NitorCreations",
         "repo": "nix-mdatp",
-        "rev": "9e75760b0d8db7d06e00f11fafb2cba4233de7b3",
+        "rev": "d7e6c139d82954fff4cf23f20f23804d7679842d",
         "type": "github"
       },
       "original": {
