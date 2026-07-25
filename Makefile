@@ -53,16 +53,14 @@ else
 	sudo nixos-rebuild switch --install-bootloader --flake ".#${NIXNAME}"
 endif
 
-# TODO: look into deploy-rs
 deploy-pannu:
-	nixos-rebuild switch --build-host pannu --target-host pannu --flake . --sudo --ask-sudo-password
+	nh os switch -a -H pannu --build-host pannu --target-host pannu .
 
 build-pannu:
 	nixos-rebuild build --build-host pannu --target-host pannu --flake .
 
-# TODO: look into deploy-rs
 deploy-zima:
-	nixos-rebuild switch --build-host zima --target-host zima --flake . --sudo --ask-sudo-password
+	nh os switch -a -H zima --build-host zima --target-host zima .
 
 bootstrap-poenttoe:
 	# Create user kahlstrm if not exists, set password, copy root keys
@@ -70,7 +68,7 @@ bootstrap-poenttoe:
 	ssh root@$(POENTTOE_IP) "mkdir -p /home/kahlstrm/.ssh && [ -f /home/kahlstrm/.ssh/authorized_keys ] || (cp /etc/ssh/authorized_keys.d/root /home/kahlstrm/.ssh/authorized_keys && chown -R kahlstrm: /home/kahlstrm/.ssh && chmod 700 /home/kahlstrm/.ssh && chmod 600 /home/kahlstrm/.ssh/authorized_keys)"
 
 deploy-poenttoe:
-	nixos-rebuild switch --build-host kahlstrm@$(POENTTOE_IP) --target-host kahlstrm@$(POENTTOE_IP) --flake .#poenttoe --sudo --ask-sudo-password
+	nh os switch -a -H poenttoe --build-host kahlstrm@$(POENTTOE_IP) --target-host kahlstrm@$(POENTTOE_IP) .
 
 fmt:
 	fd '\.nix$$'| xargs nixfmt
