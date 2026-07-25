@@ -12,29 +12,29 @@
       "${config.home.homeDirectory}/.ssh/config_external"
     ];
     extraOptionOverrides = lib.optionalAttrs isDarwin { UseKeychain = "yes"; };
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
-        hashKnownHosts = false;
-        setEnv.TERM = "xterm-256color";
+        AddKeysToAgent = "yes";
+        HashKnownHosts = false;
+        SetEnv.TERM = "xterm-256color";
       };
       "pannu" = {
-        hostname = "p.kalski.xyz";
-        user = "kahlstrm";
+        HostName = "p.kalski.xyz";
+        User = "kahlstrm";
       };
       "zima" = {
-        hostname = "zima.kalski.xyz";
-        user = "kahlstrm";
+        HostName = "zima.kalski.xyz";
+        User = "kahlstrm";
       };
       "poenttoe" = {
-        hostname = "poenttoe.kalski.xyz";
-        user = "kahlstrm";
+        HostName = "poenttoe.kalski.xyz";
+        User = "kahlstrm";
       };
       "kuberack" = {
-        hostname = "kuberack.networking.kalski.xyz";
+        HostName = "kuberack.networking.kalski.xyz";
       };
       "stationary" = {
-        hostname = "stationary.networking.kalski.xyz";
+        HostName = "stationary.networking.kalski.xyz";
       };
     };
   };

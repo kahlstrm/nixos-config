@@ -62,6 +62,9 @@ in
   programs.difftastic.enable = true;
   programs.git.settings.diff.external = toString difft-wrapper;
 
-  programs.mergiraf.enable = true;
+  programs.mergiraf = {
+    enable = true;
+    enableGitIntegration = true;
+  };
 
 }
