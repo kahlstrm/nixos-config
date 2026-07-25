@@ -25,6 +25,8 @@ in
     vimAlias = true;
     vimdiffAlias = true;
     package = pkgs.neovim-unwrapped;
+    withPython3 = false;
+    withRuby = false;
     # as we manage Neovim plugins outside of Nix,
     # some plugins (mainly Treesitter) require C compiler
     extraPackages = with pkgs; [
