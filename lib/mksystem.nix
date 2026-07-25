@@ -45,6 +45,7 @@ let
     nixarr
     ;
   guiEnabled = (!wsl && gui) || isDarwin;
+  devEnabled = packages.dev or true;
   # The config files for this system.
   nixConfig = ../modules/nix-config;
   machineConfig = ../machines/${name}.nix;
@@ -71,6 +72,7 @@ let
   };
   specialArgs = {
     inherit
+      devEnabled
       guiEnabled
       isDarwin
       isLinux

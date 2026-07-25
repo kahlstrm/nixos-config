@@ -72,7 +72,6 @@ let
     coreutils
     sedButGsedOnDarwin
     vim
-    pkgs-unstable.neovim
     git
     gh
     htop
@@ -122,6 +121,7 @@ let
 
   # Dev packages - programming languages, build tools
   devPackages = with pkgs; [
+    pkgs-unstable.neovim
     rustup
     go
     golangci-lint

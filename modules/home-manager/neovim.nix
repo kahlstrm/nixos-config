@@ -19,28 +19,29 @@ in
     else
       (flakeRoot + /config/nvim);
 
-  programs.neovim =
-    {
-      enable = true;
-      vimdiffAlias = true;
-      package = pkgs.neovim-unwrapped;
-      # as we manage Neovim plugins outside of Nix,
-      # some plugins (mainly Treesitter) require C compiler
-      extraPackages = with pkgs; [
-        clang
-        gnumake
-        tree-sitter
-        python3
-        nodejs_24
-        nixd
-        nixfmt
-        golangci-lint
-        ripgrep
-        jdk
-      ];
-    }
-    // lib.optionalAttrs (options.programs.neovim ? sideloadInitLua) {
-      # https://github.com/nix-community/home-manager/pull/9028
-      sideloadInitLua = true;
-    };
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    package = pkgs.neovim-unwrapped;
+    # as we manage Neovim plugins outside of Nix,
+    # some plugins (mainly Treesitter) require C compiler
+    extraPackages = with pkgs; [
+      clang
+      gnumake
+      tree-sitter
+      python3
+      nodejs_24
+      nixd
+      nixfmt
+      golangci-lint
+      ripgrep
+      jdk
+    ];
+  }
+  // lib.optionalAttrs (options.programs.neovim ? sideloadInitLua) {
+    # https://github.com/nix-community/home-manager/pull/9028
+    sideloadInitLua = true;
+  };
 }

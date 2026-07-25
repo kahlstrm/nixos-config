@@ -26,7 +26,6 @@ in
       LC_CTYPE = "en_US.UTF-8";
       LC_ALL = "en_US.UTF-8";
       PAGER = "less -FiRSwX";
-      EDITOR = "nvim";
       MANPAGER = "sh -c 'col -bx | bat -l man -p'";
       MANROFFOPT = "-c";
     };
@@ -36,7 +35,6 @@ in
       ghco = "gh pr checkout";
       ghprv = "gh pr view --web";
       copilot = "gh copilot";
-      vim = "nvim";
       ls = "ls --color=auto";
       rg = "rg --hidden --glob '!.git'";
       cat = "bat --style plain --paging=never";

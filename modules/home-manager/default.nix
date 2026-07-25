@@ -1,4 +1,5 @@
 {
+  devEnabled,
   isDarwin,
   isLinux,
   nix-index-database,
@@ -23,12 +24,14 @@ in
       programs.nix-index.enableBashIntegration = false;
       programs.nix-index.enableFishIntegration = false;
     }
-    (import ./neovim.nix { inherit nixosConfigLocation; })
     (import ./zsh.nix { inherit nixosConfigLocation; })
     (import ./nh.nix { inherit nixosConfigLocation; })
     ./git.nix
     ./ssh.nix
     ./btop.nix
+  ]
+  ++ lib.optionals devEnabled [
+    (import ./neovim.nix { inherit nixosConfigLocation; })
   ];
   home.stateVersion = "24.11";
 
