@@ -52,8 +52,10 @@
       openFirewall = false; # rely on nginx only
     };
 
-    jellyseerr = {
+    seerr = {
       enable = true;
+      # Preserve the existing state when migrating from the jellyseerr option namespace.
+      stateDir = "${stateDir}/jellyseerr";
       expose.https = {
         enable = true;
         domainName = "jellyseerr.${acmeHost}";

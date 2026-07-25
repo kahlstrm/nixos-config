@@ -63,13 +63,13 @@ in
       inherit (config.services.nginx) group;
       domain = acmeHost;
       dnsProvider = "cloudflare";
-      credentialsFile = "/data/.secret/cloudflare.env";
+      environmentFile = "/data/.secret/cloudflare.env";
       extraDomainNames = [ "*.${acmeHost}" ];
     };
     certs."jet.kalski.xyz" = {
       domain = "jet.kalski.xyz";
       dnsProvider = "cloudflare";
-      credentialsFile = "/data/.secret/cloudflare.env";
+      environmentFile = "/data/.secret/cloudflare.env";
       # Need to setup host root SSH-key and add public key to jetKVM for this to work
       # Settings -> Advanced
       # Developer Mode on

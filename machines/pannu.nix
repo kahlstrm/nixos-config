@@ -126,7 +126,7 @@
       inherit (config.services.nginx) group;
       domain = "p.kalski.xyz";
       dnsProvider = "cloudflare";
-      credentialsFile = "/var/lib/secrets/cloudflare.env";
+      environmentFile = "/var/lib/secrets/cloudflare.env";
       extraDomainNames = [ "*.p.kalski.xyz" ];
     };
   };

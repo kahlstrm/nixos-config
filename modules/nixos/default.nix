@@ -45,7 +45,11 @@
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
   # Virtualization settings
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    # The current stable nixpkgs defaults to Docker 28, which it also marks as insecure.
+    package = pkgs.docker_29;
+  };
 
   i18n = {
     defaultLocale = "en_US.UTF-8";

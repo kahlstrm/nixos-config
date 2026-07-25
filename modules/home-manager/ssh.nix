@@ -11,17 +11,12 @@
     includes = [
       "${config.home.homeDirectory}/.ssh/config_external"
     ];
-    extraOptionOverrides = {
-      # fallback to xterm-256color so ssh prompts don't go crazy
-      SetEnv = {
-        TERM = "xterm-256color";
-      };
-    }
-    // (lib.optionalAttrs isDarwin { UseKeychain = "yes"; });
+    extraOptionOverrides = lib.optionalAttrs isDarwin { UseKeychain = "yes"; };
     matchBlocks = {
       "*" = {
         addKeysToAgent = "yes";
         hashKnownHosts = false;
+        setEnv.TERM = "xterm-256color";
       };
       "pannu" = {
         hostname = "p.kalski.xyz";
