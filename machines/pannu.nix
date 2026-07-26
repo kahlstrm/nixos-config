@@ -9,6 +9,7 @@
 
 let
   bambuddyPort = 8180;
+  bambuddySlicerPort = 3001;
 in
 {
   imports = [
@@ -16,7 +17,10 @@ in
     ./hardware/pannu.nix
 
     resolvedModules.jovian
-    (import ../modules/bambuddy.nix { port = bambuddyPort; })
+    (import ../modules/bambuddy.nix {
+      port = bambuddyPort;
+      slicerPort = bambuddySlicerPort;
+    })
     (import ../modules/steam-machine.nix { hasAmdGPU = true; })
     (import ../modules/lact.nix {
       hasAmdGPU = true;
