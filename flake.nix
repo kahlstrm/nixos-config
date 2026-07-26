@@ -100,6 +100,11 @@
           bambuddy = inputs.nixpkgs-bambuddy.legacyPackages.${final.stdenv.hostPlatform.system}.bambuddy;
         })
       ];
+      formatterNixpkgs = {
+        aarch64-darwin = inputs.nixpkgs-unstable-darwin;
+        aarch64-linux = inputs.nixpkgs-unstable-nixos;
+        x86_64-linux = inputs.nixpkgs-unstable-nixos;
+      };
       personalEmail = "kalle.ahlstrom@iki.fi";
       workEmail = "kalle.ahlstrom@nitor.com";
 
@@ -113,6 +118,10 @@
       };
     in
     {
+      formatter = builtins.mapAttrs (
+        system: nixpkgs: nixpkgs.legacyPackages.${system}.nixfmt-tree
+      ) formatterNixpkgs;
+
       darwinConfigurations.mac-personal = mkSystem "mac-personal" {
         system = "aarch64-darwin";
         user = "kalski";
