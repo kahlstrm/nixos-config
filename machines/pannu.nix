@@ -10,6 +10,7 @@
 let
   bambuddyPort = 8180;
   bambuddySlicerPort = 3001;
+  bambuddyFailureDetectionPort = 3333;
 in
 {
   imports = [
@@ -20,6 +21,7 @@ in
     (import ../modules/bambuddy.nix {
       port = bambuddyPort;
       slicerPort = bambuddySlicerPort;
+      failureDetectionPort = bambuddyFailureDetectionPort;
     })
     (import ../modules/steam-machine.nix { hasAmdGPU = true; })
     (import ../modules/lact.nix {
