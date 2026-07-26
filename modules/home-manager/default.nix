@@ -31,6 +31,7 @@ in
     ./btop.nix
   ]
   ++ lib.optionals devEnabled [
+    ./direnv.nix
     (import ./neovim.nix { inherit nixosConfigLocation; })
   ];
   home.stateVersion = "24.11";
