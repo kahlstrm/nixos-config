@@ -6,6 +6,7 @@
     nixpkgs-unstable-nixos.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
+    nixpkgs-bambuddy.url = "github:NixOS/nixpkgs/b6ec51384c7827a48d6d5570f008201c25d603f4";
 
     mdatp = {
       url = "github:NitorCreations/nix-mdatp";
@@ -95,6 +96,9 @@
     let
       # Overlays is the list of overlays we want to apply from flake inputs.
       inputOverlays = [
+        (final: _: {
+          bambuddy = inputs.nixpkgs-bambuddy.legacyPackages.${final.stdenv.hostPlatform.system}.bambuddy;
+        })
       ];
       personalEmail = "kalle.ahlstrom@iki.fi";
       workEmail = "kalle.ahlstrom@nitor.com";
