@@ -36,7 +36,7 @@
     turso-cli
     mongodb-tools
     mongosh
-    erlang
+    beamPackages.erlang
     gleam
     azure-cli
   ];
