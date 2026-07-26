@@ -53,22 +53,16 @@ else
 	sudo nixos-rebuild switch --install-bootloader --flake ".#${NIXNAME}"
 endif
 
-deploy-pannu:
-	nh os switch -a -H pannu --build-host pannu --target-host pannu .
+deploy-pannu deploy-poenttoe deploy-zima: deploy-%:
+	nh os switch -a -H $* --build-host $* --target-host $* .
 
-build-pannu:
-	nixos-rebuild build --build-host pannu --target-host pannu --flake .
-
-deploy-zima:
-	nh os switch -a -H zima --build-host zima --target-host zima .
+build-pannu build-poenttoe build-zima: build-%:
+	nh os build -H $* --build-host $* --target-host $* .
 
 bootstrap-poenttoe:
 	# Create user kahlstrm if not exists, set password, copy root keys
 	ssh -t root@$(POENTTOE_IP) "id -u kahlstrm &>/dev/null || useradd -m -G wheel kahlstrm; echo 'Please set password for kahlstrm:'; passwd kahlstrm"
 	ssh root@$(POENTTOE_IP) "mkdir -p /home/kahlstrm/.ssh && [ -f /home/kahlstrm/.ssh/authorized_keys ] || (cp /etc/ssh/authorized_keys.d/root /home/kahlstrm/.ssh/authorized_keys && chown -R kahlstrm: /home/kahlstrm/.ssh && chmod 700 /home/kahlstrm/.ssh && chmod 600 /home/kahlstrm/.ssh/authorized_keys)"
-
-deploy-poenttoe:
-	nh os switch -a -H poenttoe --build-host kahlstrm@$(POENTTOE_IP) --target-host kahlstrm@$(POENTTOE_IP) .
 
 fmt:
 	fd '\.nix$$'| xargs nixfmt
@@ -84,7 +78,21 @@ fmt:
 
 
 # Build a WSL installer
-.PHONY: wsl switch build test
+.PHONY: \
+	bootstrap-poenttoe \
+	bootloader \
+	build \
+	build-pannu \
+	build-poenttoe \
+	build-zima \
+	deploy-pannu \
+	deploy-poenttoe \
+	deploy-zima \
+	fmt \
+	repl \
+	switch \
+	test \
+	wsl
 wsl:
 	 nix build --extra-experimental-features nix-command --extra-experimental-features flakes ".#nixosConfigurations.wsl.config.system.build.tarballBuilder"
 	 sudo result/bin/nixos-wsl-tarball-builder
