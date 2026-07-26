@@ -7,12 +7,16 @@
   ...
 }:
 
+let
+  bambuddyPort = 8180;
+in
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware/pannu.nix
 
     resolvedModules.jovian
+    (import ../modules/bambuddy.nix { port = bambuddyPort; })
     (import ../modules/steam-machine.nix { hasAmdGPU = true; })
     (import ../modules/lact.nix {
       hasAmdGPU = true;
@@ -152,6 +156,15 @@
       "ollama.p.kalski.xyz" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:11434";
+          proxyWebsockets = true;
+        };
+        forceSSL = true;
+        useACMEHost = "p.kalski.xyz";
+      };
+
+      "bambuddy.p.kalski.xyz" = {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString bambuddyPort}";
           proxyWebsockets = true;
         };
         forceSSL = true;
