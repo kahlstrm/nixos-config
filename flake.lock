@@ -566,6 +566,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-jdk24": {
+      "locked": {
+        "lastModified": 1759492641,
+        "narHash": "sha256-S76ElfBsJT152s7843RqeMIlm/p4aMbsLoz9ec4eaTY=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "0d05e707532d25996bd90d98a5eb467d1da9388f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "0d05e707532d25996bd90d98a5eb467d1da9388f",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable-darwin": {
       "locked": {
         "lastModified": 1782904953,
@@ -696,6 +712,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs-bambuddy": "nixpkgs-bambuddy",
+        "nixpkgs-jdk24": "nixpkgs-jdk24",
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nixpkgs-unstable-darwin": "nixpkgs-unstable-darwin",

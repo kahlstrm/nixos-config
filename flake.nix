@@ -8,6 +8,8 @@
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
     nixpkgs-bambuddy.url = "github:NixOS/nixpkgs/b6ec51384c7827a48d6d5570f008201c25d603f4";
 
+    nixpkgs-jdk24.url = "github:nixos/nixpkgs/0d05e707532d25996bd90d98a5eb467d1da9388f";
+
     mdatp = {
       url = "github:NitorCreations/nix-mdatp";
       inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
