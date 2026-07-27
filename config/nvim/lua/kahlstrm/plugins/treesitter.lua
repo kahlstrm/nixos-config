@@ -32,6 +32,7 @@ return {
         'kotlin',
         'java',
         'thrift',
+        'proto',
       }
 
       vim.api.nvim_create_autocmd('FileType', {
