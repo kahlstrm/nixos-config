@@ -126,6 +126,7 @@ let
     go
     golangci-lint
     tflint
+    shellcheck
     nodejs_24
     # corepack
     python3
