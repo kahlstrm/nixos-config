@@ -73,6 +73,7 @@ let
   specialArgs = {
     inherit
       devEnabled
+      inputs
       guiEnabled
       isDarwin
       isLinux
