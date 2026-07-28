@@ -7,6 +7,10 @@
     nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
     nixpkgs-bambuddy.url = "github:NixOS/nixpkgs/b6ec51384c7827a48d6d5570f008201c25d603f4";
+    bambuddy-src = {
+      url = "github:kahlstrm/bambuddy/feature/process-overrides";
+      flake = false;
+    };
 
     nixpkgs-jdk24.url = "github:nixos/nixpkgs/0d05e707532d25996bd90d98a5eb467d1da9388f";
 
@@ -99,7 +103,11 @@
       # Overlays is the list of overlays we want to apply from flake inputs.
       inputOverlays = [
         (final: _: {
-          bambuddy = inputs.nixpkgs-bambuddy.legacyPackages.${final.stdenv.hostPlatform.system}.bambuddy;
+          bambuddy =
+            inputs.nixpkgs-bambuddy.legacyPackages.${final.stdenv.hostPlatform.system}.bambuddy.overrideAttrs
+              {
+                src = inputs.bambuddy-src;
+              };
         })
       ];
       formatterNixpkgs = {

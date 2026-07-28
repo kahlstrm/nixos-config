@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "bambuddy-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785241360,
+        "narHash": "sha256-rDNneGnnQ6NC9416Fwl31bf3RM9tElkbfeqi+d8F/8U=",
+        "owner": "kahlstrm",
+        "repo": "bambuddy",
+        "rev": "f63c1363ef7651239988b2ec38e3e2c7d19efb42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kahlstrm",
+        "ref": "feature/process-overrides",
+        "repo": "bambuddy",
+        "type": "github"
+      }
+    },
     "brew-src": {
       "flake": false,
       "locked": {
@@ -694,6 +711,7 @@
     },
     "root": {
       "inputs": {
+        "bambuddy-src": "bambuddy-src",
         "darwin-stable": "darwin-stable",
         "darwin-unstable": "darwin-unstable",
         "home-manager-stable-darwin": "home-manager-stable-darwin",
