@@ -85,6 +85,8 @@ in
     };
   };
 
+  systemd.user.services.gamescope-session.restartIfChanged = false;
+
   programs.steam.localNetworkGameTransfers.openFirewall = true;
   # Add sunshine game streaming
   services.sunshine = {
