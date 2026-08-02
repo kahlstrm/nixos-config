@@ -106,6 +106,7 @@
           bambuddy =
             inputs.nixpkgs-bambuddy.legacyPackages.${final.stdenv.hostPlatform.system}.bambuddy.overrideAttrs
               {
+                version = "1.2.5.1";
                 src = inputs.bambuddy-src;
               };
         })

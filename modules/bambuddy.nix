@@ -12,7 +12,7 @@ let
   obicoMlImageDigest = "sha256:bf43e7c6b7c1eece29290a24d07a66c1be173bddcba6a6ffed494e5b0cdce0e6";
   slicerImageDigests = {
     "0.2.4.8" = "sha256:1a694a3d834619b463db195881c03c920193e1c9882bc79139785ea0b03746b7";
-    "1.2.5" = "sha256:ed80302bb1ce99ef329e319ad868c4b13ec240d51a1b942d332b16a577665e8c";
+    "1.2.5.1" = "sha256:2f480062f79c0a4d39d58f9e992165c625cb75a31b955bc8f088a5191c822863";
   };
   slicerImageDigest =
     slicerImageDigests.${bambuddyVersion}
