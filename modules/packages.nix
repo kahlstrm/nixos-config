@@ -159,6 +159,7 @@ let
     wrk
     tlrc
     goreleaser
+    actionlint
   ];
 
   devCompilers = [
