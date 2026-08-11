@@ -160,6 +160,7 @@ let
     tlrc
     goreleaser
     actionlint
+    yamllint
   ];
 
   devCompilers = [
