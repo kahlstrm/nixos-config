@@ -203,6 +203,7 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       ---@type table<string, vim.lsp.Config>
+      -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
       local servers = {
         glsl_analyzer = {},
         gopls = {},
@@ -210,13 +211,7 @@ return {
         ty = {},
         ruff = {},
         rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {},
+        tsgo = {},
         tailwindcss = {
           settings = {
             tailwindCSS = {
@@ -239,6 +234,20 @@ return {
             vim.api.nvim_create_autocmd('BufWritePre', {
               buffer = bufnr,
               command = 'LspEslintFixAll',
+            })
+          end,
+        },
+        oxlint = {
+          on_attach = function(client, bufnr)
+            vim.api.nvim_create_autocmd('BufWritePre', {
+              buffer = bufnr,
+              callback = function()
+                -- synchronous, unlike :LspOxlintFixAll, so the fixes land before the write
+                client:request_sync('workspace/executeCommand', {
+                  command = 'oxc.fixAll',
+                  arguments = { { uri = vim.uri_from_bufnr(bufnr) } },
+                }, nil, bufnr)
+              end,
             })
           end,
         },
