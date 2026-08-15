@@ -9,6 +9,7 @@
 {
   resolvedModules,
   lib,
+  pkgs,
   ...
 }:
 {
@@ -77,6 +78,10 @@
       openFirewall = false;
     };
   };
+  # VPN-Confinement routes IPv6 into our IPv4-only tunnel, so AAAA connects blackhole there.
+  systemd.services.wg.serviceConfig.ExecStartPost =
+    "-${pkgs.iproute2}/bin/ip -6 -n wg route del default dev wg0";
+
   # Reuse your existing wildcard cert for zima.kalski.xyz
   services.nginx.virtualHosts."jellyfin.${acmeHost}" = {
     enableACME = lib.mkForce false;
