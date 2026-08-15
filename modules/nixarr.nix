@@ -82,6 +82,10 @@
   systemd.services.wg.serviceConfig.ExecStartPost =
     "-${pkgs.iproute2}/bin/ip -6 -n wg route del default dev wg0";
 
+  # Transmission reaches its state via /var/lib/transmission, so it otherwise has no
+  # dependency on the mount and would start against an empty bind source.
+  systemd.services.transmission.unitConfig.RequiresMountsFor = [ mediaDir ];
+
   # Reuse your existing wildcard cert for zima.kalski.xyz
   services.nginx.virtualHosts."jellyfin.${acmeHost}" = {
     enableACME = lib.mkForce false;
