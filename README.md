@@ -176,6 +176,31 @@ tags you want to keep. You can verify with:
 sudo headscale nodes list --tags
 ```
 
+## Zima storage (`tank` array)
+
+`tank` is one btrfs filesystem across two 16 TB disks, `raid1` for data and metadata. Its
+`@media` subvolume is mounted at `/mnt/data` and holds all nixarr state.
+
+Both members carry the same filesystem label, so `by-label/tank` is ambiguous and randomly
+boots into emergency mode on systemd 260
+([systemd#41552](https://github.com/systemd/systemd/issues/41552)). GPT partition names are
+per-partition, so the mount uses `by-partlabel/tank1` (devid 1); the other member is
+`tank2`. These names live only in the GPT, so recreating the array without them leaves the
+config pointing at a symlink that does not exist.
+
+```shell
+parted /dev/sdb -- mklabel gpt
+parted /dev/sdb -- mkpart tank1 btrfs 1MiB 100%
+parted /dev/sda -- mklabel gpt
+parted /dev/sda -- mkpart tank2 btrfs 1MiB 100%
+
+mkfs.btrfs -L tank -d raid1 -m raid1 /dev/disk/by-partlabel/tank1 /dev/disk/by-partlabel/tank2
+
+mount /dev/disk/by-partlabel/tank1 /mnt
+btrfs subvolume create /mnt/@media
+umount /mnt
+```
+
 ## Setup (NixOS/VM)
 
 You can download the Minimal NixOS ISO from the

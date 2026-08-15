@@ -38,8 +38,11 @@
     ];
   };
 
+  # Both members of the two-device `tank` array carry the same label, so by-label/tank is
+  # ambiguous and randomly boots into emergency mode on systemd 260 (systemd#41552).
+  # tank1 is devid 1; GPT partition names are per-partition, so they stay unambiguous.
   fileSystems."/mnt/data" = {
-    device = "/dev/disk/by-label/tank";
+    device = "/dev/disk/by-partlabel/tank1";
     fsType = "btrfs";
     options = [
       "subvol=@media"
