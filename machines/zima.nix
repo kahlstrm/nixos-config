@@ -24,6 +24,10 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Headless: an emergency shell nobody can reach needs a physical power cycle, so boot on
+  # instead and leave the failure visible over ssh.
+  systemd.enableEmergencyMode = false;
+
   services.fwupd.enable = true;
 
   # Enable networking
