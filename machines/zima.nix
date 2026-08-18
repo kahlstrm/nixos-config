@@ -83,6 +83,7 @@ in
         cat fullchain.pem | ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "cat > /userdata/jetkvm/tls/user-defined.crt"
         cat key.pem | ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "cat > /userdata/jetkvm/tls/user-defined.key"
         ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "sed -i 's/\"tls_mode\": \"\"/\"tls_mode\": \"custom\"/' /userdata/kvm_config.json"
+        ${pkgs.openssh}/bin/ssh root@jet.kalski.xyz "sh -c 'sleep 1; sync; reboot' </dev/null >/dev/null 2>&1 &"
       '';
     };
   };
