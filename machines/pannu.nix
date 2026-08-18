@@ -16,6 +16,7 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware/pannu.nix
+    ../modules/remote-builder.nix
 
     resolvedModules.jovian
     (import ../modules/bambuddy.nix {
@@ -36,6 +37,14 @@ in
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  local.remoteBuilder = {
+    enable = true;
+    authorizedKeys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2MJIgY9K0pzFIPnk4D7mFGLSwbJ1koDvWrnKvBsNx4 frame-work-pannu-builder"
+    ];
+  };
 
   # firmware updater
   services.fwupd.enable = true;

@@ -1,4 +1,5 @@
 {
+  currentSystemName,
   devEnabled,
   isDarwin,
   isLinux,
@@ -29,6 +30,12 @@ in
     ./git.nix
     ./ssh.nix
     ./btop.nix
+  ]
+  ++ lib.optionals (currentSystemName != "pannu") [
+    (import ./remote-builder.nix {
+      hostName = "p.kalski.xyz";
+      sshKey = if isDarwin then "/var/root/.ssh/pannu-builder" else "/root/.ssh/pannu-builder";
+    })
   ]
   ++ lib.optionals devEnabled [
     ./direnv.nix

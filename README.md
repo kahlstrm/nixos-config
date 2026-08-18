@@ -150,6 +150,61 @@ For MacOS systems use the `darwin` subcommand and `os` for NixOS.
 > similar to the Neovim configuration, the repository must be
 > cloned to `~/nixos-config` for `nh` to work from everywhere on the system.
 
+## On-demand remote builds with `pannu`
+
+`pannu` is a restricted `ssh-ng` builder for native `x86_64-linux` and emulated
+`aarch64-linux` builds. The dedicated SSH user can only access the Nix protocol;
+shells and forwarding are disabled.
+
+### Authorizing a client
+
+Generate a dedicated root-owned key on the client:
+
+```shell
+sudo install -d -m 0700 /root/.ssh
+sudo ssh-keygen -t ed25519 -N "" \
+  -f /root/.ssh/pannu-builder \
+  -C "$(hostname)-pannu-builder"
+sudo cat /root/.ssh/pannu-builder.pub
+```
+
+On macOS, use `/var/root/.ssh` instead of `/root/.ssh`.
+
+Add it to `machines/pannu.nix` and redeploy:
+
+```nix
+local.remoteBuilder = {
+  enable = true;
+  authorizedKeys = [
+    "ssh-ed25519 AAAA... machine-name-pannu-builder"
+  ];
+};
+```
+
+```shell
+make deploy-pannu
+```
+
+Test from NixOS:
+
+```shell
+sudo nix store info \
+  --store "ssh-ng://nix-ssh@p.kalski.xyz?ssh-key=/root/.ssh/pannu-builder"
+```
+
+On macOS, use `/var/root/.ssh/pannu-builder`. Only key setup and this direct test
+need `sudo`; normal builds use the root-owned Nix daemon.
+
+### Using the builder
+
+```shell
+with-pannu make build # Build locally and on pannu
+on-pannu make build   # Force eligible builds onto pannu
+```
+
+The wrappers also accept `nix` and `nh` commands. ARM builds are slower due to
+emulation, and Darwin derivations cannot be built on `pannu`.
+
 ## Headscale notes
 
 These configs include a Headscale server with ACLs defined in
