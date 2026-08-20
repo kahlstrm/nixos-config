@@ -11,7 +11,7 @@ in
 {
   imports = [
     resolvedModules.mdatp
-    resolvedModules.nixos-hardware.framework-13-7040-amd
+    resolvedModules.nixos-hardware.framework-amd-ai-300-series
     # Include the results of the hardware scan.
     ./hardware/frame-work.nix
     ../modules/keyd.nix
