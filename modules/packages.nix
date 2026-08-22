@@ -145,6 +145,7 @@ let
     tflint
     shellcheck
     nodejs_24
+    pnpm
     # corepack
     python3
     (wrapNixLDIfLinux bun "bun")
