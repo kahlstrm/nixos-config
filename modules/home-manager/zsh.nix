@@ -48,7 +48,7 @@ in
       claudec = "claude --continue";
       clauder = "claude --resume";
       claudew = "claude --worktree";
-      codex = "codex --sandbox danger-full-access --ask-for-approval on-request --enable web_search_request -c model_reasoning_effort=\"high\"";
+      codex = "codex --sandbox danger-full-access --ask-for-approval on-request -c model_reasoning_effort=\"high\"";
       codexc = "codex resume --last";
       codexr = "codex resume";
       gemini = "gemini --model pro";
