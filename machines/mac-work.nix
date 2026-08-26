@@ -38,12 +38,14 @@ in
 
   environment.systemPackages = with pkgs; [
     swagger-codegen3
+    xcodes
   ];
 
   home-manager.users.${currentSystemUser} = {
     home.file.".gradle/gradle.properties".text = ''
       org.gradle.java.installations.auto-detect=true
       org.gradle.java.installations.paths=${lib.concatMapStringsSep "," toString toolchainJdks}
+      org.gradle.jvmargs=-Xmx4g
     '';
   };
 }
