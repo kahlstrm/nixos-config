@@ -8,46 +8,12 @@
 {
   imports = [
     ./darwin-dock.nix
+    ./homebrew.nix
   ];
   networking.hostName = currentSystemName;
   system.primaryUser = currentSystemUser;
   # Allow Sudo with Touch ID.
   security.pam.services.sudo_local.touchIdAuth = true;
-
-  homebrew = {
-    enable = true;
-    casks = [
-      # Development Tools
-      "orbstack"
-      "ghostty" # automatic update support on MacOS, hence separate
-      "visual-studio-code"
-
-      # Communication Tools
-      "chatgpt"
-      "claude"
-
-      # Utility Tools
-      "shottr"
-      "linearmouse"
-    ];
-    onActivation = {
-      autoUpdate = false;
-      upgrade = true;
-    };
-    taps = [ ];
-    # These app IDs are from using the mas CLI app
-    # mas = mac app store
-    # https://github.com/mas-cli/mas
-    #
-    # $ nix shell nixpkgs#mas
-    # $ mas search <app name>
-    brews = [
-    ];
-    masApps = {
-      "bitwarden" = 1352778147;
-      "wireguard" = 1451685025;
-    };
-  };
 
   system.keyboard = {
     enableKeyMapping = true;

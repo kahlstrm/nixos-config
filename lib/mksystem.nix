@@ -58,18 +58,6 @@ let
     }
     // packages;
   };
-  # TODO: make this cleaner
-  nix-homebrew = lib.optionalAttrs isDarwin inputs.nix-homebrew.darwinModules.nix-homebrew;
-  nix-homebrew-config = lib.optionalAttrs isDarwin {
-    nix-homebrew = {
-      enable = true;
-      inherit user;
-      # Detect and automatically migrate existing Homebrew installations
-      autoMigrate = true;
-      # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
-      #mutableTaps = false;
-    };
-  };
   specialArgs = {
     inherit
       devEnabled
@@ -121,8 +109,6 @@ systemFunc {
     }
 
     nixConfig
-    nix-homebrew
-    nix-homebrew-config
     systemPackages
     shared
     OSConfig
