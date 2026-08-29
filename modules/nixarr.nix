@@ -79,8 +79,12 @@
     };
   };
   # VPN-Confinement routes IPv6 into our IPv4-only tunnel, so AAAA connects blackhole there.
-  systemd.services.wg.serviceConfig.ExecStartPost =
-    "-${pkgs.iproute2}/bin/ip -6 -n wg route del default dev wg0";
+  systemd.services.wg = {
+    # VPN-Confinement does not reliably recreate its namespace during a live switch.
+    restartIfChanged = false;
+    serviceConfig.ExecStartPost =
+      "-${pkgs.iproute2}/bin/ip -6 -n wg route del default dev wg0";
+  };
 
   # Transmission reaches its state via /var/lib/transmission, so it otherwise has no
   # dependency on the mount and would start against an empty bind source.
