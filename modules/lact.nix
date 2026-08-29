@@ -3,16 +3,11 @@
   adminUser ? null,
 }:
 { lib, pkgs, ... }:
-let
-  lact = pkgs.lact.override {
-    libdisplay-info = pkgs.libdisplay-info_0_2;
-  };
-in
 {
   hardware.amdgpu.overdrive.enable = hasAmdGPU;
 
   environment = {
-    systemPackages = [ lact ];
+    systemPackages = [ pkgs.lact ];
     etc = lib.mkIf (adminUser != null) {
       "lact/config.yaml" = {
         text = ''
@@ -25,7 +20,7 @@ in
     };
   };
   systemd = {
-    packages = [ lact ];
+    packages = [ pkgs.lact ];
     services.lactd.wantedBy = [ "multi-user.target" ];
   };
 }
