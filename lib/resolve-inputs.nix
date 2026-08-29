@@ -4,8 +4,8 @@
   system,
 }:
 let
-  isDarwin = (import inputs.nixpkgs-unstable-darwin { inherit system; }).stdenv.isDarwin;
-  isLinux = (import inputs.nixpkgs-unstable-nixos { inherit system; }).stdenv.isLinux;
+  isDarwin = (import inputs.nixpkgs-unstable-darwin { inherit system; }).stdenv.hostPlatform.isDarwin;
+  isLinux = (import inputs.nixpkgs-unstable-nixos { inherit system; }).stdenv.hostPlatform.isLinux;
   darwin = if stable then inputs.darwin-stable else inputs.darwin-unstable;
   nixarr = if stable then inputs.nixarr-stable else inputs.nixarr-unstable;
   os-short = if isDarwin then "darwin" else "nixos";
