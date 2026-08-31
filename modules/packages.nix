@@ -162,6 +162,7 @@ let
     goreleaser
     actionlint
     yamllint
+    maven
   ];
 
   devCompilers = [
