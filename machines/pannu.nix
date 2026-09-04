@@ -59,6 +59,7 @@ in
     extraGroups = [
       "networkmanager"
       "wheel"
+      "dialout"
     ];
     packages = with pkgs; [
       btop-rocm
