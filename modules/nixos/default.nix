@@ -5,6 +5,7 @@
   isLinux,
   guiEnabled,
   lib,
+  options,
   ...
 }:
 
@@ -15,6 +16,16 @@
   programs.npm.enable = true;
 
   networking.hostName = currentSystemName;
+
+  services.journald =
+    if options.services.journald ? settings then
+      { settings.Journal.SystemMaxUse = lib.mkDefault "512M"; }
+    else
+      {
+        extraConfig = lib.mkDefault ''
+          SystemMaxUse=512M
+        '';
+      };
 
   users.users.${currentSystemUser} = {
     isNormalUser = true;
