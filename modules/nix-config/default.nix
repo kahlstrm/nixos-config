@@ -14,6 +14,7 @@ in
     ./${os-short}.nix
   ];
   nix = {
+    optimise.automatic = lib.mkDefault true;
     gc = {
       automatic = true;
       options = "--delete-older-than 14d";
