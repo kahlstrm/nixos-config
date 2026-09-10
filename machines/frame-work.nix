@@ -20,6 +20,7 @@ in
     # ../modules/binbash.nix
     ../modules/fingerprint.nix
     ../modules/intune.nix
+    ../modules/linux-entra-sso
   ];
 
   # Bootloader.
