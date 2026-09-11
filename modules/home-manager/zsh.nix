@@ -48,7 +48,6 @@ in
       claudec = "claude --continue";
       clauder = "claude --resume";
       claudew = "claude --worktree";
-      codex = "codex --sandbox danger-full-access --ask-for-approval on-request";
       codexc = "codex resume --last";
       codexr = "codex resume";
       gemini = "gemini --model pro";
