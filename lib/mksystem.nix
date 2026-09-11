@@ -122,6 +122,9 @@ systemFunc {
     }
     machineConfig
   ]
+  ++ (lib.optionals devEnabled [
+    ../modules/codex.nix
+  ])
   # Bring in WSL if this is a WSL build
   ++ (lib.optionals wsl [
     inputs.nixos-wsl.nixosModules.wsl
