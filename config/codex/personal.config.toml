@@ -1,0 +1,22 @@
+approval_policy = "on-request"
+approvals_reviewer = "user"
+default_permissions = "supervised"
+
+[[skills.config]]
+name = "browser:control-in-app-browser"
+enabled = false
+
+[features]
+network_proxy = true
+
+[permissions.supervised]
+description = "Read independently; ask before writes or network access"
+extends = ":read-only"
+
+[permissions.supervised.network]
+enabled = true
+allow_local_binding = true
+
+[permissions.supervised.network.domains]
+"localhost" = "allow"
+"127.0.0.1" = "allow"

@@ -38,6 +38,7 @@ in
     })
   ]
   ++ lib.optionals devEnabled [
+    ./codex.nix
     ./direnv.nix
     (import ./neovim.nix { inherit nixosConfigLocation; })
   ];

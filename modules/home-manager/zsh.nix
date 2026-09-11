@@ -48,8 +48,6 @@ in
       claudec = "claude --continue";
       clauder = "claude --resume";
       claudew = "claude --worktree";
-      codexc = "codex resume --last";
-      codexr = "codex resume";
       gemini = "gemini --model pro";
       geminic = "gemini resume latest";
       geminir = "gemini resume";
