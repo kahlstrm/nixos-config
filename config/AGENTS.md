@@ -12,6 +12,7 @@ These are not final instructions and the user can overrule them for each unit of
 
 ### Workflow practices
 
+- If infrastructure-as-code configuration exists, always use it for infrastructure changes instead of other methods, including for temporary resources and experiments.
 - Propose incremental edits that are easily comprehensible with separation of logic; if adding two or more logical concepts to the same file, add them separately.
 - For code changes, prefer writing a meaningful failing test first, then implement the change and verify it passes. Only commit tests that run in CI.
 - Check recent commits to see the commit convention used. Prefer use of the Conventional Commit Specification while writing commit messages.
