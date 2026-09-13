@@ -163,6 +163,7 @@ let
     actionlint
     yamllint
     maven
+    fnox
   ];
 
   devCompilers = [
