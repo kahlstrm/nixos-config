@@ -19,6 +19,7 @@ These are not final instructions and the user can overrule them for each unit of
 - Write ONLY concise oneliners as commit messages without a description.
 - When creating an issue to Linear/Jira, put it to backlog instead of triage immediately.
 - Before posting any external communication, including issue or PR bodies and PR comments, present the exact text to the user and obtain their explicit approval.
+- Write repository documentation for the durable post-merge system and normal operating workflow. Keep PR state, rollout checkpoints, and one-time migration notes in the PR description unless future operators still need them.
 
 ### Coding practices
 
