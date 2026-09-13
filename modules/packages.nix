@@ -164,6 +164,7 @@ let
     yamllint
     maven
     fnox
+    bubblewrap
   ];
 
   devCompilers = [
