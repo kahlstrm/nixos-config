@@ -188,6 +188,7 @@ let
     google-cloud-sdk
     ssm-session-manager-plugin
     kubectl
+    kustomize
     talosctl
     k9s
     fluxcd
