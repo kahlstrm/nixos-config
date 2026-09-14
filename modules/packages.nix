@@ -164,7 +164,6 @@ let
     yamllint
     maven
     fnox
-    bubblewrap
   ];
 
   devCompilers = [
@@ -177,6 +176,10 @@ let
     cocoapods
     llvmPackages.bintools-unwrapped
     pkgs-unstable.mise
+  ];
+
+  devLinuxPackages = with pkgs; [
+    bubblewrap
   ];
 
   # Cloud packages - cloud SDKs and Kubernetes tools
@@ -235,6 +238,7 @@ in
     ++ lib.optionals cfg.dev devPackages
     ++ lib.optionals cfg.dev devCompilers
     ++ lib.optionals (cfg.dev && isDarwin) devDarwinPackages
+    ++ lib.optionals (cfg.dev && isLinux) devLinuxPackages
     # Cloud - cloud and k8s tools
     ++ lib.optionals cfg.cloud cloudPackages
     # Databases - database clients
