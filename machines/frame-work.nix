@@ -32,9 +32,8 @@ in
   boot.kernelPackages = if isStable then pkgs.linuxPackages else pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  # MT7921 WiFi fixes for 6GHz stability
+  # Set the WiFi regulatory domain.
   boot.extraModprobeConfig = ''
-    options mt7921_common disable_clc=1
     options cfg80211 ieee80211_regdom=FI
   '';
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
