@@ -1,6 +1,12 @@
 { pkgs, ... }:
 let
   linux-entra-sso = import ./package.nix { inherit pkgs; };
+  chromiumExtensionPolicy = builtins.toJSON {
+    ExtensionSettings.jlnfnnolkbjieggibinobhkjdfbpcohn = {
+      installation_mode = "normal_installed";
+      update_url = "https://clients2.google.com/service/update2/crx";
+    };
+  };
 in
 {
   programs.firefox.nativeMessagingHosts.packages = [ linux-entra-sso ];
@@ -12,10 +18,6 @@ in
   environment.etc."opt/chrome/native-messaging-hosts/linux_entra_sso.json".source =
     "${linux-entra-sso}/etc/opt/chrome/native-messaging-hosts/linux_entra_sso.json";
 
-  environment.etc."opt/chrome/policies/managed/linux-entra-sso.json".text = builtins.toJSON {
-    ExtensionSettings.jlnfnnolkbjieggibinobhkjdfbpcohn = {
-      installation_mode = "normal_installed";
-      update_url = "https://clients2.google.com/service/update2/crx";
-    };
-  };
+  environment.etc."opt/chrome/policies/managed/linux-entra-sso.json".text = chromiumExtensionPolicy;
+  environment.etc."brave/policies/managed/linux-entra-sso.json".text = chromiumExtensionPolicy;
 }
