@@ -2,6 +2,13 @@
   description = "Nix/NixOS system configurations";
 
   inputs = {
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
+      inputs.darwin.follows = "darwin-unstable";
+      inputs.home-manager.follows = "home-manager-unstable-nixos";
+    };
+
     nixpkgs-unstable-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable-nixos.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-26.05";

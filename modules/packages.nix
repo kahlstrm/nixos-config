@@ -19,6 +19,7 @@ in
 {
   lib,
   pkgs,
+  inputs,
   isDarwin,
   isLinux,
   currentSystem,
@@ -138,6 +139,7 @@ let
 
   # Dev packages - programming languages, build tools
   devPackages = with pkgs; [
+    inputs.agenix.packages.${currentSystem}.agenix
     pkgs-unstable.neovim
     rustup
     go
