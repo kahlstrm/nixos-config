@@ -2,6 +2,13 @@
   description = "Nix/NixOS system configurations";
 
   inputs = {
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable-nixos";
+      inputs.darwin.follows = "darwin-unstable";
+      inputs.home-manager.follows = "home-manager-unstable-nixos";
+    };
+
     nixpkgs-unstable-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable-nixos.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-26.05";
@@ -132,6 +139,14 @@
       formatter = builtins.mapAttrs (
         system: nixpkgs: nixpkgs.legacyPackages.${system}.nixfmt-tree
       ) formatterNixpkgs;
+
+      apps = builtins.mapAttrs (system: _: {
+        agenix = {
+          type = "app";
+          program = "${inputs.agenix.packages.${system}.agenix}/bin/agenix";
+          meta.description = "Edit and rekey encrypted service secrets";
+        };
+      }) formatterNixpkgs;
 
       darwinConfigurations.mac-personal = mkSystem "mac-personal" {
         system = "aarch64-darwin";

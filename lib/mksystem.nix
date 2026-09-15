@@ -122,6 +122,9 @@ systemFunc {
     }
     machineConfig
   ]
+  ++ (lib.optionals isLinux [
+    inputs.agenix.nixosModules.default
+  ])
   ++ (lib.optionals devEnabled [
     ../modules/codex.nix
   ])
