@@ -140,14 +140,6 @@
         system: nixpkgs: nixpkgs.legacyPackages.${system}.nixfmt-tree
       ) formatterNixpkgs;
 
-      apps = builtins.mapAttrs (system: _: {
-        agenix = {
-          type = "app";
-          program = "${inputs.agenix.packages.${system}.agenix}/bin/agenix";
-          meta.description = "Edit and rekey encrypted service secrets";
-        };
-      }) formatterNixpkgs;
-
       darwinConfigurations.mac-personal = mkSystem "mac-personal" {
         system = "aarch64-darwin";
         user = "kalski";

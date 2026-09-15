@@ -1,11 +1,12 @@
 # Secrets
 
 `secrets.nix` maps encrypted files to host and administrator public keys.
-From this directory:
+The CLI is installed with the development packages. From this directory:
 
 ```sh
-nix run ..#agenix -- -e headscale-oidc.age -i "$HOME/.ssh/id_ed25519"
-nix run ..#agenix -- -r -i "$HOME/.ssh/id_ed25519" # after changing recipients
+agenix -e headscale-oidc.age # edit
+agenix -d headscale-oidc.age # view
+agenix -r # after changing recipients
 ```
 
 Create listed files before rekeying. Commit ciphertext only; avoid editor backups
