@@ -20,6 +20,8 @@ structure and was quite intuitive to me at least.
 
 ## Using an existing configuration
 
+For Google login setup, see the [Headscale OIDC guide](modules/headscale/README.md).
+
 By using existing configurations you can replicate entire setups across machines,
 while with separate configurations you can add device/use-case specific configurations
 such as different username, git email, and/or packages. As the system hostname is
@@ -208,7 +210,7 @@ emulation, and Darwin derivations cannot be built on `pannu`.
 ## Headscale notes
 
 These configs include a Headscale server with ACLs defined in
-`modules/headscale.nix`. Tags are applied per-node.
+`modules/headscale/default.nix`. Tags are applied per-node.
 
 Preferred: have the node advertise its tag (allowed by `tagOwners`):
 

@@ -1,13 +1,30 @@
 {
+  config,
+  lib,
+  pkgs,
+  pkgs-unstable,
   ...
 }:
 let
   domain = "head.kalski.xyz";
   dnsFile = "/var/lib/headscale/dns.json";
+  cfg = config.services.headscale;
+  runtimeConfig = "/run/headscale/config.json";
+  baseConfig = (pkgs.formats.json { }).generate "headscale-base.json" (
+    lib.filterAttrsRecursive (_: value: value != null) cfg.settings
+  );
 in
 {
+  age.secrets.headscale-oidc = {
+    file = ../../secrets/headscale-oidc.age;
+    owner = cfg.user;
+    group = cfg.group;
+    mode = "0400";
+  };
+
   services.headscale = {
     enable = true;
+    package = pkgs-unstable.headscale;
     address = "[::]";
     port = 443;
     settings = {
@@ -40,10 +57,34 @@ in
   };
   # Initialize the DNS file if it doesn't exist
   systemd.services.headscale.preStart = ''
+    umask 077
+    if ! ${lib.getExe pkgs.jq} -e -s '
+      def nonempty: type == "string" and length > 0;
+      if length == 2 and
+         (.[1] | keys == ["oidc"]) and
+         (.[1].oidc | type == "object") and
+         (.[1].oidc | [.issuer, .client_id, .client_secret] | all(.[]; nonempty)) and
+         (.[1].oidc.allowed_users | type == "array" and length > 0 and all(.[]; nonempty))
+      then .[0] * .[1]
+      else error("Invalid OIDC configuration") end
+    ' ${baseConfig} ${config.age.secrets.headscale-oidc.path} > ${runtimeConfig}.tmp 2>/dev/null; then
+      rm -f ${runtimeConfig}.tmp
+      echo "Headscale OIDC configuration is missing or invalid; refusing to start" >&2
+      exit 1
+    fi
+    mv -f ${runtimeConfig}.tmp ${runtimeConfig}
     if [ ! -f ${dnsFile} ]; then
       echo "[]" > ${dnsFile}
     fi
   '';
+  # Keep decrypted settings out of the Nix store; the upstream module uses a store config.
+  systemd.services.headscale.script = lib.mkForce ''
+    exec ${lib.getExe cfg.package} serve --config ${runtimeConfig}
+  '';
+  systemd.services.headscale.restartTriggers = [
+    config.age.secrets.headscale-oidc.file
+    config.environment.etc."headscale/acl.hujson".source
+  ];
   # Define the ACL Policy
   environment.etc."headscale/acl.hujson".text = ''
     {

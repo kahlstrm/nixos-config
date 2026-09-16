@@ -6,7 +6,7 @@
 {
   imports = [
     ./hardware/poenttoe.nix
-    ../modules/headscale.nix
+    ../modules/headscale
   ];
 
   networking.hostName = "poenttoe";

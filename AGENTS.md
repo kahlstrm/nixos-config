@@ -78,7 +78,7 @@ mkSystem "machine-name" {
 - **modules/nixos/**: NixOS-specific system configuration
 - **modules/home-manager/**: User environment (dotfiles, shell, development tools)
 - **modules/nix-config/**: Nix daemon settings (garbage collection, caches, distributed builds)
-- **Standalone modules**: Feature modules like `gnome.nix`, `steam-machine.nix`, `headscale.nix` that machines can import
+- **Standalone modules**: Feature modules like `gnome.nix`, `steam-machine.nix`, `headscale/` that machines can import
 
 ### Multi-Channel Support
 Each configuration can use stable or unstable channels:
