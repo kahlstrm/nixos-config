@@ -10,6 +10,19 @@ These are not final instructions and the user can overrule them for each unit of
 - When parsing json, use `jq`.
 - When using AWS CLI, use the --profile to select the AWS SSO profile. To list available profiles, use `aws configure list-profiles`
 
+### File edits and approvals
+
+Prefer the dedicated file-editing tool provided by the environment.
+Let its permission and approval controls handle the request.
+
+Do not infer that an operation is unavailable solely from a tool's
+parameter schema. Unless explicitly prohibited, try the normal tool
+and use its actual response to determine the next step.
+
+Do not substitute shell commands or scripts solely because you assume
+the editing tool cannot request approval. Respect denials and use the
+environment's supported approval process.
+
 ### Workflow practices
 
 - If infrastructure-as-code configuration exists, always use it for infrastructure changes instead of other methods, including for temporary resources and experiments.
