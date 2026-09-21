@@ -31,6 +31,7 @@ in
     ignores = [
       "*.swp"
       ".DS_STORE"
+      "AGENTS.override.md"
       ".factorypath"
       "/.claude/settings.local.json"
       "/.claude/worktrees/"
