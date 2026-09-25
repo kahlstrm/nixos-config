@@ -33,6 +33,7 @@ environment's supported approval process.
 - When creating an issue to Linear/Jira, put it to backlog instead of triage immediately.
 - Before posting any external communication, including issue or PR bodies and PR comments, present the exact text to the user and obtain their explicit approval.
 - Write repository documentation for the durable post-merge system and normal operating workflow. Keep PR state, rollout checkpoints, and one-time migration notes in the PR description unless future operators still need them.
+- End with a one-line TL;DR whenever the reply answers a question, reports a check, or explains something longer than a few lines: `**TL;DR:** <verdict or answer first>, <one caveat if any>.`
 
 ### Coding practices
 
