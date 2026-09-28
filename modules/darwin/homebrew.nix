@@ -38,6 +38,7 @@
       # Utility Tools
       "shottr"
       "linearmouse"
+      "hammerspoon"
     ];
     onActivation = {
       autoUpdate = false;

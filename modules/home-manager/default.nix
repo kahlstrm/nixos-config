@@ -31,6 +31,7 @@ in
     ./ssh.nix
     ./btop.nix
   ]
+  ++ lib.optionals isDarwin [ ./hammerspoon.nix ]
   ++ lib.optionals (currentSystemName != "pannu") [
     (import ./remote-builder.nix {
       hostName = "p.kalski.xyz";
