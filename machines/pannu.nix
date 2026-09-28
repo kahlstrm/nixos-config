@@ -25,6 +25,10 @@ in
       failureDetectionPort = bambuddyFailureDetectionPort;
     })
     (import ../modules/steam-machine.nix { hasAmdGPU = true; })
+    (import ../modules/sunshine.nix {
+      hostname = "sunshine.p.kalski.xyz";
+      acmeHost = "p.kalski.xyz";
+    })
     (import ../modules/lact.nix {
       hasAmdGPU = true;
       adminUser = "steam-machine";
@@ -181,15 +185,6 @@ in
       "bambuddy.p.kalski.xyz" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString bambuddyPort}";
-          proxyWebsockets = true;
-        };
-        forceSSL = true;
-        useACMEHost = "p.kalski.xyz";
-      };
-
-      "sunshine.p.kalski.xyz" = {
-        locations."/" = {
-          proxyPass = "https://127.0.0.1:47990";
           proxyWebsockets = true;
         };
         forceSSL = true;

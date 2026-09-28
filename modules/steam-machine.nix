@@ -86,16 +86,6 @@ in
   };
 
   programs.steam.localNetworkGameTransfers.openFirewall = true;
-  # Add sunshine game streaming
-  services.sunshine = {
-    enable = true;
-    autoStart = true;
-    capSysAdmin = true;
-    openFirewall = true;
-    settings = {
-      origin_web_ui_allowed = "pc";
-    };
-  };
 
   programs.alvr.enable = true;
   programs.alvr.openFirewall = true;
