@@ -1,7 +1,8 @@
-# NixOS System Configurations
+# System and Infrastructure Configuration
 
-This repository contains my Nix-configurations for my devices. I use Nix as
-my main package manager for my development.
+This repository contains my machine and user configurations, alongside network,
+cloud, and Kubernetes infrastructure. I use Nix as my main package manager for
+my development.
 
 This repository is originally based on from Mitchell Hashimoto's
 [nixos-config](https://github.com/mitchellh/nixos-config).
@@ -15,8 +16,33 @@ structure and was quite intuitive to me at least.
 
 > [!IMPORTANT]
 > To make the Neovim configuration work, the repository must be
-> cloned to `~/nixos-config`. The configuration relies on a symlink
+> cloned to `~/config`. The configuration relies on a symlink
 > to allow direct mutability of the files.
+
+## Repository layout
+
+Machine and user configuration lives at the repository root. Infrastructure lives
+under [`infra/`](infra/README.md), with its own flake and lockfile so tooling can
+be updated independently of machine dependencies.
+
+```text
+config/
+├── flake.nix          # NixOS and Darwin configurations
+├── machines/         # Machine-specific configuration
+├── modules/          # Nix modules
+├── config/           # Application configuration files
+└── infra/
+    ├── flake.nix     # Infrastructure development shells and lab images
+    ├── local-networking/
+    ├── local-talos/
+    ├── local-kubernetes/
+    └── hetzner-infra/
+```
+
+Run machine commands such as `make build` and `make switch` from `~/config`.
+For infrastructure, run `cd ~/config/infra` and `nix develop`, then follow the
+[infrastructure guide](infra/README.md). GitHub Actions workflows for both areas
+live in the root `.github/workflows/` directory.
 
 ## Using an existing configuration
 
@@ -104,7 +130,7 @@ so running `make` again works without specifying `NIXNAME` explicitly.
 You can verify this by spawning a new shell and running:
 
 ```shell
-~/nixos-config (main*) » hostname
+~/config (main*) » hostname
 <configuration-name>
 ```
 
@@ -126,8 +152,8 @@ Once that is installed, clone this repo and run `make`.
 You should be met with an error message that looks something like:
 
 ```shell
-~/nixos-config (main*) » make
-error: flake 'git+file:///Users/kahlstrm/nixos-config' does not provide attribute 'packages.aarch64-darwin.darwinConfigurations.foo.system', 'legacyPackages.aarch64-darwin.darwinConfigurations.foo.system' or 'darwinConfigurations.foo.system'
+~/config (main*) » make
+error: flake 'git+file:///Users/kahlstrm/config' does not provide attribute 'packages.aarch64-darwin.darwinConfigurations.foo.system', 'legacyPackages.aarch64-darwin.darwinConfigurations.foo.system' or 'darwinConfigurations.foo.system'
 ```
 
 This is expected and means everything is going great :).
@@ -150,7 +176,7 @@ For MacOS systems use the `darwin` subcommand and `os` for NixOS.
 
 > [!IMPORTANT]
 > similar to the Neovim configuration, the repository must be
-> cloned to `~/nixos-config` for `nh` to work from everywhere on the system.
+> cloned to `~/config` for `nh` to work from everywhere on the system.
 
 ## On-demand remote builds with `pannu`
 
@@ -366,7 +392,7 @@ On your another machine in the repo root, run `nixos-rebuild build --flake .#<ne
 With the configuration name as `pannu` The input should look something like this:
 
 ```sh
-~/nixos-config (main) » nixos-rebuild build --flake .#$NEW_HOST_NAME
+~/config (main) » nixos-rebuild build --flake .#$NEW_HOST_NAME
 building the system configuration...
 Done. The new configuration is /nix/store/1csa3s4ql5ry6hhnfpfrk4273hgc230s-nixos-system-pannu-25.11.20250520.2795c50
 ```
@@ -412,7 +438,7 @@ NOTE: `vm-amd` is the configuration that is intended for systems with AMD CPUs,
 for Intel systems you'd need to use a different configuration.
 
 ```sh
-sudo nixos-install --no-root-passwd --flake github:kahlstrm/nixos-config#vm-amd
+sudo nixos-install --no-root-passwd --flake github:kahlstrm/config#vm-amd
 ```
 
 This will install the configuration to `/mnt`, but it will not set a password for

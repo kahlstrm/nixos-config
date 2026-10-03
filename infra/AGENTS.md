@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+Run commands in this guide from `~/config/infra`, unless a layer directory is
+specified. Machine and user configuration lives at the repository root and has
+its own flake. Infrastructure CI lives in `../.github/workflows/`.
+
 ## Development Environment
 
 ```bash

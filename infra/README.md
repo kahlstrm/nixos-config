@@ -1,6 +1,10 @@
 # Infrastructure
 
-This repository is an experimental playground for managing a personal hardware setup using Infrastructure as Code. It uses Terraform for the declarative setup, Nix for tooling, and Just for scripting, with a focus on leveraging free-tier services from Google Cloud.
+This directory contains an experimental playground for managing a personal hardware setup using Infrastructure as Code. It uses Terraform for the declarative setup, Nix for tooling, and Just for scripting, with a focus on leveraging free-tier services from Google Cloud.
+
+Infrastructure has its own `flake.nix` and `flake.lock`. Run the commands in this
+guide from `~/config/infra`, unless a layer directory is specified. Machine and
+user configuration is described in the [root guide](../README.md).
 
 ## Hardware Setup
 
@@ -81,6 +85,7 @@ local-kubernetes/
 1. **Setup environment:**
 
    ```bash
+   cd ~/config/infra
    nix develop
    gcloud auth application-default login
    ```

@@ -6,7 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a multi-machine NixOS/Darwin configuration repository that manages system configurations across different platforms (macOS, NixOS, WSL, VMs). Based on Mitchell Hashimoto's nixos-config, it uses a modular flake-based architecture.
 
-**Critical requirement**: The repository must be cloned to `~/nixos-config` for Neovim configuration and nh tool to work properly due to out-of-store symlinks.
+**Critical requirement**: The repository must be cloned to `~/config` for Neovim configuration and nh tool to work properly due to out-of-store symlinks.
+
+## Infrastructure
+
+Network, cloud, and Kubernetes configuration lives in `infra/`, with its own
+flake and lockfile. Follow [infra/AGENTS.md](infra/AGENTS.md) for infrastructure
+work. Run infrastructure commands from `~/config/infra`; machine commands run
+from `~/config`. GitHub Actions workflows for both areas live at the root in
+`.github/workflows/`.
 
 ## Development Commands
 
