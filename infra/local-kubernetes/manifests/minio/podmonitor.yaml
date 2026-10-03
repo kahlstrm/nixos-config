@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: minio
+  labels:
+    release: observability
+spec:
+  podMetricsEndpoints:
+    - port: minio-port
+      path: /minio/v2/metrics/cluster
+  selector:
+    matchLabels:
+      v1.min.io/tenant: minio

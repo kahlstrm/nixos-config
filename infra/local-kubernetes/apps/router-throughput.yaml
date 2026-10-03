@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: router-throughput
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kahlstrm/infra.git
+    targetRevision: main
+    path: local-kubernetes/manifests/router-throughput
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring-privileged
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

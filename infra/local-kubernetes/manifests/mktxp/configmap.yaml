@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mktxp-settings
+  namespace: monitoring
+data:
+  _mktxp.conf: |
+    [MKTXP]
+        listen = '0.0.0.0:49090'
+        socket_timeout = 5
+        initial_delay_on_failure = 30
+        max_delay_on_failure = 600
+        delay_inc_div = 5
+        bandwidth = False
+        minimal_collect_interval = 5
+        verbose_mode = False
+        fetch_routers_in_parallel = False
+        persistent_router_connection_pool = True
+        persistent_dhcp_cache = True
+        compact_default_conf_values = False
+        prometheus_headers_deduplication = False
+        max_worker_threads = 5
+        max_scrape_duration = 30
+        total_max_scrape_duration = 90
+        bandwidth_test_dns_server = 8.8.8.8
+        bandwidth_test_interval = 600
+  mktxp-defaults.conf: |
+    [default]
+    enabled = True
+    hostname = localhost
+    port = 8728
+    username = username
+    password = password
+    credentials_file = ""
+    custom_labels = None
+    use_ssl = True
+    no_ssl_certificate = False
+    ssl_certificate_verify = False
+    ssl_check_hostname = False
+    ssl_ca_file = ""
+    plaintext_login = True
+    use_rest_api = False
+    health = True
+    installed_packages = True
+    dhcp = True
+    dhcp_lease = True
+    connections = True
+    connection_stats = False
+    interface = True
+    monitor = True
+    netwatch = True
+    public_ip = True
+    wireless = True
+    wireless_clients = True
+    capsman = True
+    capsman_clients = True
+    w60g = False
+    eoip = False
+    gre = False
+    ipip = False
+    lte = False
+    ipsec = False
+    switch_port = False
+    route = True
+    pool = True
+    firewall = True
+    neighbor = True
+    address_list = None
+    dns = True
+    ipv6_route = True
+    ipv6_pool = True
+    ipv6_firewall = True
+    ipv6_neighbor = True
+    ipv6_address_list = None
+    poe = True
+    user = True
+    queue = True
+    bfd = False
+    bgp = False
+    routing_stats = False
+    certificate = True
+    container = False
+    kid_control_assigned = False
+    kid_control_dynamic = False
+    remote_dhcp_entry = None
+    remote_capsman_entry = None
+    use_comments_over_names = True
+    check_for_updates = False

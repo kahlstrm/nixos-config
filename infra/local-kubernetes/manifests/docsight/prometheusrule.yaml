@@ -1,0 +1,52 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: docsight
+  namespace: docsight
+  labels:
+    release: observability
+spec:
+  groups:
+  - name: docsight
+    rules:
+    - record: docsight:poll_fresh
+      expr: (up{job="docsight"} == 1) and on(job, instance) (docsight_modem_poll_success{job="docsight"}
+        == 1) and on(job, instance) ((time() - docsight_last_poll_timestamp_seconds{job="docsight"})
+        < 180)
+    - alert: DocsightExporterUnavailable
+      expr: (up{job="docsight"} == 0) or absent(up{job="docsight"})
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: DOCSight exporter cannot be scraped
+    - alert: DocsightModemCollectionFailed
+      expr: ((docsight_modem_poll_success{job="docsight"} == 0) or ((time() - docsight_last_poll_timestamp_seconds{job="docsight"})
+        >= 180)) and on(job, instance) (up{job="docsight"} == 1)
+      for: 3m
+      labels:
+        severity: warning
+      annotations:
+        summary: Modem collection is failing or stale
+    - alert: DocsightDocsisOffline
+      expr: (docsight_docsis_online{job="docsight"} == 0) and on(job, instance) docsight:poll_fresh
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: Modem reports a non-forwarding DOCSIS state
+    - alert: DocsightModemRestarted
+      expr: (resets(docsight_device_uptime_seconds{job="docsight"}[10m]) > 0) and
+        on(job, instance) docsight:poll_fresh
+      labels:
+        severity: info
+      annotations:
+        summary: Modem uptime decreased; possible restart
+    - alert: DocsightChannelQualityUnavailable
+      expr: (docsight_downstream_snr_valid{job="docsight"} == 0) and on(job, instance)
+        docsight:poll_fresh
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: A downstream channel has no usable SNR measurement

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mktxp-exporter
+  namespace: monitoring
+  labels:
+    app: mktxp-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mktxp-exporter
+  template:
+    metadata:
+      labels:
+        app: mktxp-exporter
+    spec:
+      initContainers:
+        - name: mktxp-config-merge
+          image: alpine:3.20
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              cat /defaults/mktxp-defaults.conf /secret/mktxp.conf > /out/mktxp.conf
+              cp /defaults/_mktxp.conf /out/_mktxp.conf
+          volumeMounts:
+            - name: mktxp-config-out
+              mountPath: /out
+            - name: mktxp-settings
+              mountPath: /defaults
+            - name: mktxp-config-secret
+              mountPath: /secret
+      containers:
+        - name: mktxp-exporter
+          image: ghcr.io/akpw/mktxp:1.2.15
+          args:
+            - --cfg-dir
+            - /mktxp_config
+            - export
+          ports:
+            - name: http
+              containerPort: 49090
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+          volumeMounts:
+            - name: mktxp-config-out
+              mountPath: /mktxp_config
+      volumes:
+        - name: mktxp-config-out
+          emptyDir: {}
+        - name: mktxp-config-secret
+          secret:
+            secretName: mktxp-config
+        - name: mktxp-settings
+          configMap:
+            name: mktxp-settings

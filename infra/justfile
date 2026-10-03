@@ -1,0 +1,179 @@
+# Show available commands
+[no-cd]
+help:
+    #!/usr/bin/env bash
+    SECRET_NAME=$(basename $(pwd))
+    echo "Secret Management Commands:"
+    echo "  just edit              - Edit the secret for current folder ($SECRET_NAME)"
+    echo "  just view              - View current secret value"
+    echo "  just list-versions     - List all versions of the secret"
+    echo "  just clean             - Clean old versions (keep latest 2)"
+    echo "  just clean --dry-run   - Dry run: show what would be deleted"
+    echo ""
+    echo "Home Assistant:"
+    echo "  just ha-entities [re]  - List entities, optionally filtered by regex"
+    echo "  just ha-call <entity> <turn_on|turn_off>"
+    echo ""
+    echo "CHR lab:"
+    echo "  just chr start         - Start an isolated RouterOS 7.21.3 VM"
+    echo "  just chr scenarios     - List available experiments"
+    echo "  just chr run bootstrap - Test bootstrap adoption and reset recovery"
+    echo "  just chr stop          - Stop the VM, retaining its disk and results"
+    echo ""
+    echo "Current secret: $SECRET_NAME"
+
+# Persistent CHR lab; e.g. just chr --version 7.23.5 start
+[positional-arguments]
+chr +args:
+    python3 experiments/chr/lab.py "$@"
+
+# Edit secret
+[no-cd]
+edit:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    SECRET_NAME=$(basename $(pwd))
+    echo "Editing secret: $SECRET_NAME"
+    TEMP_FILE=$(mktemp --suffix=.json)
+    trap 'rm -f "$TEMP_FILE" "${TEMP_FILE}.raw" "${TEMP_FILE}.formatted"' EXIT
+
+    echo "Downloading current secret..."
+    if gcloud secrets versions access latest --secret="$SECRET_NAME" > "${TEMP_FILE}.raw"; then
+        jq . "${TEMP_FILE}.raw" > "$TEMP_FILE"
+        rm -f "${TEMP_FILE}.raw"
+    else
+        echo "Error: Could not fetch latest secret version. Aborting without editing or uploading." >&2
+        exit 1
+    fi
+    ${EDITOR:-vim} $TEMP_FILE
+
+    echo "Validating and formatting JSON..."
+    if [ ! -s "$TEMP_FILE" ]; then
+        echo "File is empty. Skipping upload."
+        exit 0
+    fi
+
+    if ! jq empty < "$TEMP_FILE"; then
+        echo "Error: Invalid JSON format! Skipping upload."
+        exit 1
+    fi
+
+    # Format the JSON properly
+    jq . < $TEMP_FILE > ${TEMP_FILE}.formatted
+    mv ${TEMP_FILE}.formatted $TEMP_FILE
+
+    echo "Uploading new version..."
+    gcloud secrets versions add $SECRET_NAME --data-file=$TEMP_FILE
+
+    # Show final version count
+    FINAL_VERSIONS=$(gcloud secrets versions list $SECRET_NAME --filter="state:ENABLED" --format="value(name)" | wc -l)
+    echo "Active versions: $FINAL_VERSIONS"
+    echo "Secret $SECRET_NAME updated successfully!"
+
+# View secret
+[no-cd]
+view:
+    #!/usr/bin/env bash
+    SECRET_NAME=$(basename $(pwd))
+    echo "Current value of $SECRET_NAME:" >&2
+    gcloud secrets versions access latest --secret="$SECRET_NAME" | jq .
+
+# List all versions
+[no-cd]
+list-versions:
+    #!/usr/bin/env bash
+    SECRET_NAME=$(basename $(pwd))
+    echo "All versions of $SECRET_NAME:"
+    gcloud secrets versions list $SECRET_NAME --format="table(name,state,createTime)"
+
+# Clean old versions (keep latest 2)
+[no-cd]
+clean dry_run="false":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    SECRET_NAME=$(basename $(pwd))
+
+    # Normalize dry_run to true if it's not false
+    DRY_RUN=false
+    if [ "{{dry_run}}" != "false" ]; then
+        DRY_RUN=true
+    fi
+
+    if [ "$DRY_RUN" = "true" ]; then
+        echo "DRY RUN: What would be deleted from $SECRET_NAME (keeping latest 2)..."
+    else
+        echo "Cleaning old versions of $SECRET_NAME (keeping latest 2)..."
+    fi
+
+    # Get version IDs (basename) only
+    OLD_VERSIONS=$(gcloud secrets versions list $SECRET_NAME --filter="state:ENABLED" --format="value(name.basename())" --sort-by="~createTime" | tail -n +3)
+
+    if [ -n "$OLD_VERSIONS" ]; then
+        if [ "$DRY_RUN" = "true" ]; then
+            echo "Would destroy versions:"
+            for version in $OLD_VERSIONS; do
+                echo "  - $version"
+            done
+            
+            KEEP_VERSIONS=$(gcloud secrets versions list $SECRET_NAME --filter="state:ENABLED" --format="value(name.basename())" --sort-by="~createTime" | head -n 2)
+            echo "Would keep versions:"
+            for version in $KEEP_VERSIONS; do
+                echo "  - $version"
+            done
+        else
+            echo "Destroying versions..."
+            for version in $OLD_VERSIONS; do
+                echo "  - Destroying version $version..."
+                gcloud secrets versions destroy "$version" --secret="$SECRET_NAME" --quiet
+            done
+            echo "Cleanup complete"
+        fi
+    else
+        echo "No old versions to clean up (<= 2 versions exist)."
+    fi
+
+
+# Home Assistant lives in the local-networking secret regardless of the current
+# directory. Its tokens are unscoped: the one that reads a sensor can also cut power,
+# so treat it like a router password. curl reads the header from --config rather than
+# argv so the token never appears in the process list.
+# List Home Assistant entities, optionally filtered by regex (e.g. just ha-entities switch)
+[no-cd]
+ha-entities filter="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    SECRET=$(gcloud secrets versions access latest --secret=local-networking)
+    HA_URL=$(jq -er '.home_assistant.url' <<<"$SECRET") || {
+        echo "No home_assistant in the local-networking secret. Add it with: cd local-networking && just edit" >&2
+        exit 1
+    }
+    TOKEN=$(jq -er '.home_assistant.token' <<<"$SECRET")
+    curl -sSf --config <(printf 'header = "Authorization: Bearer %s"\n' "$TOKEN") \
+        "$HA_URL/api/states" \
+        | jq -r --arg re '{{filter}}' '.[] | select(.entity_id | test($re)) | "\(.entity_id)\t\(.state)"' \
+        | sort
+
+# Call a Home Assistant service on an entity, e.g. just ha-call switch.kuberack turn_on
+[no-cd]
+ha-call entity action:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    case "{{action}}" in
+        turn_on|turn_off|toggle) ;;
+        *) echo "action must be turn_on, turn_off or toggle" >&2; exit 1 ;;
+    esac
+    ENTITY='{{entity}}'
+    DOMAIN="${ENTITY%%.*}"
+    SECRET=$(gcloud secrets versions access latest --secret=local-networking)
+    HA_URL=$(jq -er '.home_assistant.url' <<<"$SECRET")
+    TOKEN=$(jq -er '.home_assistant.token' <<<"$SECRET")
+    curl -sSf --config <(printf 'header = "Authorization: Bearer %s"\n' "$TOKEN") \
+        -H "Content-Type: application/json" \
+        -d "$(jq -nc --arg e '{{entity}}' '{entity_id: $e}')" \
+        "$HA_URL/api/services/$DOMAIN/{{action}}" \
+        | jq -r '.[]? | "\(.entity_id)\t\(.state)"'
+
+# Preview bootstrap state adoption; add --apply to reconcile bindings
+[positional-arguments]
+adopt-bootstrap +args:
+    python3 local-networking/scripts/adopt-bootstrap.py "$@"

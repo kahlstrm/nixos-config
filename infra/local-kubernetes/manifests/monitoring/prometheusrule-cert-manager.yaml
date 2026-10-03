@@ -1,0 +1,53 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cert-manager
+  namespace: monitoring
+  labels:
+    release: observability
+spec:
+  groups:
+    - name: cert-manager.rules
+      rules:
+        # cert-manager renews at 2/3 of a certificate's lifetime, so ~30 days ahead for the
+        # 90-day Let's Encrypt certs. Anything still inside 14 days means renewal is failing,
+        # not that renewal has not been attempted.
+        - alert: CertManagerCertificateExpiringSoon
+          expr: |
+            (certmanager_certificate_expiration_timestamp_seconds - time()) < (14 * 24 * 3600)
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "Certificate {{ $labels.namespace }}/{{ $labels.name }} expires in under 14 days"
+            description: |
+              cert-manager should have renewed this already. Check the Certificate and its
+              CertificateRequest for the failure:
+              kubectl describe certificate {{ $labels.name }} -n {{ $labels.namespace }}
+              kubectl get certificaterequest -n {{ $labels.namespace }}
+              DNS-01 via Cloudflare is the usual culprit; the token lives in the
+              local-networking secret as cf_dns_api_token.
+        - alert: CertManagerCertificateExpired
+          expr: |
+            (certmanager_certificate_expiration_timestamp_seconds - time()) < 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Certificate {{ $labels.namespace }}/{{ $labels.name }} has EXPIRED"
+            description: |
+              Anything served behind this certificate is now failing TLS verification for
+              clients that check, which includes the routeros provider and most CLIs.
+        # Ready=False catches a renewal that is failing while the current cert is still
+        # valid, which is strictly earlier warning than the expiry alerts above.
+        - alert: CertManagerCertificateNotReady
+          expr: |
+            certmanager_certificate_ready_status{condition="False"} == 1
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "Certificate {{ $labels.namespace }}/{{ $labels.name }} is not Ready"
+            description: |
+              The certificate exists but cert-manager cannot currently issue or renew it.
+              Still serving whatever it has until expiry, so this is the early warning.
