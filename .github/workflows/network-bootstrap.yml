@@ -5,19 +5,19 @@ on:
   push:
     branches: [main]
     paths:
-      - local-networking/**
-      - experiments/chr/**
-      - flake.nix
-      - justfile
-      - flake.lock
+      - infra/local-networking/**
+      - infra/experiments/chr/**
+      - infra/flake.nix
+      - infra/justfile
+      - infra/flake.lock
       - .github/workflows/network-bootstrap.yml
   pull_request:
     paths:
-      - local-networking/**
-      - experiments/chr/**
-      - flake.nix
-      - justfile
-      - flake.lock
+      - infra/local-networking/**
+      - infra/experiments/chr/**
+      - infra/flake.nix
+      - infra/justfile
+      - infra/flake.lock
       - .github/workflows/network-bootstrap.yml
 
 permissions:
@@ -27,6 +27,9 @@ jobs:
   bootstrap:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: infra
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Enable KVM access
@@ -37,7 +40,7 @@ jobs:
       - name: Cache Nix store
         uses: nix-community/cache-nix-action@7df957e333c1e5da7721f60227dbba6d06080569 # v7
         with:
-          primary-key: nix-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('flake.lock', 'flake.nix', 'experiments/chr/image.nix') }}
+          primary-key: nix-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('infra/flake.lock', 'infra/flake.nix', 'infra/experiments/chr/image.nix') }}
           restore-prefixes-first-match: nix-${{ runner.os }}-${{ runner.arch }}-
       - name: Test CHR runner
         run: |
