@@ -9,7 +9,7 @@
 let
   package = import ./omarchy-pkg.nix { inherit pkgs; };
   initialTheme = "tokyo-night";
-  nixosConfigLocation = "${config.home.homeDirectory}/nixos-config";
+  nixosConfigLocation = "${config.home.homeDirectory}/config";
   # Provide a Ghostty config tailored for Omarchy/Hyprland by removing
   # background opacity from the upstream config using substituteInPlace
   # with --replace-fail (instead of sed), as requested.

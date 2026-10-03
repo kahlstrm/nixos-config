@@ -55,7 +55,7 @@ in
       rerere.enabled = true;
     };
     includes = lib.optionals isDifferentEmail (makePersonalGitDirPathConfigs [
-      "~/nixos-config/"
+      "~/config/"
       "~/infra/"
       "~/src/github/"
     ]);
