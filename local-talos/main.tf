@@ -10,19 +10,20 @@ locals {
   # Node that does the talos cluster bootstrap
   bootstrap_node = "c1.k8s.kalski.xyz"
 
-  # install_image is applied out of band by `talosctl upgrade`; drift never shows in a plan.
   control_plane_node_config = {
     "c1.k8s.kalski.xyz" = {
       install_disk  = "/dev/nvme0n1"
-      install_image = "ghcr.io/talos-rpi5/installer:v1.11.5"
+      install_image = "ghcr.io/talos-rpi5/installer:v1.11.5-1-gfe840f161"
+      # Keep c1's temporary v1.12.11 image until a verified upgrade installer is available.
+      manage_os_version = false
     }
     "c2.k8s.kalski.xyz" = {
       install_disk  = "/dev/nvme0n1"
-      install_image = "ghcr.io/talos-rpi5/installer:v1.11.5"
+      install_image = "ghcr.io/talos-rpi5/installer:v1.11.5-1-gfe840f161"
     }
     "c3.k8s.kalski.xyz" = {
       install_disk  = "/dev/nvme0n1"
-      install_image = "ghcr.io/talos-rpi5/installer:v1.11.5"
+      install_image = "ghcr.io/talos-rpi5/installer:v1.11.5-1-gfe840f161"
     }
   }
 
@@ -54,28 +55,14 @@ data "talos_client_configuration" "this" {
 }
 
 data "talos_machine_configuration" "controlplane" {
+  for_each = local.control_plane_node_config
+
   cluster_name       = local.cluster_name
   talos_version      = "v1.11.5"
   kubernetes_version = "1.34.1"
   cluster_endpoint   = local.cluster_endpoint
   machine_type       = "controlplane"
   machine_secrets    = talos_machine_secrets.salaisuudet.machine_secrets
-}
-
-data "talos_machine_configuration" "worker" {
-  cluster_name       = local.cluster_name
-  talos_version      = "v1.11.5"
-  kubernetes_version = "1.34.1"
-  cluster_endpoint   = local.cluster_endpoint
-  machine_type       = "worker"
-  machine_secrets    = talos_machine_secrets.salaisuudet.machine_secrets
-}
-
-resource "talos_machine_configuration_apply" "controlplane" {
-  client_configuration        = talos_machine_secrets.salaisuudet.client_configuration
-  machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
-  for_each                    = local.control_plane_node_config
-  node                        = local.k8s_controlplanes[each.key].ip
   config_patches = [
     templatefile("${path.module}/templates/install-disk-and-hostname.yaml.tmpl", merge({
       hostname = each.key
@@ -87,11 +74,15 @@ resource "talos_machine_configuration_apply" "controlplane" {
   ]
 }
 
-resource "talos_machine_configuration_apply" "worker" {
-  client_configuration        = talos_machine_secrets.salaisuudet.client_configuration
-  machine_configuration_input = data.talos_machine_configuration.worker.machine_configuration
-  for_each                    = local.worker_node_config
-  node                        = local.k8s_workers[each.key].ip
+data "talos_machine_configuration" "worker" {
+  for_each = local.worker_node_config
+
+  cluster_name       = local.cluster_name
+  talos_version      = "v1.11.5"
+  kubernetes_version = "1.34.1"
+  cluster_endpoint   = local.cluster_endpoint
+  machine_type       = "worker"
+  machine_secrets    = talos_machine_secrets.salaisuudet.machine_secrets
   config_patches = concat([
     templatefile("${path.module}/templates/install-disk-and-hostname.yaml.tmpl", merge({
       hostname = each.key
@@ -112,9 +103,29 @@ resource "talos_machine_configuration_apply" "worker" {
   )
 }
 
+resource "talos_machine" "controlplane" {
+  for_each = local.control_plane_node_config
+
+  node                  = local.k8s_controlplanes[each.key].ip
+  client_configuration  = talos_machine_secrets.salaisuudet.client_configuration
+  machine_configuration = data.talos_machine_configuration.controlplane[each.key].machine_configuration
+  image                 = lookup(each.value, "manage_os_version", true) ? each.value.install_image : null
+  drain_on_upgrade      = false
+}
+
+resource "talos_machine" "worker" {
+  for_each = local.worker_node_config
+
+  node                  = local.k8s_workers[each.key].ip
+  client_configuration  = talos_machine_secrets.salaisuudet.client_configuration
+  machine_configuration = data.talos_machine_configuration.worker[each.key].machine_configuration
+  image                 = each.value.install_image
+  kubeconfig            = talos_cluster_kubeconfig.this.kubeconfig_raw
+}
+
 # WARNING:there should be just one of there per cluster
 resource "talos_machine_bootstrap" "this" {
-  depends_on           = [talos_machine_configuration_apply.controlplane]
+  depends_on           = [talos_machine.controlplane]
   client_configuration = talos_machine_secrets.salaisuudet.client_configuration
   node                 = local.k8s_controlplanes[local.bootstrap_node].ip
 }
