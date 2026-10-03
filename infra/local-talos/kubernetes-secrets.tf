@@ -124,8 +124,6 @@ resource "kubernetes_secret" "cloudflare_api_token_cert_manager" {
   }
 }
 
-# TODO: Migrate MinIO root/Loki and Harbor admin passwords to ephemeral resources
-# and write-only Kubernetes Secret fields so credentials are not stored in Terraform state.
 resource "random_password" "minio_root" {
   length  = 32
   special = false
