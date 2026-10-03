@@ -23,9 +23,9 @@ spec:
               labels:
                 release: observability
 
-    - repoURL: https://github.com/kahlstrm/infra.git
+    - repoURL: https://github.com/kahlstrm/config.git
       targetRevision: main
-      path: local-kubernetes/manifests/cert-manager
+      path: infra/local-kubernetes/manifests/cert-manager
 
   destination:
     server: https://kubernetes.default.svc

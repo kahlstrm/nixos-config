@@ -55,9 +55,9 @@ spec:
               annotations:
                 cert-manager.io/cluster-issuer: letsencrypt
 
-    - repoURL: https://github.com/kahlstrm/infra.git
+    - repoURL: https://github.com/kahlstrm/config.git
       targetRevision: main
-      path: local-kubernetes/manifests/minio
+      path: infra/local-kubernetes/manifests/minio
 
   destination:
     server: https://kubernetes.default.svc

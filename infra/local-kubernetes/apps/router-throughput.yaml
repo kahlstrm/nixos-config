@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/kahlstrm/infra.git
+    repoURL: https://github.com/kahlstrm/config.git
     targetRevision: main
-    path: local-kubernetes/manifests/router-throughput
+    path: infra/local-kubernetes/manifests/router-throughput
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-privileged

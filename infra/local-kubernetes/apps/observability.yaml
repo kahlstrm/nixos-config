@@ -104,9 +104,9 @@ spec:
               metricRelabelings:
                 - action: labeldrop
                   regex: pod
-    - repoURL: https://github.com/kahlstrm/infra.git
+    - repoURL: https://github.com/kahlstrm/config.git
       targetRevision: main
-      path: local-kubernetes/manifests/monitoring
+      path: infra/local-kubernetes/manifests/monitoring
 
   destination:
     server: https://kubernetes.default.svc

@@ -7,9 +7,9 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/kahlstrm/infra.git
+    repoURL: https://github.com/kahlstrm/config.git
     targetRevision: main
-    path: local-kubernetes/manifests/argocd
+    path: infra/local-kubernetes/manifests/argocd
 
   destination:
     server: https://kubernetes.default.svc

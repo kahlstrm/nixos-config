@@ -47,9 +47,9 @@ resource "kubernetes_manifest" "argocd_bootstrap" {
     spec = {
       project = "default"
       source = {
-        repoURL        = "https://github.com/kahlstrm/infra.git"
+        repoURL        = "https://github.com/kahlstrm/config.git"
         targetRevision = "main"
-        path           = "local-kubernetes/apps"
+        path           = "infra/local-kubernetes/apps"
       }
       destination = {
         server    = "https://kubernetes.default.svc"
@@ -81,9 +81,9 @@ resource "kubernetes_manifest" "argocd_bootstrap_talos" {
     spec = {
       project = "default"
       source = {
-        repoURL        = "https://github.com/kahlstrm/infra.git"
+        repoURL        = "https://github.com/kahlstrm/config.git"
         targetRevision = "main"
-        path           = "local-kubernetes/apps-talos"
+        path           = "infra/local-kubernetes/apps-talos"
       }
       destination = {
         server    = "https://kubernetes.default.svc"

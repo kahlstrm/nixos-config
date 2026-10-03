@@ -84,9 +84,9 @@ spec:
           chunksCache:
             enabled: false
 
-    - repoURL: https://github.com/kahlstrm/infra.git
+    - repoURL: https://github.com/kahlstrm/config.git
       targetRevision: main
-      path: local-kubernetes/manifests/loki
+      path: infra/local-kubernetes/manifests/loki
 
   destination:
     server: https://kubernetes.default.svc
