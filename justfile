@@ -35,15 +35,15 @@ edit:
     SECRET_NAME=$(basename $(pwd))
     echo "Editing secret: $SECRET_NAME"
     TEMP_FILE=$(mktemp --suffix=.json)
-    trap 'rm -f $TEMP_FILE' EXIT
+    trap 'rm -f "$TEMP_FILE" "${TEMP_FILE}.raw" "${TEMP_FILE}.formatted"' EXIT
 
     echo "Downloading current secret..."
-    if gcloud secrets versions access latest --secret="$SECRET_NAME" > "${TEMP_FILE}.raw" 2>/dev/null; then
+    if gcloud secrets versions access latest --secret="$SECRET_NAME" > "${TEMP_FILE}.raw"; then
         jq . "${TEMP_FILE}.raw" > "$TEMP_FILE"
         rm -f "${TEMP_FILE}.raw"
     else
-        echo "Warning: Could not fetch latest version (might be new). Initializing with empty JSON."
-        echo "{}" > "$TEMP_FILE"
+        echo "Error: Could not fetch latest secret version. Aborting without editing or uploading." >&2
+        exit 1
     fi
     ${EDITOR:-vim} $TEMP_FILE
 
