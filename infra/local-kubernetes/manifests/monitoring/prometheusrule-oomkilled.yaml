@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: pod-oomkilled
+  namespace: monitoring
+  labels:
+    release: observability
+spec:
+  groups:
+    - name: pod-oomkilled.rules
+      rules:
+        - alert: PodOOMKilled
+          expr: |
+            increase(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Pod OOMKilled: {{ $labels.namespace }}/{{ $labels.pod }}"
+            description: |
+              Pod {{ $labels.namespace }}/{{ $labels.pod }} has restarted due to OOMKilled within the last 10 minutes.

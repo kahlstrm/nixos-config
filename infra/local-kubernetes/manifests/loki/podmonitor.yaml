@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: loki
+  labels:
+    release: observability
+spec:
+  podMetricsEndpoints:
+    - port: http-metrics
+      path: /metrics
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: loki
+    matchExpressions:
+      - key: app.kubernetes.io/component
+        operator: NotIn
+        values:
+          - gateway

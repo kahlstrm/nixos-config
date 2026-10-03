@@ -1,0 +1,578 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-docsight
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  docsight-wan.json: |
+    {
+      "uid": "docsight-wan",
+      "title": "Cable modem and WAN",
+      "tags": [
+        "network",
+        "docsight"
+      ],
+      "schemaVersion": 39,
+      "version": 1,
+      "editable": false,
+      "timezone": "browser",
+      "refresh": "1m",
+      "time": {
+        "from": "now-6h",
+        "to": "now"
+      },
+      "links": [
+        {
+          "title": "DOCSight UI",
+          "url": "https://docsight.kube.kalski.xyz",
+          "type": "link",
+          "targetBlank": true
+        }
+      ],
+      "templating": {
+        "list": [
+          {
+            "name": "router",
+            "label": "Router",
+            "type": "query",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "query": "label_values(mktxp_netwatch_icmp_loss_percent, routerboard_name)",
+            "refresh": 1,
+            "multi": true,
+            "includeAll": true,
+            "allValue": ".*",
+            "current": {
+              "text": "All",
+              "value": "$__all"
+            }
+          }
+        ]
+      },
+      "panels": [
+        {
+          "id": 1,
+          "title": "DOCSIS connection",
+          "type": "stat",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "docsight_docsis_online{job=\"docsight\"} and on(job, instance) docsight:poll_fresh{job=\"docsight\"}",
+              "instant": true
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none",
+              "noValue": "No data",
+              "mappings": [
+                {
+                  "type": "value",
+                  "options": {
+                    "0": {
+                      "text": "Offline",
+                      "color": "red"
+                    },
+                    "1": {
+                      "text": "Online",
+                      "color": "green"
+                    }
+                  }
+                }
+              ]
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "values": false
+            },
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 2,
+          "title": "Modem uptime",
+          "type": "stat",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 6,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "docsight_device_uptime_seconds{job=\"docsight\"} and on(job, instance) docsight:poll_fresh{job=\"docsight\"}",
+              "instant": true
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s",
+              "noValue": "No data"
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "values": false
+            },
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 3,
+          "title": "Last successful poll age",
+          "type": "stat",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "time() - docsight_last_poll_timestamp_seconds{job=\"docsight\"}",
+              "instant": true
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s",
+              "noValue": "No data"
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "values": false
+            },
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 4,
+          "title": "Exporter reachable",
+          "type": "stat",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 18,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "up{job=\"docsight\"}",
+              "instant": true
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none",
+              "noValue": "No data",
+              "mappings": [
+                {
+                  "type": "value",
+                  "options": {
+                    "0": {
+                      "text": "Down",
+                      "color": "red"
+                    },
+                    "1": {
+                      "text": "Up",
+                      "color": "green"
+                    }
+                  }
+                }
+              ]
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "values": false
+            },
+            "colorMode": "value"
+          }
+        },
+        {
+          "id": 5,
+          "title": "WAN loss per probe batch",
+          "type": "timeseries",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 4,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "mktxp_netwatch_icmp_loss_percent{routerboard_name=~\"$router\"}",
+              "instant": false,
+              "legendFormat": "{{routerboard_name}} / {{name}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "noValue": "No data",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          }
+        },
+        {
+          "id": 6,
+          "title": "WAN loss \u2014 10-minute average",
+          "type": "timeseries",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 4,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "avg_over_time(mktxp_netwatch_icmp_loss_percent{routerboard_name=~\"$router\"}[10m]) and mktxp_netwatch_icmp_loss_percent{routerboard_name=~\"$router\"}",
+              "instant": false,
+              "legendFormat": "{{routerboard_name}} / {{name}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "noValue": "No data",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          }
+        },
+        {
+          "id": 7,
+          "title": "Uncorrectable codewords / second",
+          "type": "timeseries",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "rate(docsight_downstream_uncorrected_errors_total{job=\"docsight\"}[$__rate_interval]) and on(job, instance) docsight:poll_fresh{job=\"docsight\"}",
+              "instant": false,
+              "legendFormat": "Channel {{channel_id}} / {{frequency}} MHz"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "noValue": "No data",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "description": "Counter rate per channel, accounting for resets. Gaps indicate unavailable or stale modem data; these are codeword errors, not a packet-loss percentage.",
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          }
+        },
+        {
+          "id": 8,
+          "title": "Corrected codewords / second",
+          "type": "timeseries",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 12,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "rate(docsight_downstream_corrected_errors_total{job=\"docsight\"}[$__rate_interval]) and on(job, instance) docsight:poll_fresh{job=\"docsight\"}",
+              "instant": false,
+              "legendFormat": "Channel {{channel_id}} / {{frequency}} MHz"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ops",
+              "noValue": "No data",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "description": "Counter rate per channel, accounting for resets. Gaps indicate unavailable or stale modem data; these are codeword errors, not a packet-loss percentage.",
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          }
+        },
+        {
+          "id": 9,
+          "title": "Downstream SNR",
+          "type": "timeseries",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 20,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "(docsight_downstream_snr_db{job=\"docsight\"} and on(job, instance) docsight:poll_fresh{job=\"docsight\"}) and (docsight_downstream_snr_valid{job=\"docsight\"} == 1)",
+              "instant": false,
+              "legendFormat": "Channel {{channel_id}} / {{frequency}} MHz"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "dB",
+              "noValue": "No data",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          }
+        },
+        {
+          "id": 10,
+          "title": "Downstream receive power",
+          "type": "timeseries",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 20,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "docsight_downstream_power_dbmv{job=\"docsight\"} and on(job, instance) docsight:poll_fresh{job=\"docsight\"}",
+              "instant": false,
+              "legendFormat": "Channel {{channel_id}} / {{frequency}} MHz"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "suffix:dBmV",
+              "noValue": "No data",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          }
+        },
+        {
+          "id": 11,
+          "title": "Upstream transmit power",
+          "type": "timeseries",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 28,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "docsight_upstream_power_dbmv{job=\"docsight\"} and on(job, instance) docsight:poll_fresh{job=\"docsight\"}",
+              "instant": false,
+              "legendFormat": "Channel {{channel_id}} / {{frequency}} MHz"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "suffix:dBmV",
+              "noValue": "No data",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          }
+        },
+        {
+          "id": 12,
+          "title": "Channels without usable SNR",
+          "type": "timeseries",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 28,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "sum(docsight_downstream_snr_valid{job=\"docsight\"} == bool 0) and on() docsight:poll_fresh{job=\"docsight\"}",
+              "instant": false
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "noValue": "No data",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "description": "Count of channels whose SNR is unavailable. Zero means all reported channels have usable SNR.",
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          }
+        }
+      ]
+    }

@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docsight
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: private
+  tls:
+    - hosts:
+        - docsight.kube.kalski.xyz
+      secretName: docsight-tls
+  rules:
+    - host: docsight.kube.kalski.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: docsight
+                port:
+                  name: http

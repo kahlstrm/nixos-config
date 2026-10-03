@@ -1,0 +1,217 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: docsight
+  namespace: docsight
+  labels:
+    app: docsight
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-storage
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docsight
+  namespace: docsight
+  labels: &id001
+    app: docsight
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: *id001
+  template:
+    metadata:
+      labels: *id001
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+      - name: bootstrap
+        image: docsight
+        command:
+        - python
+        - /scripts/bootstrap.py
+        env: &id002
+        - name: WEB_HOST
+          value: 0.0.0.0
+        - name: MODEM_TYPE
+          value: sagemcom
+        - name: MODEM_URL
+          value: http://192.168.100.1
+        - name: DATA_DIR
+          value: /data
+        - name: POLL_INTERVAL
+          value: '60'
+        - name: HISTORY_DAYS
+          value: '7'
+        - name: METRICS_REQUIRE_TOKEN
+          value: 'true'
+        - name: UPDATE_CHECK_ENABLED
+          value: 'false'
+        - name: PYTHONDONTWRITEBYTECODE
+          value: '1'
+        - name: PYTHONPATH
+          value: /app
+        envFrom:
+        - &id003
+          secretRef:
+            name: docsight-credentials
+        - &modemCredentials
+          secretRef:
+            name: docsight-modem-credentials
+        securityContext: &id006
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        resources: &id007
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        volumeMounts:
+        - &id004
+          name: data
+          mountPath: /data
+        - &id005
+          name: tmp
+          mountPath: /tmp
+        - name: scripts
+          mountPath: /scripts
+          readOnly: true
+      containers:
+      - name: docsight
+        image: docsight
+        command:
+        - python
+        - -m
+        - app.main
+        env: *id002
+        envFrom:
+        - *id003
+        - *modemCredentials
+        volumeMounts:
+        - *id004
+        - *id005
+        securityContext: *id006
+        resources: *id007
+        readinessProbe:
+          exec:
+            command:
+            - python
+            - -m
+            - app.healthcheck
+          periodSeconds: 15
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - -m
+            - app.healthcheck
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        ports:
+        - name: http
+          containerPort: 8765
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: docsight
+      - name: tmp
+        emptyDir:
+          sizeLimit: 128Mi
+      - name: scripts
+        configMap:
+          name: docsight-scripts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: docsight
+  namespace: docsight
+  labels: &id001
+    app: docsight
+spec:
+  selector: *id001
+  ports:
+  - name: http
+    port: 8765
+    targetPort: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: docsight
+  namespace: docsight
+  labels:
+    release: observability
+spec:
+  jobLabel: app
+  selector:
+    matchLabels:
+      app: docsight
+  endpoints:
+  - port: http
+    interval: 60s
+    scrapeTimeout: 15s
+    authorization:
+      type: Bearer
+      credentials:
+        name: docsight-credentials
+        key: DOCSIGHT_SCRAPE_TOKEN
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: docsight
+  namespace: docsight
+  labels: &id001
+    app: docsight
+spec:
+  podSelector:
+    matchLabels: *id001
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: monitoring
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: traefik
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: traefik
+    ports:
+    - protocol: TCP
+      port: 8765
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 192.168.100.1/32
+    ports:
+    - protocol: TCP
+      port: 80

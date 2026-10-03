@@ -3,6 +3,18 @@ on:
   push:
     branches:
       - main
+    paths:
+      - flake.nix
+      - flake.lock
+      - Makefile
+      - machines/**
+      - modules/**
+      - lib/**
+      - overlays/**
+      - pkgs/**
+      - config/**
+      - secrets/**
+      - .github/workflows/wsl.yml
 permissions:
   actions: write
 jobs:
@@ -29,7 +41,7 @@ jobs:
         uses: nix-community/cache-nix-action@v6
         with:
           # restore and save a cache using this key
-          primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix') }}
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('flake.lock', 'flake.nix', 'machines/**/*.nix', 'modules/**/*.nix', 'lib/**/*.nix', 'overlays/**/*.nix', 'pkgs/**/*.nix') }}
           # if there's no cache hit, restore a cache by this prefix
           restore-prefixes-first-match: nix-${{ runner.os }}-
           # collect garbage until Nix store size (in bytes) is at most this number

@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: telegram-critical
+  namespace: monitoring
+spec:
+  route:
+    receiver: telegram-critical
+    groupBy:
+      - alertname
+      - namespace
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 3h
+    matchers:
+      - name: severity
+        matchType: =
+        value: critical
+  receivers:
+    - name: telegram-critical
+      telegramConfigs:
+        - botToken:
+            name: alertmanager-telegram
+            key: bot_token
+          chatID: 1168609768
+          parseMode: Markdown
+          sendResolved: true
+          message: |
+            {{ if eq .Status "resolved" }}✅ RESOLVED{{ else }}🚨 FIRING{{ end }} *{{ .CommonLabels.alertname }}* in `{{ .CommonLabels.namespace }}`
+            {{ .CommonAnnotations.summary }}
+            {{ .CommonAnnotations.description }}

@@ -1,0 +1,70 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: wan-loss
+  namespace: monitoring
+  labels:
+    release: observability
+spec:
+  groups:
+    - name: wan-loss.rules
+      rules:
+        # Alerts deliberately key off loss-percent only. RouterOS deprioritises its own
+        # ICMP, so netwatch rtt/jitter reads far higher than a host on the LAN measures
+        # for the same path (110 ms jitter against a 31 ms average) and is not a usable
+        # alerting signal.
+        - alert: WanPacketLoss
+          expr: |
+            avg_over_time(mktxp_netwatch_icmp_loss_percent[10m]) > 2
+            and mktxp_netwatch_icmp_loss_percent
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "WAN packet loss to {{ $labels.name }}: {{ $value | printf \"%.1f\" }}%"
+            description: |
+              Router {{ $labels.routerboard_name }}, probe {{ $labels.name }}: 10-minute
+              average ICMP loss has stayed above 2% for 2 minutes ({{ $value | printf "%.1f" }}%).
+              Compare the default gateway and public resolver probes, then check the modem's DOCSIS counters.
+        - alert: WanPacketLossCritical
+          expr: |
+            avg_over_time(mktxp_netwatch_icmp_loss_percent[5m]) > 10
+            and mktxp_netwatch_icmp_loss_percent
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Severe WAN packet loss to {{ $labels.name }}: {{ $value | printf \"%.1f\" }}%"
+            description: |
+              Router {{ $labels.routerboard_name }}, probe {{ $labels.name }}: 5-minute
+              average ICMP loss has stayed above 10% for 2 minutes ({{ $value | printf "%.1f" }}%).
+
+    - name: router-certificate.rules
+      rules:
+        # The stationary router's TLS certificate sat expired from 2026-03-20 to
+        # 2026-08-12 because renewal only happens when someone runs terraform apply.
+        # Filtered to the ACME certificates: the built-in ca/self pair renews itself and
+        # the Let's Encrypt chain certs are valid for years.
+        - alert: RouterCertificateExpiringSoon
+          expr: |
+            (mktxp_certificate_expiration_timestamp_seconds{common_name=~".*kalski\\.xyz"} - time()) < (14 * 24 * 3600)
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "Router certificate {{ $labels.common_name }} expires in under 14 days"
+            description: |
+              Certificate {{ $labels.name }} ({{ $labels.common_name }}) expires at
+              {{ $labels.invalid_after }}. Renew with: cd local-networking && terraform apply
+        - alert: RouterCertificateExpired
+          expr: |
+            (mktxp_certificate_expiration_timestamp_seconds{common_name=~".*kalski\\.xyz"} - time()) < 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Router certificate {{ $labels.common_name }} has EXPIRED"
+            description: |
+              Certificate {{ $labels.name }} expired at {{ $labels.invalid_after }}. The
+              routeros Terraform provider cannot connect over verified TLS until it is
+              renewed; use -var ALLOW_INSECURE=true to break the deadlock.
